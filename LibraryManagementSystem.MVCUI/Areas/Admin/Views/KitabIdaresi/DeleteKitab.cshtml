@@ -1,0 +1,71 @@
+﻿@model LibraryManagementSystem.DAL.Kitab
+
+@{
+    ViewBag.Title = "Kitabı Sil";
+}
+
+<h2>Kitabı Sil</h2>
+
+<h3>Kitabı silmək istədiyinizdən əminsiz?</h3>
+<div>
+    <h4>Kitab Məlumatları</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KitabAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KitabAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MuellifID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Muellif.MuellifAdSoyadi) 
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KateqoriyaID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kateqoriya.KateqoriyaAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Haqqinda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Haqqinda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IcareQiymeti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcareQiymeti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StokdaVarmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StokdaVarmi)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Siyahıya Qayıt", "IndexKitab")
+        </div>
+    }
+</div>

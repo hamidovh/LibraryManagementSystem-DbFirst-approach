@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Library Management System</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li>@Html.ActionLink("Giriş", "Index", "Default", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Kitab İdarəsi", "IndexKitab", "KitabIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Müəllif İdarəsi", "IndexMuellif", "MuellifIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Kateqoriya İdarəsi", "IndexKateqoriya", "KateqoriyaIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("İstifadəçi İdarəsi", "IndexIstifadechi", "IstifadechiIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Rol İdarəsi", "IndexRol", "RolIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("İcarə İdarəsi", "IndexIcare", "IcareIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
+                    @*<li><a href="/Admin/" class="nav-link px-2 text-secondary">Giriş</a></li>
+                    <li><a href="/Admin/KitabIdaresi" class="nav-link px-2 text-white">Kitab İdarəsi</a></li>
+                    <li><a href="/Admin/IstifadechiIdaresi" class="nav-link px-2 text-white">İstifadəçi İdarəsi</a></li>
+                    <li><a href="~/Areas/Admin/Views/MuellifIdaresi/Index.cshtml" class="nav-link px-2 text-white">Müəllif İdarəsi</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">About</a></li>*@
+                </ul>
+
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+                </form>
+
+                <div class="text-end">
+                    <button type="button" class="btn btn-outline-light me-2">Daxil Ol</button>
+                    <button type="button" class="btn btn-warning">Qeydiyyatdan Keç</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Library Management System", "Index", "Home", new { area = "Admin" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/Admin/KitabIdaresi">Kitab İdarəsi</a>
+                        </li>
+                    </ul>
+                </div>
+            </div> https://getbootstrap.com/docs/5.3/examples/headers/ </header> var deye artiq bu div e ehtiyac yoxdu
+        </div>*@
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Library Management System</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

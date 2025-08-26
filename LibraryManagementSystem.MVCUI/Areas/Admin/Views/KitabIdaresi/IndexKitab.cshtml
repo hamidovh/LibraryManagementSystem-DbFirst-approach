@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Kitab>
+
+@{
+    ViewBag.Title = "Kitablar";
+}
+
+<h2>Kitablar</h2>
+
+<p>
+    @Html.ActionLink("Yenisini Əlavə Et", "CreateKitab")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.KitabAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MuellifID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KateqoriyaID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Haqqinda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IcareQiymeti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StokdaVarmi)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.KitabAdi)
+        </td>
+        <td>@(item.Muellif != null ? item.Muellif.MuellifAdSoyadi : "")</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kateqoriya.KateqoriyaAdi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Haqqinda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IcareQiymeti)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StokdaVarmi)
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }) |
+            @Html.ActionLink("Sil", "DeleteKitab", new { id = item.KitabID })
+        </td>
+    </tr>
+}
+
+</table>

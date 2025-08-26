@@ -1,0 +1,39 @@
+﻿@model LibraryManagementSystem.DAL.Kateqoriya
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Kateqoriyanı silmək istədiyinizdən əminsiz?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KateqoriyaAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KateqoriyaAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KateqoriyaTesviri)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KateqoriyaTesviri)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Siyahıya Qayıt", "IndexKateqoriya")
+        </div>
+    }
+</div>

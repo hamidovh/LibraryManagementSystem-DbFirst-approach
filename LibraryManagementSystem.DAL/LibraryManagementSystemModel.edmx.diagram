@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="039c01df952d41afba576b062ed02d5e" Name="Diagram1">
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Cerime" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Icare" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Istifadechi" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Kateqoriya" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Kitab" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Muellif" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Rol" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Cerime__IcareID__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Cerime__Istifade__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Icare__Istifadec__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Icare__KitabID__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Istifadec__RolID__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Kitab__Kateqoriy__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Kitab__MuellifID__32E0915F" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

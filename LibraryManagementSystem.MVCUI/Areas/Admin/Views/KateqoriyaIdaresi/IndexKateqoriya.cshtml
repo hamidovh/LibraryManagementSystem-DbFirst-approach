@@ -1,0 +1,39 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Kateqoriya>
+
+@{
+    ViewBag.Title = "Kateqoriyalar";
+}
+
+<h2>Kateqoriyalar</h2>
+
+<p>
+    @Html.ActionLink("Yeni Kateqoriya Əlavə Et", "CreateKateqoriya")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.KateqoriyaAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KateqoriyaTesviri)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.KateqoriyaAdi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KateqoriyaTesviri)
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditKateqoriya", new { id=item.KateqoriyaID }) |
+
+            @Html.ActionLink("Sil", "DeleteKateqoriya", new { id=item.KateqoriyaID })
+        </td>
+    </tr>
+}
+
+</table>

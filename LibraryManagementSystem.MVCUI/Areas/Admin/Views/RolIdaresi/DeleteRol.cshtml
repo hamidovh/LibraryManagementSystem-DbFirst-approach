@@ -1,0 +1,31 @@
+﻿@model LibraryManagementSystem.DAL.Rol
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Rolu silmək istədiyinizdən əminsiz?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RolAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RolAdi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Siyahıya Qayıt", "Indexrol")
+        </div>
+    }
+</div>

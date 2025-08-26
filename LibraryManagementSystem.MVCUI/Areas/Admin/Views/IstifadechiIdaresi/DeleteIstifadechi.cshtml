@@ -1,0 +1,127 @@
+﻿@model LibraryManagementSystem.DAL.Istifadechi
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+<h2>İstifadəçi Silmə</h2>
+
+<h3>Silmək istədiyinizdən əminsiz?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Adi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Soyadi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Soyadi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoghumTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DoghumTarixi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cins)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cins)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinKod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinKod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelefonNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelefonNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IstifadechiAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IstifadechiAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shifre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shifre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aktivdirmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aktivdirmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QeydiyyatTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QeydiyyatTarixi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rol.RolAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rol.RolAdi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Siyahıya Qayıt", "IndexIstifadechi")
+        </div>
+    }
+</div>

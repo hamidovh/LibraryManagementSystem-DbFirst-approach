@@ -1,0 +1,87 @@
+﻿@model LibraryManagementSystem.DAL.Icare
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+<h2>İcarəni Sil</h2>
+
+<h3>İcarəni silmək istədiyinizdən əminsiz?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IcareQiymeti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcareQiymeti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IcareTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcareTarixi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SonTarix)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SonTarix)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QaytarilmaTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QaytarilmaTarixi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qaytarilibmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qaytarilibmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statusu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statusu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Istifadechi.AdSoyadi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kitab.KitabAdi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Siyahıya Qayıt", "IndexIcare")
+        </div>
+    }
+</div>

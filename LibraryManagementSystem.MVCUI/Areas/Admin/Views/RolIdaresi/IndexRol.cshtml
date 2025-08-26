@@ -1,0 +1,33 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Rol>
+
+@{
+    ViewBag.Title = "Rollar";
+}
+
+<h2>Rollar</h2>
+
+<p>
+    @Html.ActionLink("Yeni Rol Əlavə Et", "CreateRol")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RolAdi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RolAdi)
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditRol", new { id=item.RolID }) |
+            
+            @Html.ActionLink("Sil", "DeleteRol", new { id=item.RolID })
+        </td>
+    </tr>
+}
+
+</table>
