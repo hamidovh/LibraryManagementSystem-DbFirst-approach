@@ -119,6 +119,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CerimeIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\DefaultController.cs" />
     <Compile Include="Areas\Admin\Controllers\IcareIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\IstifadechiIdaresiController.cs" />
@@ -188,6 +189,10 @@
     <Content Include="Areas\Admin\Views\IcareIdaresi\CreateIcare.cshtml" />
     <Content Include="Areas\Admin\Views\IcareIdaresi\EditIcare.cshtml" />
     <Content Include="Areas\Admin\Views\IcareIdaresi\DeleteIcare.cshtml" />
+    <Content Include="Areas\Admin\Views\CerimeIdaresi\IndexCerime.cshtml" />
+    <Content Include="Areas\Admin\Views\CerimeIdaresi\CreateCerime.cshtml" />
+    <Content Include="Areas\Admin\Views\CerimeIdaresi\EditCerime.cshtml" />
+    <Content Include="Areas\Admin\Views\CerimeIdaresi\DeleteCerime.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />

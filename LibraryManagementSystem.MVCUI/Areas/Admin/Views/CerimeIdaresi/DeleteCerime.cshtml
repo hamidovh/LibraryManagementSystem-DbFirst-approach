@@ -1,0 +1,79 @@
+﻿@model LibraryManagementSystem.DAL.Cerime
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Cəriməni silmək istədiyinizdən əminsiz?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Mebleg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mebleg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Odenilibmi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Odenilibmi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CerimeTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CerimeTarixi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OdenmeTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OdenmeTarixi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sebeb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sebeb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Icare.Statusu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Icare.Statusu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Istifadechi.AdSoyadi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> |
+            @Html.ActionLink("Siyahıya Qayıt", "IndexCerime")
+        </div>
+    }
+</div>

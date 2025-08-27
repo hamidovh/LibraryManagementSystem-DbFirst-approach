@@ -102,7 +102,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 return RedirectToAction("IndexIcare");
             }
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", icare.IstifadechiID);
-            ViewBag.KitabID = new SelectList(istifadechiManager.GetAll(), "KitabID", "KitabAdi", icare.KitabID);
+            ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi", icare.KitabID);
             return View(icare);
         }
 

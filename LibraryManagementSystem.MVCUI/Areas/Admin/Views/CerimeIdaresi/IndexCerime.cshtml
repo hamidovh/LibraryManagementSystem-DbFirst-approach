@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Cerime>
+
+@{
+    ViewBag.Title = "Cərimələr";
+}
+
+<h2>Cərimələr</h2>
+
+<p>
+    @Html.ActionLink("Yeni Cərimə", "CreateCerime")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Mebleg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Odenilibmi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CerimeTarixi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OdenmeTarixi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sebeb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Icare.Statusu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mebleg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Odenilibmi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CerimeTarixi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OdenmeTarixi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sebeb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Icare.Statusu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditCerime", new { id=item.CerimeID }) |
+
+            @Html.ActionLink("Sil", "DeleteCerime", new { id=item.CerimeID })
+        </td>
+    </tr>
+}
+
+</table>
