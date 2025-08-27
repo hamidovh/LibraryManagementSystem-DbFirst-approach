@@ -125,6 +125,7 @@
     <Compile Include="Areas\Admin\Controllers\IstifadechiIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\KateqoriyaIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\KitabIdaresiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\MuellifIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\RolIdaresiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -151,6 +152,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\sign-in.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -193,6 +195,7 @@
     <Content Include="Areas\Admin\Views\CerimeIdaresi\CreateCerime.cshtml" />
     <Content Include="Areas\Admin\Views\CerimeIdaresi\EditCerime.cshtml" />
     <Content Include="Areas\Admin\Views\CerimeIdaresi\DeleteCerime.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\IndexLogin.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />

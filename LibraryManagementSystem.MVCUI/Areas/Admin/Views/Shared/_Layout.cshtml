@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - Library Management System</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
 </head>
 <body>
     <header class="p-3 text-bg-dark">
@@ -25,20 +26,35 @@
                     <li>@Html.ActionLink("İcarələr", "IndexIcare", "IcareIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Cərimələr", "IndexCerime", "CerimeIdaresi", new { area = "Admin" }, new { @class = "nav-link" })</li>
                     @*<li><a href="/Admin/" class="nav-link px-2 text-secondary">Giriş</a></li>
-                    <li><a href="/Admin/KitabIdaresi" class="nav-link px-2 text-white">Kitab İdarəsi</a></li>
-                    <li><a href="/Admin/IstifadechiIdaresi" class="nav-link px-2 text-white">İstifadəçi İdarəsi</a></li>
-                    <li><a href="~/Areas/Admin/Views/MuellifIdaresi/Index.cshtml" class="nav-link px-2 text-white">Müəllif İdarəsi</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">About</a></li>*@
+                        <li><a href="/Admin/KitabIdaresi" class="nav-link px-2 text-white">Kitab İdarəsi</a></li>
+                        <li><a href="/Admin/IstifadechiIdaresi" class="nav-link px-2 text-white">İstifadəçi İdarəsi</a></li>
+                        <li><a href="~/Areas/Admin/Views/MuellifIdaresi/Index.cshtml" class="nav-link px-2 text-white">Müəllif İdarəsi</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">About</a></li>*@
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-                </form>
+                @*<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                        <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+                    </form> Axtarış*@
 
-                <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Daxil Ol</button>
-                    <button type="button" class="btn btn-warning">Qeydiyyatdan Keç</button>
-                </div>
+                @{
+                    if (Session["admin"] != null)
+                    {
+                        <div class="text-end">
+                            @*<a href="/Admin/Login/LogOut" class="btn btn-danger">Çıxış</a>*@
+                            @Html.ActionLink("Çıxış", "IndexLogin", "Login", new { area = "Admin" }, new { @class = "btn btn-danger" })
+                        </div>
+                    }
+                    else //Əgər Session["admin"] boşdursa istifadəçini login səhifəsinə yönləndirir
+                    {
+                        //Response.Redirect("/Admin/Login");
+                        @Html.ActionLink("Çıxış", "IndexLogin", "Login", new { area = "Admin" }, new { @class = "nav-link" });
+                    }
+                }
+                @*<div class="text-end">
+                        <button type="button" class="btn btn-outline-light me-2">Daxil Ol</button>
+                        <button type="button" class="btn btn-warning">Qeydiyyatdan Keç</button>
+                        <button type="button" class="btn btn-danger">Çıxış</button>
+                    </div>*@
             </div>
         </div>
     </header>
@@ -72,6 +88,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

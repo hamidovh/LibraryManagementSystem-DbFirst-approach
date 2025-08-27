@@ -25,9 +25,11 @@ namespace LibraryManagementSystem.DAL
         public int IstifadechiID { get; set; }
 
         [Display(Name = "Adı")]
+        [Required(ErrorMessage = "Ad mütləqdir!")]
         public string Adi { get; set; }
 
         [Display(Name = "Soyadı")]
+        [Required(ErrorMessage = "Soyad mütləqdir!")]
         public string Soyadi { get; set; }
 
         [Display(Name = "İstifadəçi")]
@@ -38,18 +40,26 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Doğum Tarixi")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "Doğum tarixi seçilməlidir!")]
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> DoghumTarixi { get; set; }
 
         [Display(Name = "Cinsi")]
         public string Cins { get; set; }
 
         [Display(Name = "FİN")]
+        [Required(ErrorMessage = "FİN kod mütləqdir")]
+        [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvol ola bilər!")]
         public string FinKod { get; set; }
 
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "Email mütləqdir!")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@gmail\.com$", ErrorMessage = "Email yalnız user@mail.com formatında ola bilər")]
         public string Email { get; set; }
 
         [Display(Name = "Əlaqə Nömrəsi")]
+        [RegularExpression(@"^\d{10}$")]
+        [StringLength(10, ErrorMessage = "Əlaqə nömrəsi maksimum 10 rəqəmdən ibarət ola bilər!")]
         public string TelefonNo { get; set; }
 
         [Display(Name = "Ünvan")]
@@ -59,6 +69,7 @@ namespace LibraryManagementSystem.DAL
         public string IstifadechiAdi { get; set; }
 
         [Display(Name = "Şifrə")]
+        [MinLength(6, ErrorMessage = "Şifrə minimum 6 simvoldan ibarət olmalıdır")]
         public string Shifre { get; set; }
 
         [Display(Name = "Aktivdir")]

@@ -7,7 +7,7 @@
 <h2>Cərimələr</h2>
 
 <p>
-    @Html.ActionLink("Yeni Cərimə", "CreateCerime")
+    @Html.ActionLink("Yeni Cərimə", "CreateCerime", null, new { @class = "btn btn-outline btn-info" })
 </p>
 <table class="table">
     <tr>
@@ -59,9 +59,9 @@
             @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
         </td>
         <td>
-            @Html.ActionLink("Redaktə Et", "EditCerime", new { id=item.CerimeID }) |
+            @Html.ActionLink("Redaktə Et", "EditCerime", new { id=item.CerimeID }, new { @class = "btn btn-sm btn-primary" }) |
 
-            @Html.ActionLink("Sil", "DeleteCerime", new { id=item.CerimeID })
+            @Html.ActionLink("Sil", "DeleteCerime", new { id=item.CerimeID }, new { @class = "btn btn-sm btn-danger" })
         </td>
     </tr>
 }

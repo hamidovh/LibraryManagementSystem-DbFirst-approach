@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
@@ -26,29 +27,67 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
         // POST: Admin/IstifadechiIdaresi/CreateIstifadechi
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateIstifadechi(Istifadechi istifadechi)
         {
             try
             {
-                istifadechi.QeydiyyatTarixi = DateTime.Now;
-                //istifadechiManager.Add(istifadechi);
+                // Təkrar istifadəçi adı yoxlanışı
+                if (istifadechiManager.GetAll().Any(i => i.IstifadechiAdi == istifadechi.IstifadechiAdi))
+                {
+                    ModelState.AddModelError("IstifadechiAdi", "Bu istifadəçi adı artıq mövcuddur");
+                }
 
                 if (ModelState.IsValid)
                 {
+                    istifadechi.QeydiyyatTarixi = DateTime.Now;
                     var emeliyyatNeticesi = istifadechiManager.Add(istifadechi);
+
                     if (emeliyyatNeticesi > 0)
                     {
-                        return RedirectToAction("IndexIstifadechi"); //Əməliyyat uğurlu olduqda kitabların siyahısına yönləndirir
+                        return RedirectToAction("IndexIstifadechi"); // uğurlu olduqda siyahıya qayıdır
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "İstifadəçi əlavə olunarkən xəta baş verdi!");
                     }
                 }
             }
-            catch
+            catch (Exception)
             {
-                ModelState.AddModelError("", "Xəta baş verdi, kitab əlavə olunmadı!");
+                ModelState.AddModelError("", "Xəta baş verdi, istifadəçi əlavə olunmadı!");
             }
 
-            return View();
+            // Əgər səhv varsa, yenidən rolları doldurmaq lazımdır
+            ViewBag.RolID = new SelectList(rolManager.GetAll(), "RolID", "RolAdi", istifadechi.RolID);
+
+            return View(istifadechi);
         }
+        //// POST: Admin/IstifadechiIdaresi/CreateIstifadechi
+        //[HttpPost]
+        //public ActionResult CreateIstifadechi(Istifadechi istifadechi)
+        //{
+        //    try
+        //    {
+        //        istifadechi.QeydiyyatTarixi = DateTime.Now;
+        //        //istifadechiManager.Add(istifadechi);
+
+        //        if (ModelState.IsValid)
+        //        {
+        //            var emeliyyatNeticesi = istifadechiManager.Add(istifadechi);
+        //            if (emeliyyatNeticesi > 0)
+        //            {
+        //                return RedirectToAction("IndexIstifadechi"); //Əməliyyat uğurlu olduqda kitabların siyahısına yönləndirir
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        ModelState.AddModelError("", "Xəta baş verdi, kitab əlavə olunmadı!");
+        //    }
+
+        //    return View();
+        //}
 
         // GET: Admin/IstifadechiIdaresi/EditIstifadechi/5
         public ActionResult EditIstifadechi(int? id)

@@ -7,7 +7,7 @@
 <h2>İstifadəçilər</h2>
 
 <p>
-    @Html.ActionLink("Yeni İstifadəçi Əlavə Et", "CreateIstifadechi")
+    @Html.ActionLink("Yeni İstifadəçi Əlavə Et", "CreateIstifadechi", null, new { @class = "btn btn-info" })
 </p>
 <table class="table">
     <tr>
@@ -95,8 +95,8 @@
             @Html.DisplayFor(modelItem => item.Rol.RolAdi)
         </td>
         <td>
-            @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }) |
-            @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID })
+            @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" }) |
+            @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
         </td>
     </tr>
 }

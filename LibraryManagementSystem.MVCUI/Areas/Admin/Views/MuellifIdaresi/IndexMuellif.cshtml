@@ -7,7 +7,7 @@
 <h2>Müəlliflər</h2>
 
 <p>
-    @Html.ActionLink("Yeni Müəllif Əlavə Et", "CreateMuellif")
+    @Html.ActionLink("Yeni Müəllif Əlavə Et", "CreateMuellif", null, new { @class = "btn btn-info" })
 </p>
 <table class="table">
     <tr>
@@ -36,9 +36,9 @@
                 @Html.DisplayFor(modelItem => item.MuellifinDoghumTarixi)
             </td>
             <td>
-                @Html.ActionLink("Redaktə Et", "EditMuellif", new { id = item.MuellifID }) |
+                @Html.ActionLink("Redaktə Et", "EditMuellif", new { id = item.MuellifID }, new { @class = "btn btn-sm btn-primary" }) |
 
-                @Html.ActionLink("Sil", "DeleteMuellif", new { id = item.MuellifID })
+                @Html.ActionLink("Sil", "DeleteMuellif", new { id = item.MuellifID }, new { @class = "btn btn-sm btn-danger" })
             </td>
         </tr>
     }
