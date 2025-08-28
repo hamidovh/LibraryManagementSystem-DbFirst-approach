@@ -27,18 +27,26 @@ namespace LibraryManagementSystem.DAL
         public Nullable<decimal> IcareQiymeti { get; set; }
 
         [Display(Name = "İcarə Tarixi")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "İcarə tarixi seçilməlidir!")]
+        [DataType(DataType.Date)]
         public System.DateTime IcareTarixi { get; set; }
 
         [Display(Name = "Son Tarix")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "Son tarixi seçilməlidir!")]
+        [DataType(DataType.Date)]
         public System.DateTime SonTarix { get; set; }
 
         [Display(Name = "Qaytarılma Tarixi")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> QaytarilmaTarixi { get; set; }
 
         [Display(Name = "Qaytarılıb")]
         public bool Qaytarilibmi { get; set; }
 
-        [Display(Name = "İcarənin Status")]
+        [Display(Name = "İcarənin Statusu")]
         public string Statusu { get; set; } // Aktiv, Gecikir, Qaytarılıb
 
         public int IstifadechiID { get; set; }

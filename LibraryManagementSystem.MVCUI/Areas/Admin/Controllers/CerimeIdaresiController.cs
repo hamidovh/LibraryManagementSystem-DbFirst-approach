@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
 using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
-using LibraryManagementSystem.MVCUI.Models;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {

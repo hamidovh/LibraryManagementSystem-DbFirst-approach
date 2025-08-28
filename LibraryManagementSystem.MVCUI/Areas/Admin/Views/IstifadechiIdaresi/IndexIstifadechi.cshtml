@@ -6,9 +6,24 @@
 
 <h2>İstifadəçilər</h2>
 
-<p>
-    @Html.ActionLink("Yeni İstifadəçi Əlavə Et", "CreateIstifadechi", null, new { @class = "btn btn-info" })
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        @Html.ActionLink("Yeni İstifadəçi Əlavə Et", "CreateIstifadechi", null, new { @class = "btn btn-info" })
+    </div>
+
+    @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+                   class="form-control" placeholder="Axtarış..." />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Axtar</button>
+                <a href="@Url.Action("IndexIstifadechi")" class="btn btn-secondary">Hamısını Göstər</a>
+            </div>
+        </div>
+    }
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -53,52 +68,53 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Adi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Soyadi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DoghumTarixi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cins)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FinKod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TelefonNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Adres)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IstifadechiAdi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Shifre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Aktivdirmi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QeydiyyatTarixi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rol.RolAdi)
-        </td>
-        <td>
-            @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" }) |
-            @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soyadi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoghumTarixi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cins)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinKod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefonNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IstifadechiAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shifre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktivdirmi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QeydiyyatTarixi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rol.RolAdi)
+            </td>
+            <td>
+                @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" }) |
+                @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
+            </td>
+        </tr>
+    }
 
 </table>

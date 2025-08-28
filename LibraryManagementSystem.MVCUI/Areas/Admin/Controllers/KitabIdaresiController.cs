@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
@@ -12,9 +13,33 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
 
         // GET: Admin/KitabIdaresi
-        public ActionResult IndexKitab()
+        public ActionResult IndexKitab(string searchText, int? muellifId, int? kateqoriyaId)
         {
-            return View(kitabManager.GetAll());
+            var kitab = kitabManager.GetAll();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                kitab = kitab.Where(k =>
+                    k.KitabAdi.Contains(searchText) ||
+                    (k.Muellif != null && k.Muellif.MuellifAdSoyadi.Contains(searchText)) ||
+                    (k.Kateqoriya != null && k.Kateqoriya.KateqoriyaAdi.Contains(searchText))
+                ).ToList();
+            }
+
+            if (muellifId.HasValue)
+            {
+                kitab = kitab.Where(k => k.MuellifID == muellifId.Value).ToList();
+            }
+
+            if (kateqoriyaId.HasValue)
+            {
+                kitab = kitab.Where(k => k.KateqoriyaID == kateqoriyaId.Value).ToList();
+            }
+
+            ViewBag.MuellifID = new SelectList(muellifManager.GetAll(), "MuellifID", "MuellifAdSoyadi", muellifId);
+            ViewBag.KateqoriyaID = new SelectList(kateqoriyaManager.GetAll(), "KateqoriyaID", "KateqoriyaAdi", kateqoriyaId);
+
+            return View(kitab);
         }
 
         public ActionResult CreateKitab()

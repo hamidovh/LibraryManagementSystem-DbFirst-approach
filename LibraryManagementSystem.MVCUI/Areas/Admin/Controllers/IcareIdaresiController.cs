@@ -1,16 +1,9 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
-using LibraryManagementSystem.MVCUI.Models;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using WebGrease;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
@@ -22,13 +15,26 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         KitabManager kitabManager = new KitabManager();
 
         // GET: Admin/IcareIdaresi
-        public ActionResult IndexIcare()
+        public ActionResult IndexIcare(string searchText)
         {
             var icare = icareManager.GetAllByInclude(i => i.Istifadechi, i => i.Kitab);
+            var icar = icareManager.GetAll();
             //var icare = icareManager.GetAllByInclude("Istifadechi"); //icareManager.Include(i => i.Istifadechi).Include(i => i.Kitab);
             //var icare = icareManager.GetAllByInclude("Kitab");
 
-            return View(icareManager.GetAll());
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                icar = icar
+                    .Where(i =>
+                        (i.Istifadechi != null && i.Istifadechi.Adi != null && i.Istifadechi.Adi.Contains(searchText)) ||
+                        (i.Istifadechi != null && i.Istifadechi.Soyadi != null && i.Istifadechi.Soyadi.Contains(searchText)) ||
+                        (i.Kitab != null && i.Kitab.KitabAdi != null && i.Kitab.KitabAdi.Contains(searchText)) ||
+                        (i.IcareTarixi != null && i.IcareTarixi.ToString().Contains(searchText))
+                    ).ToList();
+                return View(icar);
+            }
+
+            return View(icare);
         }
 
         // GET: Admin/IcareIdaresi/DetailsIcare/5
@@ -51,7 +57,10 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         {
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi");
             ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi");
-            return View();
+
+            ViewBag.StatusList = new SelectList(new List<string> { "Aktiv", "Gecikir", "Qaytarılıb" });
+
+            return View(new Icare());
         }
 
         // POST: Admin/IcareIdaresi/CreateIcare
@@ -86,12 +95,11 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             }
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", icare.IstifadechiID);
             ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi", icare.KitabID);
+            ViewBag.StatusList = new SelectList(new List<string> { "Aktiv", "Gecikir", "Qaytarılıb" }, icare.Statusu);
             return View(icare);
         }
 
         // POST: Admin/IcareIdaresi/EditIcare/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditIcare(Icare icare)
@@ -103,6 +111,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             }
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", icare.IstifadechiID);
             ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi", icare.KitabID);
+            ViewBag.StatusList = new SelectList(new List<string> { "Aktiv", "Gecikir", "Qaytarılıb" }, icare.Statusu);
             return View(icare);
         }
 
@@ -130,14 +139,5 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             icareManager.Delete(id);
             return RedirectToAction("IndexIcare");
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 }

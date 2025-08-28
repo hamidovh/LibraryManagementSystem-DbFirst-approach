@@ -6,41 +6,41 @@
 
 <h2>Müəlliflər</h2>
 
-<p>
-    @Html.ActionLink("Yeni Müəllif Əlavə Et", "CreateMuellif", null, new { @class = "btn btn-info" })
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        @Html.ActionLink("Yeni Müəllif Əlavə Et", "CreateMuellif", null, new { @class = "btn btn-info" })
+    </div>
+
+    @using (Html.BeginForm("IndexMuellif", "MuellifIdaresi", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+                   class="form-control" placeholder="Axtar (Ad, Soyad)" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Axtar</button>
+                <a href="@Url.Action("IndexMuellif")" class="btn btn-secondary">Hamısını Göstər</a>
+            </div>
+        </div>
+    }
+</div>
+
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.MuellifAdi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MuellifSoyadi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MuellifinDoghumTarixi)
-        </th>
-        <th></th>
+        <th>@Html.DisplayNameFor(model => model.MuellifAdi)</th>
+        <th>@Html.DisplayNameFor(model => model.MuellifSoyadi)</th>
+        <th>@Html.DisplayNameFor(model => model.MuellifinDoghumTarixi)</th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MuellifAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MuellifSoyadi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MuellifinDoghumTarixi)
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.MuellifAdi)</td>
+            <td>@Html.DisplayFor(modelItem => item.MuellifSoyadi)</td>
+            <td>@Html.DisplayFor(modelItem => item.MuellifinDoghumTarixi)</td>
             <td>
                 @Html.ActionLink("Redaktə Et", "EditMuellif", new { id = item.MuellifID }, new { @class = "btn btn-sm btn-primary" }) |
-
                 @Html.ActionLink("Sil", "DeleteMuellif", new { id = item.MuellifID }, new { @class = "btn btn-sm btn-danger" })
             </td>
         </tr>
     }
-
 </table>

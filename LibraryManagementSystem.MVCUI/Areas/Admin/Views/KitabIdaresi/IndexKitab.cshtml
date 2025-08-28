@@ -6,9 +6,24 @@
 
 <h2>Kitablar</h2>
 
-<p>
-    @Html.ActionLink("Yenisini Əlavə Et", "CreateKitab", null, new { @class = "btn btn-info" })
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        @Html.ActionLink("Yenisini Əlavə Et", "CreateKitab", null, new { @class = "btn btn-info" })
+    </div>
+
+    @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+                   class="form-control" placeholder="Axtar (Ad, Müəllif, Kateqoriya)" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Axtar</button>
+                <a href="@Url.Action("IndexKitab")" class="btn btn-secondary">Hamısını Göstər</a>
+            </div>
+        </div>
+    }
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -31,29 +46,30 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.KitabAdi)
-        </td>
-        <td>@(item.Muellif != null ? item.Muellif.MuellifAdSoyadi : "")</td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Kateqoriya.KateqoriyaAdi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Haqqinda)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IcareQiymeti)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StokdaVarmi)
-        </td>
-        <td>
-            @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-primary" }) |
-            @Html.ActionLink("Sil", "DeleteKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-danger" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.KitabAdi)
+            </td>
+            <td>@(item.Muellif != null ? item.Muellif.MuellifAdSoyadi : "")</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kateqoriya.KateqoriyaAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Haqqinda)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IcareQiymeti)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StokdaVarmi)
+            </td>
+            <td>
+                @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-primary" }) |
+                @Html.ActionLink("Sil", "DeleteKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-danger" })
+            </td>
+        </tr>
+    }
 
 </table>

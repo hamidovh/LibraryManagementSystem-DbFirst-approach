@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using LibraryManagementSystem.BL;
+using LibraryManagementSystem.DAL;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using LibraryManagementSystem.BL;
-using LibraryManagementSystem.DAL;
-using LibraryManagementSystem.MVCUI.Models;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
@@ -18,9 +12,18 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
 
         // GET: Admin/KateqoriyaIdaresi
-        public ActionResult IndexKateqoriya()
+        public ActionResult IndexKateqoriya(string searchText)
         {
-            return View(kateqoriyaManager.GetAll());
+            var kateqoriya = kateqoriyaManager.GetAll();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                kateqoriya = kateqoriya
+                    .Where(k => k.KateqoriyaAdi.Contains(searchText))
+                    .ToList();
+            }
+
+            return View(kateqoriya);
         }
 
         // GET: Admin/KateqoriyaIdaresi/DetailsKateqoriya/5

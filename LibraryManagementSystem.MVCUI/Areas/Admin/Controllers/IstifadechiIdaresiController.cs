@@ -12,9 +12,23 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         RolManager rolManager = new RolManager();
 
         // GET: Admin/IstifadechiIdaresi
-        public ActionResult IndexIstifadechi()
+        public ActionResult IndexIstifadechi(string searchText)
         {
-            return View(istifadechiManager.GetAll());
+            var istifadechi = istifadechiManager.GetAll();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                istifadechi = istifadechi
+                    .Where(i =>
+                        (i.Adi != null && i.Adi.Contains(searchText)) ||
+                        (i.Soyadi != null && i.Soyadi.Contains(searchText)) ||
+                        (i.Email != null && i.Email.Contains(searchText)) ||
+                        (i.IstifadechiAdi != null && i.IstifadechiAdi.Contains(searchText)) ||
+                        (i.Rol != null && i.Rol.RolAdi.Contains(searchText))
+                    ).ToList();
+            }
+
+            return View(istifadechi);
         }
 
         // GET: Admin/IstifadechiIdaresi/CreateIstifadechi
@@ -63,31 +77,6 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
             return View(istifadechi);
         }
-        //// POST: Admin/IstifadechiIdaresi/CreateIstifadechi
-        //[HttpPost]
-        //public ActionResult CreateIstifadechi(Istifadechi istifadechi)
-        //{
-        //    try
-        //    {
-        //        istifadechi.QeydiyyatTarixi = DateTime.Now;
-        //        //istifadechiManager.Add(istifadechi);
-
-        //        if (ModelState.IsValid)
-        //        {
-        //            var emeliyyatNeticesi = istifadechiManager.Add(istifadechi);
-        //            if (emeliyyatNeticesi > 0)
-        //            {
-        //                return RedirectToAction("IndexIstifadechi"); //Əməliyyat uğurlu olduqda kitabların siyahısına yönləndirir
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        ModelState.AddModelError("", "Xəta baş verdi, kitab əlavə olunmadı!");
-        //    }
-
-        //    return View();
-        //}
 
         // GET: Admin/IstifadechiIdaresi/EditIstifadechi/5
         public ActionResult EditIstifadechi(int? id)

@@ -6,9 +6,24 @@
 
 <h2>İcarələr</h2>
 
-<p>
-    @Html.ActionLink("Yeni İcarə Əlavə Et", "CreateIcare", null, new { @class = "btn btn-outline btn-info" })
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        @Html.ActionLink("Yeni İcarə Əlavə Et", "CreateIcare", null, new { @class = "btn btn-info" })
+    </div>
+
+    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+                   class="form-control" placeholder="Axtarış..." />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Axtar</button>
+                <a href="@Url.Action("IndexIcare")" class="btn btn-secondary">Hamısını Göstər</a>
+            </div>
+        </div>
+    }
+</div>
+
 <table class="table">
     <tr>
         <th>

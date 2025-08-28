@@ -54,7 +54,7 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Email mütləqdir!")]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@gmail\.com$", ErrorMessage = "Email yalnız user@mail.com formatında ola bilər")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email yalnız user@mail.com formatında ola bilər")]
         public string Email { get; set; }
 
         [Display(Name = "Əlaqə Nömrəsi")]

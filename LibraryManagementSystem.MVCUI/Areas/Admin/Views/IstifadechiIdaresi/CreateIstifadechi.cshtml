@@ -32,17 +32,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DoghumTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.DoghumTarixi, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", autocomplete = "off" })
+                @Html.EditorFor(model => model.DoghumTarixi, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
                 @Html.ValidationMessageFor(model => model.DoghumTarixi, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.DoghumTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.DoghumTarixi, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.TextBoxFor(model => model.DoghumTarixi, "{0:dd/MM/yyyy}", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DoghumTarixi, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
 
         <div class="mb-3">
             <label class="form-label">Cinsi</label>
@@ -52,19 +45,11 @@
                 <label class="form-check-label" for="cinsKisi">Kişi</label>
             </div>
             <div class="form-check">
-                @*form-check-inline*@
                 @Html.RadioButtonFor(m => m.Cins, "Qadın", new { @class = "form-check-input", id = "cinsQadin" })
                 <label class="form-check-label" for="cinsQadin">Qadın</label>
             </div>
             @Html.ValidationMessageFor(model => model.Cins, "", new { @class = "text-danger small" })
         </div>
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Cins, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Cins, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Cins, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.FinKod, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -124,14 +109,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.QeydiyyatTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.QeydiyyatTarixi, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.QeydiyyatTarixi, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
         <div class="form-group">
             @Html.LabelFor(model => model.RolID, "Rolu", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -154,7 +131,7 @@
                     format: "dd/mm/yyyy",
                     autoclose: true,
                     todayHighlight: true,
-                    language: "az" // "en" yazsan ingiliscə olacaq
+                    language: "az" // "en" yazilsa ingiliscə olacaq
                 });
             });
         </script>

@@ -1,7 +1,8 @@
-﻿using System.Net;
-using System.Web.Mvc;
-using LibraryManagementSystem.BL;
+﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
@@ -11,9 +12,19 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         MuellifManager muellifManager = new MuellifManager();
 
         // GET: Admin/MuellifIdaresi
-        public ActionResult IndexMuellif()
+        public ActionResult IndexMuellif(string searchText)
         {
-            return View(muellifManager.GetAll());
+            var muellif = muellifManager.GetAll();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                muellif = muellif.Where(m =>
+                    m.MuellifAdi.Contains(searchText) ||
+                    m.MuellifSoyadi.Contains(searchText)
+                ).ToList();
+            }
+
+            return View(muellif);
         }
 
         // GET: Admin/MuellifIdaresi/Details/5
