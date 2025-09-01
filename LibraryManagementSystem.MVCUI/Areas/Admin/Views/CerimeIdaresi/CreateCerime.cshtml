@@ -1,4 +1,5 @@
-﻿@model LibraryManagementSystem.DAL.Cerime
+﻿
+@model LibraryManagementSystem.DAL.Cerime
 
 @{
     ViewBag.Title = "Yeni Cərimə";
@@ -6,13 +7,68 @@
 
 <h2>Yeni Cərimə</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- Icare seçimi -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.IcareID, "İcarə", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IcareID", (SelectList)ViewBag.IcareID, "-- İcarə ID-si --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IcareID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Avtomatik dolacaq sahələr: -->
+        <div class="form-group">
+            @Html.Label("İstifadəçi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IstifadechiID", (SelectList)ViewBag.IstifadechiID, "-- İstifadəçi seçin --", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Kitab", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" id="KitabAdi" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("İcarə Tarixi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="date" id="IcareTarixi" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Son Tarix", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="date" id="SonTarix" class="form-control" readonly />
+            </div>
+        </div>
+
+        <!-- Cərimə məlumatları: -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sebeb, "Cərimələnmə Səbəbi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Sebeb, (SelectList)ViewBag.StatusList, "-- Səbəbi qeyd edin --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Sebeb, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CerimeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CerimeTarixi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CerimeTarixi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Mebleg, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -32,42 +88,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CerimeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CerimeTarixi, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CerimeTarixi, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.OdenmeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OdenmeTarixi, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OdenmeTarixi, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Sebeb, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Sebeb, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Sebeb, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IstifadechiID, "IstifadechiID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IstifadechiID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IstifadechiID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IcareID, "IcareID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IcareID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IcareID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -82,3 +106,38 @@
 <div>
     @Html.ActionLink("Siyahıya Qayıt", "IndexCerime")
 </div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $("#IcareID").change(function () {
+                var icareId = $(this).val();
+                if (icareId) {
+                    $.ajax({
+                        url: '@Url.Action("GetIcareDetails", "CerimeIdaresi", new { area = "Admin" })',
+                        type: 'GET',
+                        data: { icareId: icareId },
+                        success: function (data) {
+                            if (data) {
+                                // Dropdown seç
+                                $("#IstifadechiID").val(data.IstifadechiID);
+
+                                // Digər inputları doldur
+                                $("#KitabAdi").val(data.KitabAdi);
+                                $("#IcareTarixi").val(data.IcareTarixi);
+                                $("#SonTarix").val(data.SonTarix)
+                            }
+                        },
+                        error: function () {
+                            alert("Xəta baş verdi!");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

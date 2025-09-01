@@ -24,9 +24,11 @@ namespace LibraryManagementSystem.DAL
         public int MuellifID { get; set; }
 
         [Display(Name = "Müəllifin Adı")]
+        [Required(ErrorMessage = "Ad mütləqdir!")]
         public string MuellifAdi { get; set; }
 
         [Display(Name = "Müəllifin Soyadı")]
+        [Required(ErrorMessage = "Soyad mütləqdir!")]
         public string MuellifSoyadi { get; set; }
         public string MuellifAdSoyadi
         {
@@ -34,6 +36,8 @@ namespace LibraryManagementSystem.DAL
         }
 
         [Display(Name = "Müəllifin Doğum Tarixi")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> MuellifinDoghumTarixi { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

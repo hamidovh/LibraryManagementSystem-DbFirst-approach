@@ -24,6 +24,7 @@ namespace LibraryManagementSystem.DAL
         public int KateqoriyaID { get; set; }
 
         [Display(Name = "Kateqoriyanın Adı")]
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string KateqoriyaAdi { get; set; }
 
         [Display(Name = "Kateqoriya Haqqında")]

@@ -28,8 +28,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                     .Where(i =>
                         (i.Istifadechi != null && i.Istifadechi.Adi != null && i.Istifadechi.Adi.Contains(searchText)) ||
                         (i.Istifadechi != null && i.Istifadechi.Soyadi != null && i.Istifadechi.Soyadi.Contains(searchText)) ||
-                        (i.Kitab != null && i.Kitab.KitabAdi != null && i.Kitab.KitabAdi.Contains(searchText)) ||
-                        (i.IcareTarixi != null && i.IcareTarixi.ToString().Contains(searchText))
+                        (i.Kitab != null && i.Kitab.KitabAdi != null && i.Kitab.KitabAdi.Contains(searchText))
                     ).ToList();
                 return View(icar);
             }
@@ -75,9 +74,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 icareManager.Add(icare);
                 return RedirectToAction("IndexIcare");
             }
-
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", icare.IstifadechiID);
             ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi", icare.KitabID);
+            ViewBag.StatusList = new SelectList(new List<string> { "Aktiv", "Gecikir", "Qaytarılıb" });
             return View(icare);
         }
 

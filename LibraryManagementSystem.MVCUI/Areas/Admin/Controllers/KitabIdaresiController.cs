@@ -62,12 +62,19 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                     {
                         return RedirectToAction("IndexKitab"); //Əməliyyat uğurlu olduqda kitabların siyahısına yönləndirir
                     }
+                    else
+                    {
+                        ModelState.AddModelError("", "Kitab əlavə olunarkən xəta baş verdi!");
+                    }
                 }
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", "Xəta baş verdi, kitab əlavə olunmadı!");
             }
+
+            ViewBag.MuellifID = new SelectList(muellifManager.GetAll(), "MuellifID", "MuellifAdSoyadi");
+            ViewBag.KateqoriyaID = new SelectList(kateqoriyaManager.GetAll(), "KateqoriyaID", "KateqoriyaAdi");
 
             return View();
         }

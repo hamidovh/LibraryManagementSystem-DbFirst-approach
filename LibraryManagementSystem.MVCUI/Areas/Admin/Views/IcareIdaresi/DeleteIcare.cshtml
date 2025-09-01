@@ -11,11 +11,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.IcareQiymeti)
+            @Html.DisplayNameFor(model => model.IcareID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IcareQiymeti)
+            @Html.DisplayFor(model => model.IcareID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Istifadechi.AdSoyadi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kitab.KitabAdi)
         </dd>
 
         <dt>
@@ -43,14 +59,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Qaytarilibmi)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Qaytarilibmi)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Statusu)
         </dt>
 
@@ -59,21 +67,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+            @Html.DisplayNameFor(model => model.Qaytarilibmi)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Istifadechi.AdSoyadi)
+            @Html.DisplayFor(model => model.Qaytarilibmi)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
+            @Html.DisplayNameFor(model => model.IcareQiymeti)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Kitab.KitabAdi)
+            @Html.DisplayFor(model => model.IcareQiymeti)
         </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {

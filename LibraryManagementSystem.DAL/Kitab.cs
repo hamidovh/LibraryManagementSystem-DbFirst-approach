@@ -24,12 +24,15 @@ namespace LibraryManagementSystem.DAL
         public int KitabID { get; set; }
 
         [Display(Name = "Kitab")]
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string KitabAdi { get; set; }
 
         [Display(Name = "Müəllif")]
+        [Required(ErrorMessage = "Müəllif təyin edin!")]
         public int MuellifID { get; set; }
 
         [Display(Name = "Kateqoriya")]
+        [Required(ErrorMessage = "Kateqoriya təyin edin!")]
         public int KateqoriyaID { get; set; }
 
         [Display(Name = "İcarə Qiyməti")]

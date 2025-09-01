@@ -24,16 +24,24 @@ namespace LibraryManagementSystem.DAL
         public bool Odenilibmi { get; set; }
 
         [Display(Name = "Cərimələnmə Tarixi")]
-        public System.DateTime CerimeTarixi { get; set; }
+        [Required(ErrorMessage = "Cərimələnmə tarixini qeyd edin!")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public System.DateTime CerimeTarixi { get; set; } 
 
         [Display(Name = "Ödənmə Tarixi")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> OdenmeTarixi { get; set; }
 
         [Display(Name = "Cərimələnmə Səbəbi")]
-        public string Sebeb { get; set; }
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
+        public string Sebeb { get; set; } // "Gecikir", "İtirilib"
 
-
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public int IstifadechiID { get; set; }
+
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public int IcareID { get; set; }
     
         public virtual Icare Icare { get; set; }

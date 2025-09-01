@@ -6,64 +6,110 @@
 
 <h2>Cərimələr</h2>
 
-<p>
-    @Html.ActionLink("Yeni Cərimə", "CreateCerime", null, new { @class = "btn btn-outline btn-info" })
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        @Html.ActionLink("Yeni Cərimə", "CreateCerime", null, new { @class = "btn btn-outline btn-info" })
+    </div>
+
+    @using (Html.BeginForm("IndexCerime", "CerimeIdaresi", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+                   class="form-control" placeholder="Axtarış..." />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Axtar</button>
+                <a href="@Url.Action("IndexCerime")" class="btn btn-secondary">Hamısını Göstər</a>
+            </div>
+        </div>
+    }
+</div>
+
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Mebleg)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Odenilibmi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CerimeTarixi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OdenmeTarixi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sebeb)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Icare.Statusu)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
-        </th>
+        <th>@Html.DisplayNameFor(model => model.Icare.IcareID)</th>
+        <th>@Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)</th>
+        <th>@Html.DisplayNameFor(model => model.Sebeb)</th>
+        <th>@Html.DisplayNameFor(model => model.CerimeTarixi)</th>
+        <th>Hesablanmış Məbləğ (AZN)</th>
+        <th>@Html.DisplayNameFor(model => model.Odenilibmi)</th>
+        <th>@Html.DisplayNameFor(model => model.OdenmeTarixi)</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Mebleg)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Odenilibmi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CerimeTarixi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OdenmeTarixi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sebeb)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Icare.Statusu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
-        </td>
-        <td>
-            @Html.ActionLink("Redaktə Et", "EditCerime", new { id=item.CerimeID }, new { @class = "btn btn-sm btn-primary" }) |
-
-            @Html.ActionLink("Sil", "DeleteCerime", new { id=item.CerimeID }, new { @class = "btn btn-sm btn-danger" })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Icare.IcareID)</td>
+            <td>@Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)</td>
+            <td>@Html.DisplayFor(modelItem => item.Sebeb)</td>
+            <td>@Html.DisplayFor(modelItem => item.CerimeTarixi)</td>
+            <td>@item.HesablanmisMebleg</td>   <!-- burada hesablanmış məbləği göstəririk -->
+            <td>@Html.DisplayFor(modelItem => item.Odenilibmi)</td>
+            <td>@Html.DisplayFor(modelItem => item.OdenmeTarixi)</td>
+            <td>
+                @Html.ActionLink("Redaktə Et", "EditCerime", new { id = item.CerimeID }, new { @class = "btn btn-sm btn-primary" }) |
+                @Html.ActionLink("Sil", "DeleteCerime", new { id = item.CerimeID }, new { @class = "btn btn-sm btn-danger" })
+            </td>
+        </tr>
+    }
 </table>
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Icare.IcareID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sebeb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CerimeTarixi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mebleg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Odenilibmi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdenmeTarixi)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Icare.IcareID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sebeb)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CerimeTarixi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mebleg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Odenilibmi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OdenmeTarixi)
+                </td>
+                <td>
+                    @Html.ActionLink("Redaktə Et", "EditCerime", new { id = item.CerimeID }, new { @class = "btn btn-sm btn-primary" }) |
+
+                    @Html.ActionLink("Sil", "DeleteCerime", new { id = item.CerimeID }, new { @class = "btn btn-sm btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>*@

@@ -27,7 +27,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IcareQiymeti)
+            @Html.DisplayNameFor(model => model.IcareID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IcareTarixi)
@@ -39,24 +45,27 @@
             @Html.DisplayNameFor(model => model.QaytarilmaTarixi)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Qaytarilibmi)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Statusu)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
+            @Html.DisplayNameFor(model => model.Qaytarilibmi)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
+            @Html.DisplayNameFor(model => model.IcareQiymeti)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <th>
+            @Html.DisplayFor(modelItem => item.IcareID)
+        </th>
         <td>
-            @Html.DisplayFor(modelItem => item.IcareQiymeti)
+            @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kitab.KitabAdi)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IcareTarixi)
@@ -68,21 +77,18 @@
             @Html.DisplayFor(modelItem => item.QaytarilmaTarixi)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Qaytarilibmi)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Statusu)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
+            @Html.DisplayFor(modelItem => item.Qaytarilibmi)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Kitab.KitabAdi)
+            @Html.DisplayFor(modelItem => item.IcareQiymeti)
         </td>
         <td>
-            @Html.ActionLink("Redaktə Et", "EditIcare", new { id=item.IcareID }, new { @class = "btn btn-sm btn-primary" }) |
+            @Html.ActionLink("Redaktə Et", "EditIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-primary" }) |
 
-            @Html.ActionLink("Sil", "DeleteIcare", new { id=item.IcareID }, new { @class = "btn btn-sm btn-danger" })
+            @Html.ActionLink("Sil", "DeleteIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-danger" })
         </td>
     </tr>
 }

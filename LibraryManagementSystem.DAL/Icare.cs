@@ -47,10 +47,13 @@ namespace LibraryManagementSystem.DAL
         public bool Qaytarilibmi { get; set; }
 
         [Display(Name = "İcarənin Statusu")]
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string Statusu { get; set; } // Aktiv, Gecikir, Qaytarılıb
 
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public int IstifadechiID { get; set; }
 
+        [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public int KitabID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

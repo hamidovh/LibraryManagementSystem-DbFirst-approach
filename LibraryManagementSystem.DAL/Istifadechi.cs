@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Doğum Tarixi")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "Doğum tarixi seçilməlidir!")]
+        [Required(ErrorMessage = "Doğum tarixini daxil edin!")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> DoghumTarixi { get; set; }
 
@@ -48,7 +48,7 @@ namespace LibraryManagementSystem.DAL
         public string Cins { get; set; }
 
         [Display(Name = "FİN")]
-        [Required(ErrorMessage = "FİN kod mütləqdir")]
+        [Required(ErrorMessage = "FİN kod mütləqdir!")]
         [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvol ola bilər!")]
         public string FinKod { get; set; }
 
@@ -66,10 +66,12 @@ namespace LibraryManagementSystem.DAL
         public string Adres { get; set; }
 
         [Display(Name = "İstifadəçi Adı")]
+        [Required(ErrorMessage = "İstifadəçi Adı təyin olunmalıdır!")]
         public string IstifadechiAdi { get; set; }
 
         [Display(Name = "Şifrə")]
-        [MinLength(6, ErrorMessage = "Şifrə minimum 6 simvoldan ibarət olmalıdır")]
+        [MinLength(6)] 
+        [Required(ErrorMessage = "Şifrə minimum 6 simvoldan ibarət olmalıdır")]
         public string Shifre { get; set; }
 
         [Display(Name = "Aktivdir")]
@@ -80,6 +82,7 @@ namespace LibraryManagementSystem.DAL
         public Nullable<System.DateTime> QeydiyyatTarixi { get; set; }
 
         [Display(Name = "Rolu")]
+        [Required(ErrorMessage = "İstifadəçinin rolunu təyin edin!")]
         public int RolID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

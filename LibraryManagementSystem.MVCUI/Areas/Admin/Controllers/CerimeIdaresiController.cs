@@ -1,7 +1,10 @@
-﻿using System.Net;
-using System.Web.Mvc;
-using LibraryManagementSystem.BL;
+﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
@@ -13,12 +16,40 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         IstifadechiManager istifadechiManager = new IstifadechiManager();
 
         // GET: Admin/CerimeIdaresi
-        public ActionResult IndexCerime()
+        public ActionResult IndexCerime(string searchText)
         {
             var cerime = cerimeManager.GetAllByInclude(c => c.Icare, c => c.Istifadechi);
             //var cerime = db.Cerime.Include(c => c.Icare).Include(c => c.Istifadechi);
 
-            return View(cerimeManager.GetAll());
+            var cerim = cerimeManager.GetAll();
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                cerim = cerim
+                    .Where(c =>
+                        (c.Istifadechi != null && c.Istifadechi.Adi != null && c.Istifadechi.Adi.Contains(searchText)) ||
+                        (c.Istifadechi != null && c.Istifadechi.Soyadi != null && c.Istifadechi.Soyadi.Contains(searchText))
+                    ).ToList();
+                return View(cerim);
+            }
+
+            return View(cerime);
+        }
+
+        public JsonResult GetIcareDetails(int icareId)
+        {
+            var icare = icareManager.GetAll()
+                .Where(x => x.IcareID == icareId)
+                .Select(x => new
+                {
+                    IstifadechiID = x.IstifadechiID,
+                    IstifadechiAdSoyadi = x.Istifadechi.AdSoyadi,
+                    KitabAdi = x.Kitab.KitabAdi,
+                    IcareTarixi = x.IcareTarixi.ToString("yyyy-MM-dd"),
+                    SonTarix = x.SonTarix.ToString("yyyy-MM-dd")
+                })
+                .FirstOrDefault();
+
+            return Json(icare, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Admin/CerimeIdaresi/DetailsCerime/5
@@ -39,9 +70,12 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // GET: Admin/CerimeIdaresi/CreateCerime
         public ActionResult CreateCerime()
         {
-            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "Statusu");
+            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "IcareID");
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi");
-            return View();
+
+            ViewBag.StatusList = new SelectList(new List<string> { "Gecikir", "İtirilib" });
+
+            return View(new Cerime());
         }
 
         // POST: Admin/CerimeIdaresi/CreateCerime
@@ -57,8 +91,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 return RedirectToAction("IndexCerime");
             }
 
-            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "Statusu", cerime.IcareID);
+            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "IcareID", cerime.IcareID);
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", cerime.IstifadechiID);
+            ViewBag.StatusList = new SelectList(new List<string> { "Gecikir", "İtirilib" });
             return View(cerime);
         }
 
@@ -74,14 +109,12 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "Statusu", cerime.IcareID);
+            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "IcareID", cerime.IcareID);
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", cerime.IstifadechiID);
             return View(cerime);
         }
 
         // POST: Admin/CerimeIdaresi/EditCerime/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditCerime(Cerime cerime)
@@ -91,7 +124,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 cerimeManager.Update(cerime);
                 return RedirectToAction("IndexCerime");
             }
-            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "Statusu", cerime.IcareID);
+            ViewBag.IcareID = new SelectList(icareManager.GetAll(), "IcareID", "IcareID", cerime.IcareID);
             ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", cerime.IstifadechiID);
             return View(cerime);
         }
@@ -120,14 +153,5 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             cerimeManager.Delete(id);
             return RedirectToAction("IndexCerime");
         }
-        
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 }
