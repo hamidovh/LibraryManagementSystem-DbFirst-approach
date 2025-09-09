@@ -4,9 +4,90 @@
     ViewBag.Title = "Kateqoriyalar";
 }
 
+<style>
+    .description-cell {
+        max-width: 400px;
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    .input-group .form-control,
+    .input-group .btn {
+        height: 38px;
+    }
+
+    .form-control:focus,
+    button.btn:focus,
+    a.btn:focus,
+    .form-control:focus-visible,
+    button.btn:focus-visible,
+    a.btn:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .input-group:focus-within {
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .btn-spacing {
+        margin-left: 8px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: none;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        color: white;
+        background-color: #007bff;
+        line-height: 40px;
+        border-radius: 50%;
+        z-index: 999;
+        transition: opacity 0.3s;
+    }
+
+    .scroll-to-top:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+        color: white;
+    }
+
+    /* Başlıqların dropdown-ları: */
+    th.column-dropdown select {
+        font-weight: bold;
+        color: black;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 4px 8px;
+        height: 32px; /* eyni hündürlük */
+        line-height: 24px; /* mətn mərkəzləşməsi */
+        box-sizing: border-box; /* padding-i daxil etmək üçün */
+    }
+
+    /* KateqoriyaTesviri üçün span: */
+    th.special-dropdown span {
+        display: inline-block; /* yazının ətrafında qutu */
+        padding: 4px 8px; /* iç boşluq */
+        border: 1px solid #ccc; /* qutu çərçivəsi */
+        border-radius: 4px; /* yumru kənarlar */
+        background-color: #f1f1f1; /* qutu fonu */
+        font-weight: bold;
+        height: 32px; /* eyni hündürlük */
+        line-height: 24px; /* mətn mərkəzləşməsi */
+        box-sizing: border-box; /* padding-i daxil etmək üçün */
+    }
+</style>
+
 <h2>Kateqoriyalar</h2>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
     <div>
         @Html.ActionLink("Yeni Kateqoriya Əlavə Et", "CreateKateqoriya", null, new { @class = "btn btn-info" })
     </div>
@@ -17,33 +98,112 @@
             <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
                    class="form-control" placeholder="Axtar (Kateqoriya Adı)" />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Axtar</button>
+                <button type="submit" class="btn btn-primary btn-spacing">Axtar</button>
                 <a href="@Url.Action("IndexKateqoriya")" class="btn btn-secondary">Hamısını Göstər</a>
             </div>
         </div>
     }
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.KateqoriyaAdi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KateqoriyaTesviri)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-striped table-hover">
+    <thead class="thead-light">
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.KateqoriyaAdi)</td>
-            <td>@Html.DisplayFor(modelItem => item.KateqoriyaTesviri)</td>
-            <td>
-                @Html.ActionLink("Redaktə Et", "EditKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-primary" }) |
-                @Html.ActionLink("Sil", "DeleteKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-danger" })
-            </td>
+            <th class="column-dropdown">
+                <!-- Kateqoriya Adı üçün dropdown (sort): -->
+                @using (Html.BeginForm("IndexKateqoriya", "KateqoriyaIdaresi", FormMethod.Get))
+                {
+                    <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                        <option value="">Kateqoriya Adı</option>
+                        <option value="asc" @(ViewBag.SelectedKateqoriyaAdi == "asc" ? "selected" : "")>A-Z</option>
+                        <option value="desc" @(ViewBag.SelectedKateqoriyaAdi == "desc" ? "selected" : "")>Z-A</option>
+                    </select>
+                    <input type="hidden" name="sortColumn" value="KateqoriyaAdi" />
+                    <input type="hidden" name="searchText" value="@Request.QueryString["searchText"]" />
+                }
+            </th>
+            <th class="special-dropdown">
+                <span>@Html.DisplayNameFor(m => m.KateqoriyaTesviri)</span>
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.KateqoriyaAdi)</td>
+                <td class="description-cell">
+                    @if (!string.IsNullOrWhiteSpace(item.KateqoriyaTesviri))
+                    {
+                        @Html.DisplayFor(modelItem => item.KateqoriyaTesviri)
+                    }
+                    else
+                    {
+                        <span class="text-muted">Məlumat yoxdur</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Redaktə Et", "EditKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-primary" })
+                    @Html.ActionLink("Sil", "DeleteKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<a href="#" class="scroll-to-top rounded">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    <div id="feedbackModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header @(TempData["SuccessMessage"] != null ? "bg-success" : "bg-danger") text-white">
+                    <h5 class="modal-title">
+                        @(TempData["SuccessMessage"] != null ? "Uğur" : "Xəta")
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>@(TempData["SuccessMessage"] ?? TempData["ErrorMessage"])</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            // Scroll zamanı oxu göstərir/gizlədir:
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 100) {
+                    $('.scroll-to-top').fadeIn(300);
+                } else {
+                    $('.scroll-to-top').fadeOut(300);
+                }
+            });
+
+            // Bir kliklə yuxarı qayıdır:
+            $('.scroll-to-top').click(function (e) {
+                e.preventDefault();
+                $('html, body').animate({ scrollTop: 0 }, '300');
+                return false;
+            });
+
+            // Əgər modal üçün TempData varsa, onu göstərir:
+            var modalExists = $('#feedbackModal').length > 0;
+            if (modalExists) {
+                $('#feedbackModal').modal('show');
+
+                $('#modalOkButton').on('click', function () {
+                    $('#feedbackModal').modal('hide');
+                });
+            }
+        });
+    </script>
+}

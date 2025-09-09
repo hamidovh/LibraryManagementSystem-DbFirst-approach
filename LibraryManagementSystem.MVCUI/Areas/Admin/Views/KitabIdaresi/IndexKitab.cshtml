@@ -4,9 +4,163 @@
     ViewBag.Title = "Kitablar";
 }
 
+<style>
+    .description-cell {
+        max-width: 400px;
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    .input-group .form-control,
+    .input-group .btn {
+        height: 38px;
+    }
+
+    .form-control:focus,
+    button.btn:focus,
+    a.btn:focus,
+    .form-control:focus-visible,
+    button.btn:focus-visible,
+    a.btn:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .input-group:focus-within {
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .btn-spacing {
+        margin-left: 8px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: none;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        color: white;
+        background-color: #007bff;
+        line-height: 40px;
+        border-radius: 50%;
+        z-index: 999;
+        transition: opacity 0.3s;
+    }
+
+        .scroll-to-top:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
+
+    /* Dropdown başlıqlarını qalın və qara etmək üçün: */
+    .column-dropdown {
+        font-weight: bold;
+        color: black;
+    }
+
+    /* Ümumi table stil: */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Başlıqlar: */
+    th {
+        background-color: #343a40; /* tünd başlıq fonu */
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+    }
+
+        /* Başlıqların dropdown-ları: */
+        th.column-dropdown select {
+            font-weight: bold;
+            color: black;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            height: 32px; /* eyni hündürlük */
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
+
+        /*  üçün span: */
+        th.special-dropdown span {
+            display: inline-block; /* yazının ətrafında qutu */
+            padding: 4px 8px; /* iç boşluq */
+            border: 1px solid #ccc; /* qutu çərçivəsi */
+            border-radius: 4px; /* yumru kənarlar */
+            background-color: #f1f1f1; /* qutu fonu */
+            font-weight: bold;
+            height: 32px; /* eyni hündürlük */
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
+
+    /* Sətirlər: */
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Zebra stripes: */
+    tr:nth-child(even) {
+        background-color: #cccccc;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    /* Hover effekti: */
+    tr:hover {
+        background-color: #80deea;
+    }
+
+    .table-scroll-wrapper {
+        position: relative;
+    }
+
+    .table-scroll-top {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 16px; /* scroll hündürlüyü */
+    }
+
+        .table-scroll-top .table-scroll-inner {
+            width: 1000px; /* table genişliyinə uyğun */
+            height: 1px; /* fake div hündürlüyü */
+        }
+
+    .table-scroll-bottom {
+        overflow-x: auto;
+    }
+
+        /* table tam genişliyini saxla: */
+        .table-scroll-bottom table {
+            min-width: 1200px; /* table genişliyinə uyğunlaşdır */
+        }
+
+    /* Haqqında sütunu üçün: */
+    .haqqinda-column {
+        width: 300px !important;
+        min-width: 300px;
+        max-width: 300px;
+    }
+</style>
+
 <h2>Kitablar</h2>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
     <div>
         @Html.ActionLink("Yenisini Əlavə Et", "CreateKitab", null, new { @class = "btn btn-info" })
     </div>
@@ -17,59 +171,205 @@
             <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
                    class="form-control" placeholder="Axtar (Ad, Müəllif, Kateqoriya)" />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Axtar</button>
+                <button type="submit" class="btn btn-primary btn-spacing">Axtar</button>
                 <a href="@Url.Action("IndexKitab")" class="btn btn-secondary">Hamısını Göstər</a>
             </div>
         </div>
     }
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.KitabAdi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MuellifID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KateqoriyaID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Haqqinda)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IcareQiymeti)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StokdaVarmi)
-        </th>
-    </tr>
+<div class="table-scroll-wrapper">
+    <!-- Yuxarı scroll: -->
+    <div class="table-scroll-top">
+        <div class="table-scroll-inner"></div>
+    </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.KitabAdi)
-            </td>
-            <td>@(item.Muellif != null ? item.Muellif.MuellifAdSoyadi : "")</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kateqoriya.KateqoriyaAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Haqqinda)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IcareQiymeti)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StokdaVarmi)
-            </td>
-            <td>
-                @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-primary" }) |
-                @Html.ActionLink("Sil", "DeleteKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-danger" })
-            </td>
-        </tr>
-    }
+    <!-- Aşağı scroll (table): -->
+    <div class="table-scroll-bottom table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="column-dropdown">
+                        <!-- KitabAdi üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Kitab</option>
+                                <option value="asc" @(ViewBag.SelectedKitabAdi == "asc" ? "selected" : "")>A-Z</option>
+                                <option value="desc" @(ViewBag.SelectedKitabAdi == "desc" ? "selected" : "")>Z-A</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="KitabAdi" />
+                        }
+                    </th>
 
-</table>
+                    <th class="column-dropdown">
+                        <!-- Müəllif filter + sort: -->
+                        @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
+                        {
+                            @Html.DropDownList("MuellifID", (SelectList)ViewBag.MuellifID, "Müəllif", new { @class = "column-dropdown", onchange = "this.form.submit()" })
+                            if (Request.QueryString["MuellifID"] != null && Request.QueryString["MuellifID"] != "")
+                            {
+                                <input type="hidden" name="sortColumn" value="MuellifID" />
+                                <input type="hidden" name="sortOrder" value="asc" />
+                            }
+                        }
+                    </th>
+
+                    <th class="column-dropdown">
+                        <!-- Kateqoriya filter + sort: -->
+                        @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
+                        {
+                            @Html.DropDownList("KateqoriyaID", (SelectList)ViewBag.KateqoriyaID, "Kateqoriya",
+                                new { @class = "column-dropdown", onchange = "this.form.submit()" })
+                            if (Request.QueryString["KateqoriyaID"] != null && Request.QueryString["KateqoriyaID"] != "")
+                            {
+                                <input type="hidden" name="sortColumn" value="KateqoriyaID" />
+                                <input type="hidden" name="sortOrder" value="asc" />
+                            }
+                        }
+                    </th>
+
+                    <th class="special-dropdown haqqinda-column">
+                        <span>@Html.DisplayNameFor(model => model.Haqqinda)</span>
+                    </th>
+
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
+                        {
+                            <select name="icareSort" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">İcarə Qiyməti</option>
+                                <option value="UcuzdanBahaya" @(ViewBag.IcareQiymetiSort == "UcuzdanBahaya" ? "selected" : "")>Ucuzdan-bahaya</option>
+                                <option value="BahadanUcuz" @(ViewBag.IcareQiymetiSort == "BahadanUcuz" ? "selected" : "")>Bahadan-ucuza</option>
+                                <option value="Odenissiz" @(ViewBag.IcareQiymetiSort == "Odenissiz" ? "selected" : "")>Ödənişsiz icarə</option>
+                                <option value="Hamisi" @(ViewBag.IcareQiymetiSort == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
+                            </select>
+                        }
+                    </th>
+
+                    <th class="column-dropdown">
+                        <!-- StokdaVarmi üçün dropdown (filter): -->
+                        @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Stokda Varmı</option>
+                                <option value="Var olanlar" @(ViewBag.SelectedStokdaVarmi == "Var olanlar" ? "selected" : "")>Var olanlar</option>
+                                <option value="Olmayanlar" @(ViewBag.SelectedStokdaVarmi == "Olmayanlar" ? "selected" : "")>Olmayanlar</option>
+                                <option value="Hamısı" @(ViewBag.SelectedStokdaVarmi == "Stokda Varmı" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="StokdaVarmi" />
+                        }
+                    </th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.KitabAdi)
+                        </td>
+
+                        <td>
+                            @Html.Raw(item.Muellif != null && item.Muellif.Any()
+                                ? string.Join(", ", item.Muellif.Select(m => m.MuellifAdSoyadi))
+                                : "<span class='text-muted'>Məlumat yoxdur</span>")
+                        </td>
+
+                        <td>
+                            @Html.Raw(item.Kateqoriya != null && item.Kateqoriya.Any()
+                                ? string.Join(", ", item.Kateqoriya.Select(k => k.KateqoriyaAdi))
+                                : "<span class='text-muted'>Məlumat yoxdur</span>")
+                        </td>
+
+                        <td class="description-cell haqqinda-column">
+                            @if (!string.IsNullOrWhiteSpace(item.Haqqinda))
+                            {
+                                @Html.DisplayFor(modelItem => item.Haqqinda)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Məlumat yoxdur</span>
+                            }
+                        </td>
+
+                        <td class="description-cell">
+                            @if (item.IcareQiymeti.HasValue && item.IcareQiymeti.Value > 0)
+                            {
+                                @Html.DisplayFor(modelItem => item.IcareQiymeti)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Yoxdur</span>
+                            }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StokdaVarmi)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-primary" }) |
+                            @Html.ActionLink("Sil", "DeleteKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    <div id="feedbackModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header @(TempData["SuccessMessage"] != null ? "bg-success" : "bg-danger") text-white">
+                    <h5 class="modal-title">
+                        @(TempData["SuccessMessage"] != null ? "Uğur" : "Xəta")
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>@(TempData["SuccessMessage"] ?? TempData["ErrorMessage"])</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script>
+        // YUXARI SCROLL İŞLƏDİ
+        $(document).ready(function () {
+            var topScroll = $('.table-scroll-top');
+            var bottomScroll = $('.table-scroll-bottom');
+
+            // scroll sinxronlaşdırma:
+            topScroll.on('scroll', function () {
+                bottomScroll.scrollLeft(topScroll.scrollLeft());
+            });
+
+            bottomScroll.on('scroll', function () {
+                topScroll.scrollLeft(bottomScroll.scrollLeft());
+            });
+
+            // table genişliyini yuxarı scroll div-inə tətbiq edir:
+            var tableWidth = bottomScroll.find('table').outerWidth();
+            topScroll.find('.table-scroll-inner').width(tableWidth);
+
+            // Əgər modal üçün TempData varsa, onu göstərir:
+            var modalExists = $('#feedbackModal').length > 0;
+            if (modalExists) {
+                $('#feedbackModal').modal('show');
+
+                $('#modalOkButton').on('click', function () {
+                    $('#feedbackModal').modal('hide');
+                });
+            }
+        });
+    </script>
+}

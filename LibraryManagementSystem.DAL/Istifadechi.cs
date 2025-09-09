@@ -32,12 +32,6 @@ namespace LibraryManagementSystem.DAL
         [Required(ErrorMessage = "Soyad mütləqdir!")]
         public string Soyadi { get; set; }
 
-        [Display(Name = "İstifadəçi")]
-        public string AdSoyadi
-        {
-            get { return Adi + " " + Soyadi; }
-        }
-
         [Display(Name = "Doğum Tarixi")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Doğum tarixini daxil edin!")]
@@ -48,13 +42,13 @@ namespace LibraryManagementSystem.DAL
         public string Cins { get; set; }
 
         [Display(Name = "FİN")]
-        [Required(ErrorMessage = "FİN kod mütləqdir!")]
+        [Required(ErrorMessage = "FİN mütləqdir!")]
         [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvol ola bilər!")]
         public string FinKod { get; set; }
 
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Email mütləqdir!")]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email yalnız user@mail.com formatında ola bilər")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email formata uyğun deyil!")]
         public string Email { get; set; }
 
         [Display(Name = "Əlaqə Nömrəsi")]
@@ -70,7 +64,7 @@ namespace LibraryManagementSystem.DAL
         public string IstifadechiAdi { get; set; }
 
         [Display(Name = "Şifrə")]
-        [MinLength(6)] 
+        [MinLength(6)]
         [Required(ErrorMessage = "Şifrə minimum 6 simvoldan ibarət olmalıdır")]
         public string Shifre { get; set; }
 
@@ -84,11 +78,17 @@ namespace LibraryManagementSystem.DAL
         [Display(Name = "Rolu")]
         [Required(ErrorMessage = "İstifadəçinin rolunu təyin edin!")]
         public int RolID { get; set; }
+
+
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cerime> Cerime { get; set; }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Icare> Icare { get; set; }
+
+
         public virtual Rol Rol { get; set; }
     }
 }

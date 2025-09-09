@@ -63,6 +63,7 @@
     <Compile Include="Istifadechi.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="IstifadechiPartial.cs" />
     <Compile Include="Kateqoriya.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
@@ -87,6 +88,7 @@
     <Compile Include="Muellif.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MuellifPartial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rol.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>

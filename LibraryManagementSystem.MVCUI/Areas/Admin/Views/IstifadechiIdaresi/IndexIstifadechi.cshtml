@@ -4,9 +4,165 @@
     ViewBag.Title = "İstifadəçilər";
 }
 
+<style>
+    .description-cell {
+        max-width: 400px;
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    .input-group .form-control,
+    .input-group .btn {
+        height: 38px;
+    }
+
+    .form-control:focus,
+    button.btn:focus,
+    a.btn:focus,
+    .form-control:focus-visible,
+    button.btn:focus-visible,
+    a.btn:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .input-group:focus-within {
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .btn-spacing {
+        margin-left: 8px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: none;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        color: white;
+        background-color: #007bff;
+        line-height: 40px;
+        border-radius: 50%;
+        z-index: 999;
+        transition: opacity 0.3s;
+    }
+
+    .scroll-to-top:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+        color: white;
+    }
+
+    /* Dropdown başlıqlarını qalın və qara etmək üçün: */
+    .column-dropdown {
+        font-weight: bold;
+        color: black;
+    }
+
+    /* Ümumi table stil: */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Başlıqlar: */
+    th {
+        background-color: #343a40; /* tünd başlıq fonu */
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+    }
+
+    /*th.column-dropdown {
+        font-weight: bold;
+        color: black;
+        background-color: #f1f1f1;*/ /* dropdown-ların fon rəngi */
+        /*padding: 6px 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }*/
+
+    /* Başlıqların dropdown-ları: */
+    th.column-dropdown select {
+        font-weight: bold;
+        color: black;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 4px 8px;
+        height: 32px; /* eyni hündürlük */
+        line-height: 24px; /* mətn mərkəzləşməsi */
+        box-sizing: border-box; /* padding-i daxil etmək üçün */
+    }
+
+    /* FinKod və Shifre üçün span: */
+    th.special-dropdown span {
+        display: inline-block; /* yazının ətrafında qutu */
+        padding: 4px 8px; /* iç boşluq */
+        border: 1px solid #ccc; /* qutu çərçivəsi */
+        border-radius: 4px; /* yumru kənarlar */
+        background-color: #f1f1f1; /* qutu fonu */
+        font-weight: bold;
+        height: 32px; /* eyni hündürlük */
+        line-height: 24px; /* mətn mərkəzləşməsi */
+        box-sizing: border-box; /* padding-i daxil etmək üçün */
+    }
+
+    /* Sətirlər: */
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Zebra stripes: */
+    tr:nth-child(even) {
+        background-color: #cccccc;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    /* Hover effekti: */
+    tr:hover {
+        background-color: #80deea;
+    }
+
+    .table-scroll-wrapper {
+        position: relative;
+    }
+
+    .table-scroll-top {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 16px; /* scroll hündürlüyü */
+    }
+
+    .table-scroll-top .table-scroll-inner {
+        width: 1000px; /* table genişliyinə uyğun */
+        height: 1px; /* fake div hündürlüyü */
+    }
+
+    .table-scroll-bottom {
+        overflow-x: auto;
+    }
+
+    /* table tam genişliyini saxla */
+    .table-scroll-bottom table {
+        min-width: 1200px; /* table genişliyinə uyğunlaşdır */
+    }
+</style>
+
 <h2>İstifadəçilər</h2>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
     <div>
         @Html.ActionLink("Yeni İstifadəçi Əlavə Et", "CreateIstifadechi", null, new { @class = "btn btn-info" })
     </div>
@@ -17,104 +173,284 @@
             <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
                    class="form-control" placeholder="Axtarış..." />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Axtar</button>
+                <button type="submit" class="btn btn-primary btn-spacing">Axtar</button>
                 <a href="@Url.Action("IndexIstifadechi")" class="btn btn-secondary">Hamısını Göstər</a>
             </div>
         </div>
     }
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Adi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Soyadi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DoghumTarixi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cins)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FinKod)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TelefonNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Adres)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IstifadechiAdi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Shifre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Aktivdirmi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QeydiyyatTarixi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RolID)
-        </th>
-        <th></th>
-    </tr>
+<div class="table-scroll-wrapper">
+    <!-- Yuxarı scroll -->
+    <div class="table-scroll-top">
+        <div class="table-scroll-inner"></div>
+    </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Soyadi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DoghumTarixi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cins)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinKod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelefonNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adres)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IstifadechiAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Shifre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aktivdirmi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QeydiyyatTarixi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol.RolAdi)
-            </td>
-            <td>
-                @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" }) |
-                @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
-            </td>
-        </tr>
-    }
+    <!-- Aşağı scroll (table) -->
+    <div class="table-scroll-bottom table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="column-dropdown">
+                        <!-- Adı üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Adı</option>
+                                <option value="asc" @(ViewBag.SelectedAdi == "asc" ? "selected" : "")>A-Z</option>
+                                <option value="desc" @(ViewBag.SelectedAdi == "desc" ? "selected" : "")>Z-A</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Adi" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Soyadı üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Soyadı</option>
+                                <option value="asc" @(ViewBag.SelectedSoyadi == "asc" ? "selected" : "")>A-Z</option>
+                                <option value="desc" @(ViewBag.SelectedSoyadi == "desc" ? "selected" : "")>Z-A</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Soyadi" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Doğum Tarixi üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Doğum Tarixi</option>
+                                <option value="asc" @(ViewBag.SelectedDoghumTarixi == "asc" ? "selected" : "")>Ən yaşlı</option>
+                                <option value="desc" @(ViewBag.SelectedDoghumTarixi == "desc" ? "selected" : "")>Ən gənc</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="DoghumTarixi" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Cins üçün dropdown (filter): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Cinsi</option>
+                                <option value="Kişi" @(ViewBag.SelectedCins == "Kişi" ? "selected" : "")>Kişi</option>
+                                <option value="Qadın" @(ViewBag.SelectedCins == "Qadın" ? "selected" : "")>Qadın</option>
+                                <option value="Hamısı" @(ViewBag.SelectedCins == "Cinsi" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Cins" />
+                        }
+                    </th>
+                    <th class="special-dropdown">
+                        <span>@Html.DisplayNameFor(m => m.FinKod)</span>
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Email üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Email</option>
+                                <option value="@Html.Raw("@gmail.com")" @(ViewBag.SelectedEmail == "@gmail.com" ? "selected" : "")>@Html.Raw("@gmail.com")</option>
+                                <option value="@Html.Raw("@mail.ru")" @(ViewBag.SelectedEmail == "@mail.ru" ? "selected" : "")>@Html.Raw("@mail.ru")</option>
+                                <option value="@Html.Raw("@yahoo.com")" @(ViewBag.SelectedEmail == "@yahoo.com" ? "selected" : "")>@Html.Raw("@yahoo.com")</option>
+                                <option value="@Html.Raw("@outlook.com")" @(ViewBag.SelectedEmail == "@outlook.com" ? "selected" : "")>@Html.Raw("@outlook.com")</option>
+                                <option value="@Html.Raw("@hotmail.com")" @(ViewBag.SelectedEmail == "@hotmail.com" ? "selected" : "")>@Html.Raw("@hotmail.com")</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Email" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- TelefonNo üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Əlaqə Nömrəsi</option>
+                                <option value="010" @(ViewBag.SelectedTelefonNo == "010" ? "selected" : "")>010</option>
+                                <option value="050" @(ViewBag.SelectedTelefonNo == "050" ? "selected" : "")>050</option>
+                                <option value="051" @(ViewBag.SelectedTelefonNo == "051" ? "selected" : "")>051</option>
+                                <option value="055" @(ViewBag.SelectedTelefonNo == "055" ? "selected" : "")>055</option>
+                                <option value="070" @(ViewBag.SelectedTelefonNo == "070" ? "selected" : "")>070</option>
+                                <option value="077" @(ViewBag.SelectedTelefonNo == "077" ? "selected" : "")>077</option>
+                                <option value="099" @(ViewBag.SelectedTelefonNo == "099" ? "selected" : "")>099</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="TelefonNo" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Adres üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Ünvan</option>
+                                <option value="Bakı" @(ViewBag.SelectedAdres == "Bakı" ? "selected" : "")>Bakı</option>
+                                <option value="Sumqayıt" @(ViewBag.SelectedAdres == "Sumqayıt" ? "selected" : "")>Sumqayıt</option>
+                                <option value="Gəncə" @(ViewBag.SelectedAdres == "Gəncə" ? "selected" : "")>Gəncə</option>
+                                <option value="Şəki" @(ViewBag.SelectedAdres == "Şəki" ? "selected" : "")>Şəki</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Adres" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- İstifadəçi Adı üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">İstifadəçi Adı</option>
+                                <option value="asc" @(ViewBag.SelectedIstifadechiAdi == "asc" ? "selected" : "")>A-Z</option>
+                                <option value="desc" @(ViewBag.SelectedIstifadechiAdi == "desc" ? "selected" : "")>Z-A</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="IstifadechiAdi" />
+                        }
+                    </th>
+                    <th class="special-dropdown">
+                        <span>@Html.DisplayNameFor(m => m.Shifre)</span>
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Aktivdirmi üçün dropdown (filter): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Aktivdirmi</option>
+                                <option value="Aktivlər" @(ViewBag.SelectedAktivdirmi == "Aktivlər" ? "selected" : "")>Aktivlər</option>
+                                <option value="Deaktivlər" @(ViewBag.SelectedAktivdirmi == "Deaktivlər" ? "selected" : "")>Deaktivlər</option>
+                                <option value="Hamısı" @(ViewBag.SelectedAktivdirmi == "Aktivdirmi" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Aktivdirmi" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Qeydiyyat Tarixi üçün dropdown (sort): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Qeydiyyat Tarixi</option>
+                                <option value="asc" @(ViewBag.SelectedQeydiyyatTarixi == "asc" ? "selected" : "")>Ən köhnə</option>
+                                <option value="desc" @(ViewBag.SelectedQeydiyyatTarixi == "desc" ? "selected" : "")>Ən yeni</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="QeydiyyatTarixi" />
+                        }
+                    </th>
+                    <th class="column-dropdown">
+                        <!-- Rol üçün dropdown (filter): -->
+                        @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Rol</option>
+                                <option value="Adminlər" @(ViewBag.SelectedRol == "Adminlər" ? "selected" : "")>Adminlər</option>
+                                <option value="İstifadəçilər" @(ViewBag.SelectedRol == "İstifadəçilər" ? "selected" : "")>İstifadəçilər</option>
+                                <option value="Hamısı" @(ViewBag.SelectedRol == "Rol" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Rol" />
+                        }
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
 
-</table>
+            <tbody id="tableBody">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => item.Adi)</td>
+                        <td>@Html.DisplayFor(m => item.Soyadi)</td>
+                        <td>@Html.DisplayFor(m => item.DoghumTarixi)</td>
+                        <td class="description-cell">
+                            @if (!string.IsNullOrWhiteSpace(item.Cins))
+                            {
+                                @Html.DisplayFor(modelItem => item.Cins)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Məlumat yoxdur</span>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(m => item.FinKod)</td>
+                        <td>@Html.DisplayFor(m => item.Email)</td>
+                        <td class="description-cell">
+                            @if (!string.IsNullOrWhiteSpace(item.TelefonNo))
+                            {
+                                @Html.DisplayFor(modelItem => item.TelefonNo)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Məlumat yoxdur</span>
+                            }
+                        </td>
+                        <td class="description-cell">
+                            @if (!string.IsNullOrWhiteSpace(item.Adres))
+                            {
+                                @Html.DisplayFor(modelItem => item.Adres)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Məlumat yoxdur</span>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(m => item.IstifadechiAdi)</td>
+                        <td>@Html.DisplayFor(m => item.Shifre)</td>
+                        <td>@Html.DisplayFor(m => item.Aktivdirmi)</td>
+                        <td>@Html.DisplayFor(m => item.QeydiyyatTarixi)</td>
+                        <td>@Html.DisplayFor(m => item.Rol.RolAdi)</td>
+                        <td>
+                            @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" })
+                            @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    <div id="feedbackModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header @(TempData["SuccessMessage"] != null ? "bg-success" : "bg-danger") text-white">
+                    <h5 class="modal-title">
+                        @(TempData["SuccessMessage"] != null ? "Uğur" : "Xəta")
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>@(TempData["SuccessMessage"] ?? TempData["ErrorMessage"])</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script>
+        // YUXARI SCROLL İŞLƏDİ
+        $(document).ready(function () {
+            var topScroll = $('.table-scroll-top');
+            var bottomScroll = $('.table-scroll-bottom');
+
+            // scroll sinxronlaşdırma:
+            topScroll.on('scroll', function () {
+                bottomScroll.scrollLeft(topScroll.scrollLeft());
+            });
+
+            bottomScroll.on('scroll', function () {
+                topScroll.scrollLeft(bottomScroll.scrollLeft());
+            });
+
+            // table genişliyini yuxarı scroll div-inə tətbiq edir:
+            var tableWidth = bottomScroll.find('table').outerWidth();
+            topScroll.find('.table-scroll-inner').width(tableWidth);
+
+            // Əgər modal üçün TempData varsa, onu göstərir:
+            var modalExists = $('#feedbackModal').length > 0;
+            if (modalExists) {
+                $('#feedbackModal').modal('show');
+
+                $('#modalOkButton').on('click', function () {
+                    $('#feedbackModal').modal('hide');
+                });
+            }
+        });
+    </script>
+}

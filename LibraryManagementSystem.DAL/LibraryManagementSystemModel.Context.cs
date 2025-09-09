@@ -29,8 +29,8 @@ namespace LibraryManagementSystem.DAL
         public virtual DbSet<Icare> Icare { get; set; }
         public virtual DbSet<Istifadechi> Istifadechi { get; set; }
         public virtual DbSet<Kateqoriya> Kateqoriya { get; set; }
-        public virtual DbSet<Kitab> Kitab { get; set; }
         public virtual DbSet<Muellif> Muellif { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
+        public virtual DbSet<Kitab> Kitab { get; set; }
     }
 }

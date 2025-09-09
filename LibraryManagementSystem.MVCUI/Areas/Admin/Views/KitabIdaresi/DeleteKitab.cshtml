@@ -1,4 +1,4 @@
-﻿@model LibraryManagementSystem.DAL.Kitab
+﻿@model LibraryManagementSystem.MVCUI.Areas.Admin.ViewModels.KitabViewModel
 
 @{
     ViewBag.Title = "Kitabı Sil";
@@ -19,20 +19,15 @@
             @Html.DisplayFor(model => model.KitabAdi)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MuellifID)
-        </dt>
+        <dt>Müəllif(lər)</dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Muellif.MuellifAdSoyadi) 
+            @Html.DisplayFor(model => model.sechilmishMuellifAdi)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.KateqoriyaID)
-        </dt>
-
+        
+        <dt>Kateqoriya(lar)</dt>
         <dd>
-            @Html.DisplayFor(model => model.Kateqoriya.KateqoriyaAdi)
+            @Html.DisplayFor(model => model.sechilmishKateqoriyaAdi)
         </dd>
 
         <dt>
@@ -60,12 +55,13 @@
         </dd>
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> |
-            @Html.ActionLink("Siyahıya Qayıt", "IndexKitab")
+            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <div>@Html.ActionLink("Siyahıya Qayıt", "IndexKitab")</div>
         </div>
     }
 </div>

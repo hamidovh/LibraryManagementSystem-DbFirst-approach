@@ -55,11 +55,15 @@ namespace LibraryManagementSystem.DAL
 
         [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public int KitabID { get; set; }
+
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cerime> Cerime { get; set; }
 
+
         public virtual Istifadechi Istifadechi { get; set; }
+
+
         public virtual Kitab Kitab { get; set; }
     }
 }

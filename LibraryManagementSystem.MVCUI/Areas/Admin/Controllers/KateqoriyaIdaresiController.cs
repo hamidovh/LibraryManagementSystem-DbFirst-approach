@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
+using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -8,36 +9,40 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
     public class KateqoriyaIdaresiController : Controller
     {
-        //private LibraryManagementSystemDBEntities db = new LibraryManagementSystemDBEntities();
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
 
         // GET: Admin/KateqoriyaIdaresi
-        public ActionResult IndexKateqoriya(string searchText)
+        public ActionResult IndexKateqoriya(string searchText, string sortColumn, string sortOrder)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
             var kateqoriya = kateqoriyaManager.GetAll();
 
             if (!string.IsNullOrEmpty(searchText))
             {
+                string lowerSearch = searchText.ToLower();
                 kateqoriya = kateqoriya
-                    .Where(k => k.KateqoriyaAdi.Contains(searchText))
+                    .Where(k => k.KateqoriyaAdi != null && k.KateqoriyaAdi.ToLower().Contains(lowerSearch))
                     .ToList();
             }
 
-            return View(kateqoriya);
-        }
+            // Sıralama:
+            if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortOrder))
+            {
+                switch (sortColumn)
+                {
+                    case "KateqoriyaAdi":
+                        if (sortOrder == "asc")
+                            kateqoriya = kateqoriya.OrderBy(k => k.KateqoriyaAdi).ToList();
+                        else if (sortOrder == "desc")
+                            kateqoriya = kateqoriya.OrderByDescending(k => k.KateqoriyaAdi).ToList();
+                        break;
+                }
+            }
 
-        // GET: Admin/KateqoriyaIdaresi/DetailsKateqoriya/5
-        public ActionResult DetailsKateqoriya(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Kateqoriya kateqoriya = kateqoriyaManager.FindById(id.Value);
-            if (kateqoriya == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.SelectedKateqoriyaAdi = sortOrder;
+
             return View(kateqoriya);
         }
 
@@ -52,14 +57,25 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateKateqoriya([Bind(Include = "KateqoriyaID,KateqoriyaAdi,KateqoriyaTesviri")] Kateqoriya kateqoriya)
+        public ActionResult CreateKateqoriya(Kateqoriya kateqoriya)
         {
             if (ModelState.IsValid)
             {
-                kateqoriyaManager.Add(kateqoriya);
-                return RedirectToAction("IndexKateqoriya");
+                try
+                {
+                    var emeliyyatNeticesi = kateqoriyaManager.Add(kateqoriya);
+                    if (emeliyyatNeticesi > 0)
+                    {
+                        TempData["SuccessMessage"] = "Kateqoriya uğurla əlavə olundu!";
+                        return RedirectToAction("CreateKateqoriya"); // Eyni səhifəyə yönləndir, mesajı göstər
+                    }
+                    else ModelState.AddModelError("", "Xəta baş verdi, yenidən cəhd edin!");
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Xəta baş verdi, əməliyyat icra olunmadı!");
+                }
             }
-
             return View(kateqoriya);
         }
 
@@ -81,13 +97,28 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // POST: Admin/KateqoriyaIdaresi/EditKateqoriya/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditKateqoriya([Bind(Include = "KateqoriyaID,KateqoriyaAdi,KateqoriyaTesviri")] Kateqoriya kateqoriya)
+        public ActionResult EditKateqoriya(Kateqoriya kateqoriya)
         {
             if (ModelState.IsValid)
             {
+                // Database-də var olan məlumatı al:
+                var original = kateqoriyaManager.FindById(kateqoriya.KateqoriyaID);
+
+                // Əgər heç bir dəyişiklik edilməyibsə:
+                if (original.KateqoriyaAdi == kateqoriya.KateqoriyaAdi &&
+                    original.KateqoriyaTesviri == kateqoriya.KateqoriyaTesviri)
+                {
+                    ModelState.AddModelError("", "Heç bir dəyişiklik edilməyib!");
+                    return View(kateqoriya);
+                }
+
+                // Edilibsə dəyişiklikləri tətbiq et:
                 kateqoriyaManager.Update(kateqoriya);
-                return RedirectToAction("IndexKateqoriya");
+
+                TempData["SuccessMessage"] = "Dəyişikliklər uğurla əlavə olundu!";
+                return RedirectToAction("EditKateqoriya", new { id = kateqoriya.KateqoriyaID });
             }
+
             return View(kateqoriya);
         }
 
@@ -109,11 +140,20 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // POST: Admin/KateqoriyaIdaresi/DeleteKateqoriya/5
         [HttpPost, ActionName("DeleteKateqoriya")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
-            Kateqoriya kateqoriya = kateqoriyaManager.FindById(id);
-            kateqoriyaManager.Delete(id);
-            //kateqoriyaManager.Delete(kateqoriya.KateqoriyaID);
+            try
+            {
+                Kateqoriya kateqoriya = kateqoriyaManager.FindById(id.Value);
+                kateqoriyaManager.Delete(kateqoriya.KateqoriyaID);
+
+                TempData["SuccessMessage"] = "Kateqoriya uğurla silindi!";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Xəta baş verdi!";
+            }
+
             return RedirectToAction("IndexKateqoriya");
         }
     }

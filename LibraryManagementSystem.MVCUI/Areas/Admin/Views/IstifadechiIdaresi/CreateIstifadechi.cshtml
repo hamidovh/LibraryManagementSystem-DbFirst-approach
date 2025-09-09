@@ -39,8 +39,7 @@
 
         <div class="mb-3">
             <label class="form-label">Cinsi</label>
-            <div class="form-check">
-                @*form-check-inline*@
+            <div class="form-check"> @*form-check-inline*@
                 @Html.RadioButtonFor(m => m.Cins, "Kişi", new { @class = "form-check-input", id = "cinsKisi" })
                 <label class="form-check-label" for="cinsKisi">Kişi</label>
             </div>
@@ -123,6 +122,30 @@
             </div>
         </div>
     </div>
+}
+
+<div>
+    @Html.ActionLink("Siyahıya Qayıt", "IndexIstifadechi")
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Uğurlu Əlavə</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["SuccessMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @section scripts {
         <script>
@@ -134,12 +157,14 @@
                     language: "az" // "en" yazilsa ingiliscə olacaq
                 });
             });
+
+            $(document).ready(function () {
+                $('#successModal').modal('show');
+
+                $('#modalOkButton').on('click', function () {
+                    window.location.href = '@Url.Action("IndexIstifadechi", "IstifadechiIdaresi")';
+                });
+            });
         </script>
-    }
-
-
+    }   
 }
-
-<div>
-    @Html.ActionLink("Siyahıya Qayıt", "IndexIstifadechi")
-</div>

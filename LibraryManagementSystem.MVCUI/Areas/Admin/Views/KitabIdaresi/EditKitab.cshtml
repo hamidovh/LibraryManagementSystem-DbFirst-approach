@@ -1,78 +1,134 @@
-﻿@model LibraryManagementSystem.DAL.Kitab
+﻿@model LibraryManagementSystem.MVCUI.Areas.Admin.ViewModels.KitabViewModel
+
 
 @{
     ViewBag.Title = "Kitabı Redaktə Et";
 }
+
+<style>
+    textarea.auto-expand {
+        min-height: 80px;
+        max-height: 500px;
+        overflow-y: auto;
+        resize: none;
+    }
+</style>
 
 <h2>Kitabı Redaktə Et</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.KitabID)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.KitabAdi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.KitabAdi, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.KitabAdi, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.KitabID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KitabAdi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.KitabAdi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.KitabAdi, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(model => model.MuellifID, "Müəllif", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("MuellifID", null, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.MuellifID, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Müəllif", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(m => m.sechilmishMuellifIDler, Model.MuellifList, htmlAttributes: new { @class = "form-control select2", id = "sechilmishMuellifIDler", multiple = "multiple" })
+                <div>@Html.ValidationMessageFor(m => m.sechilmishMuellifIDler, "", new { @class = "text-danger" })</div>
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(model => model.KateqoriyaID, "Kateqoriya", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("KateqoriyaID", null, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.KateqoriyaID, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Kateqoriya", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(m => m.sechilmishKateqoriyaIDler, Model.KateqoriyaList, htmlAttributes: new { @class = "form-control select2", id = "sechilmishKateqoriyaIDler", multiple = "multiple" })
+                <div>@Html.ValidationMessageFor(m => m.sechilmishKateqoriyaIDler, "", new { @class = "text-danger" })</div>
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(model => model.Haqqinda, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Haqqinda, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Haqqinda, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Haqqinda, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Haqqinda, new { @class = "form-control auto-expand", rows = 3 })
+                @Html.ValidationMessageFor(model => model.Haqqinda, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(model => model.IcareQiymeti, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.IcareQiymeti, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.IcareQiymeti, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IcareQiymeti, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IcareQiymeti, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IcareQiymeti, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(model => model.StokdaVarmi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.StokdaVarmi)
-                @Html.ValidationMessageFor(model => model.StokdaVarmi, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StokdaVarmi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.StokdaVarmi)
+                    @Html.ValidationMessageFor(model => model.StokdaVarmi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Saxla" class="btn btn-success" />
             </div>
         </div>
     </div>
-    <br />
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Saxla" class="btn btn-success" />
-        </div>
-    </div>
-</div>
 }
-<br />
+
 <div>
     @Html.ActionLink("Siyahıya Qayıt", "IndexKitab")
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Uğurlu Redaktə</h5>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["SuccessMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2(); // Select2 aktivləşdiririk
+
+            // Seçilmiş müəlliflər:
+            var secilmisMuellifler = @Html.Raw(Json.Encode(Model.sechilmishMuellifIDler));
+            $('#sechilmishMuellifIDler').val(secilmisMuellifler).trigger('change');
+
+            // Seçilmiş kateqoriyalar:
+            var secilmisKateqoriyalar = @Html.Raw(Json.Encode(Model.sechilmishKateqoriyaIDler));
+            $('#sechilmishKateqoriyaIDler').val(secilmisKateqoriyalar).trigger('change');
+        });
+
+        $(document).ready(function () {
+            $("#successModal").modal("show");
+
+            $("#modalOkButton").click(function () {
+                window.location.href = '@Url.Action("IndexKitab", "KitabIdaresi", new { area = "Admin" })';
+            });
+        });
+    </script>
+}

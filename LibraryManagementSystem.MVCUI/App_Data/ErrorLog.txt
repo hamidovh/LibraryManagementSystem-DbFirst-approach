@@ -1,0 +1,36 @@
+[09/09/2025 15:50:20] Xəta: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Save() in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 126
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Delete(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 41
+   at LibraryManagementSystem.MVCUI.Areas.Admin.Controllers.KitabIdaresiController.DeleteConfirmed(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.MVCUI\Areas\Admin\Controllers\KitabIdaresiController.cs:line 368
+
+[09/09/2025 15:50:22] Xəta: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Save() in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 126
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Delete(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 41
+   at LibraryManagementSystem.MVCUI.Areas.Admin.Controllers.KitabIdaresiController.DeleteConfirmed(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.MVCUI\Areas\Admin\Controllers\KitabIdaresiController.cs:line 368
+
+[09/09/2025 15:50:24] Xəta: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Save() in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 126
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Delete(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 41
+   at LibraryManagementSystem.MVCUI.Areas.Admin.Controllers.KitabIdaresiController.DeleteConfirmed(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.MVCUI\Areas\Admin\Controllers\KitabIdaresiController.cs:line 368
+
+[09/09/2025 16:28:01] Xəta: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Save() in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 126
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Delete(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 41
+   at LibraryManagementSystem.MVCUI.Areas.Admin.Controllers.KitabIdaresiController.DeleteConfirmed(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.MVCUI\Areas\Admin\Controllers\KitabIdaresiController.cs:line 387
+
+[09/09/2025 16:28:21] Xəta: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Save() in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 126
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Delete(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 41
+   at LibraryManagementSystem.MVCUI.Areas.Admin.Controllers.KitabIdaresiController.DeleteConfirmed(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.MVCUI\Areas\Admin\Controllers\KitabIdaresiController.cs:line 387
+
+[09/09/2025 16:34:34] Xəta: An error occurred while updating the entries. See the inner exception for details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Save() in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 126
+   at LibraryManagementSystem.BL.Repositories.Repository`1.Delete(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.BL\Repositories\Repository.cs:line 41
+   at LibraryManagementSystem.MVCUI.Areas.Admin.Controllers.KitabIdaresiController.DeleteConfirmed(Int32 id) in E:\LibraryManagementSystemDbFirst\LibraryManagementSystem.MVCUI\Areas\Admin\Controllers\KitabIdaresiController.cs:line 387
+

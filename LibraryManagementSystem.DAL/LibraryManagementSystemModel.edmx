@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LibraryManagementSystemDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LibraryManagementSystemDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cerime">
           <Key>
             <PropertyRef Name="CerimeID" />
@@ -65,11 +65,25 @@
           </Key>
           <Property Name="KitabID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KitabAdi" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="MuellifID" Type="int" Nullable="false" />
-          <Property Name="KateqoriyaID" Type="int" Nullable="false" />
           <Property Name="IcareQiymeti" Type="decimal" Precision="18" Scale="2" />
           <Property Name="StokdaVarmi" Type="bit" Nullable="false" />
           <Property Name="Haqqinda" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="KitabKateqoriya">
+          <Key>
+            <PropertyRef Name="KitabID" />
+            <PropertyRef Name="KateqoriyaID" />
+          </Key>
+          <Property Name="KitabID" Type="int" Nullable="false" />
+          <Property Name="KateqoriyaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KitabMuellif">
+          <Key>
+            <PropertyRef Name="KitabID" />
+            <PropertyRef Name="MuellifID" />
+          </Key>
+          <Property Name="KitabID" Type="int" Nullable="false" />
+          <Property Name="MuellifID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Muellif">
           <Key>
@@ -147,26 +161,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Kitab__Kateqoriy__33D4B598">
+        <Association Name="FK__KitabKate__Kateq__4E88ABD4">
           <End Role="Kateqoriya" Type="Self.Kateqoriya" Multiplicity="1" />
-          <End Role="Kitab" Type="Self.Kitab" Multiplicity="*" />
+          <End Role="KitabKateqoriya" Type="Self.KitabKateqoriya" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kateqoriya">
               <PropertyRef Name="KateqoriyaID" />
             </Principal>
-            <Dependent Role="Kitab">
+            <Dependent Role="KitabKateqoriya">
               <PropertyRef Name="KateqoriyaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Kitab__MuellifID__32E0915F">
+        <Association Name="FK__KitabKate__Kitab__4D94879B">
+          <End Role="Kitab" Type="Self.Kitab" Multiplicity="1" />
+          <End Role="KitabKateqoriya" Type="Self.KitabKateqoriya" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kitab">
+              <PropertyRef Name="KitabID" />
+            </Principal>
+            <Dependent Role="KitabKateqoriya">
+              <PropertyRef Name="KitabID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KitabMuel__Kitab__49C3F6B7">
+          <End Role="Kitab" Type="Self.Kitab" Multiplicity="1" />
+          <End Role="KitabMuellif" Type="Self.KitabMuellif" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kitab">
+              <PropertyRef Name="KitabID" />
+            </Principal>
+            <Dependent Role="KitabMuellif">
+              <PropertyRef Name="KitabID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KitabMuel__Muell__4AB81AF0">
           <End Role="Muellif" Type="Self.Muellif" Multiplicity="1" />
-          <End Role="Kitab" Type="Self.Kitab" Multiplicity="*" />
+          <End Role="KitabMuellif" Type="Self.KitabMuellif" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Muellif">
               <PropertyRef Name="MuellifID" />
             </Principal>
-            <Dependent Role="Kitab">
+            <Dependent Role="KitabMuellif">
               <PropertyRef Name="MuellifID" />
             </Dependent>
           </ReferentialConstraint>
@@ -177,6 +215,8 @@
           <EntitySet Name="Istifadechi" EntityType="Self.Istifadechi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kateqoriya" EntityType="Self.Kateqoriya" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kitab" EntityType="Self.Kitab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KitabKateqoriya" EntityType="Self.KitabKateqoriya" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KitabMuellif" EntityType="Self.KitabMuellif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Muellif" EntityType="Self.Muellif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Cerime__IcareID__3D5E1FD2" Association="Self.FK__Cerime__IcareID__3D5E1FD2">
@@ -199,17 +239,24 @@
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Istifadechi" EntitySet="Istifadechi" />
           </AssociationSet>
-          <AssociationSet Name="FK__Kitab__Kateqoriy__33D4B598" Association="Self.FK__Kitab__Kateqoriy__33D4B598">
+          <AssociationSet Name="FK__KitabKate__Kateq__4E88ABD4" Association="Self.FK__KitabKate__Kateq__4E88ABD4">
             <End Role="Kateqoriya" EntitySet="Kateqoriya" />
-            <End Role="Kitab" EntitySet="Kitab" />
+            <End Role="KitabKateqoriya" EntitySet="KitabKateqoriya" />
           </AssociationSet>
-          <AssociationSet Name="FK__Kitab__MuellifID__32E0915F" Association="Self.FK__Kitab__MuellifID__32E0915F">
-            <End Role="Muellif" EntitySet="Muellif" />
+          <AssociationSet Name="FK__KitabKate__Kitab__4D94879B" Association="Self.FK__KitabKate__Kitab__4D94879B">
             <End Role="Kitab" EntitySet="Kitab" />
+            <End Role="KitabKateqoriya" EntitySet="KitabKateqoriya" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KitabMuel__Kitab__49C3F6B7" Association="Self.FK__KitabMuel__Kitab__49C3F6B7">
+            <End Role="Kitab" EntitySet="Kitab" />
+            <End Role="KitabMuellif" EntitySet="KitabMuellif" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KitabMuel__Muell__4AB81AF0" Association="Self.FK__KitabMuel__Muell__4AB81AF0">
+            <End Role="Muellif" EntitySet="Muellif" />
+            <End Role="KitabMuellif" EntitySet="KitabMuellif" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibraryManagementSystemDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -243,7 +290,7 @@
           <Property Name="KitabID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Cerime" Relationship="Self.FK__Cerime__IcareID__3D5E1FD2" FromRole="Icare" ToRole="Cerime" />
           <NavigationProperty Name="Istifadechi" Relationship="Self.FK__Icare__Istifadec__37A5467C" FromRole="Icare" ToRole="Istifadechi" />
-          <NavigationProperty Name="Kitab" Relationship="Self.FK__Icare__KitabID__38996AB5" FromRole="Icare" ToRole="Kitab" />
+          <NavigationProperty Name="Kitab" Relationship="LibraryManagementSystemDBModel.FK__Icare__KitabID__38996AB5" FromRole="Icare" ToRole="Kitab" />
         </EntityType>
         <EntityType Name="Istifadechi">
           <Key>
@@ -274,23 +321,8 @@
           <Property Name="KateqoriyaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="KateqoriyaAdi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="KateqoriyaTesviri" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Kitab" Relationship="Self.FK__Kitab__Kateqoriy__33D4B598" FromRole="Kateqoriya" ToRole="Kitab" />
-        </EntityType>
-        <EntityType Name="Kitab">
-          <Key>
-            <PropertyRef Name="KitabID" />
-          </Key>
-          <Property Name="KitabID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="KitabAdi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MuellifID" Type="Int32" Nullable="false" />
-          <Property Name="KateqoriyaID" Type="Int32" Nullable="false" />
-          <Property Name="IcareQiymeti" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="StokdaVarmi" Type="Boolean" Nullable="false" />
-          <Property Name="Haqqinda" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Icare" Relationship="Self.FK__Icare__KitabID__38996AB5" FromRole="Kitab" ToRole="Icare" />
-          <NavigationProperty Name="Kateqoriya" Relationship="Self.FK__Kitab__Kateqoriy__33D4B598" FromRole="Kitab" ToRole="Kateqoriya" />
-          <NavigationProperty Name="Muellif" Relationship="Self.FK__Kitab__MuellifID__32E0915F" FromRole="Kitab" ToRole="Muellif" />
-        </EntityType>
+          <NavigationProperty Name="Kitab" Relationship="LibraryManagementSystemDBModel.KitabKateqoriya" FromRole="Kateqoriya" ToRole="Kitab" />
+          </EntityType>
         <EntityType Name="Muellif">
           <Key>
             <PropertyRef Name="MuellifID" />
@@ -299,7 +331,7 @@
           <Property Name="MuellifAdi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MuellifSoyadi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MuellifinDoghumTarixi" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Kitab" Relationship="Self.FK__Kitab__MuellifID__32E0915F" FromRole="Muellif" ToRole="Kitab" />
+          <NavigationProperty Name="Kitab" Relationship="LibraryManagementSystemDBModel.KitabMuellif" FromRole="Muellif" ToRole="Kitab" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -345,18 +377,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Icare__KitabID__38996AB5">
-          <End Role="Kitab" Type="Self.Kitab" Multiplicity="1" />
-          <End Role="Icare" Type="Self.Icare" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kitab">
-              <PropertyRef Name="KitabID" />
-            </Principal>
-            <Dependent Role="Icare">
-              <PropertyRef Name="KitabID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Istifadec__RolID__2B3F6F97">
           <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
           <End Role="Istifadechi" Type="Self.Istifadechi" Multiplicity="*" />
@@ -369,36 +389,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Kitab__Kateqoriy__33D4B598">
-          <End Role="Kateqoriya" Type="Self.Kateqoriya" Multiplicity="1" />
-          <End Role="Kitab" Type="Self.Kitab" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kateqoriya">
-              <PropertyRef Name="KateqoriyaID" />
-            </Principal>
-            <Dependent Role="Kitab">
-              <PropertyRef Name="KateqoriyaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Kitab__MuellifID__32E0915F">
-          <End Role="Muellif" Type="Self.Muellif" Multiplicity="1" />
-          <End Role="Kitab" Type="Self.Kitab" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Muellif">
-              <PropertyRef Name="MuellifID" />
-            </Principal>
-            <Dependent Role="Kitab">
-              <PropertyRef Name="MuellifID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="LibraryManagementSystemDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cerime" EntityType="Self.Cerime" />
           <EntitySet Name="Icare" EntityType="Self.Icare" />
           <EntitySet Name="Istifadechi" EntityType="Self.Istifadechi" />
           <EntitySet Name="Kateqoriya" EntityType="Self.Kateqoriya" />
-          <EntitySet Name="Kitab" EntityType="Self.Kitab" />
           <EntitySet Name="Muellif" EntityType="Self.Muellif" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
           <AssociationSet Name="FK__Cerime__IcareID__3D5E1FD2" Association="Self.FK__Cerime__IcareID__3D5E1FD2">
@@ -413,23 +408,57 @@
             <End Role="Istifadechi" EntitySet="Istifadechi" />
             <End Role="Icare" EntitySet="Icare" />
           </AssociationSet>
-          <AssociationSet Name="FK__Icare__KitabID__38996AB5" Association="Self.FK__Icare__KitabID__38996AB5">
-            <End Role="Kitab" EntitySet="Kitab" />
-            <End Role="Icare" EntitySet="Icare" />
-          </AssociationSet>
           <AssociationSet Name="FK__Istifadec__RolID__2B3F6F97" Association="Self.FK__Istifadec__RolID__2B3F6F97">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Istifadechi" EntitySet="Istifadechi" />
           </AssociationSet>
-          <AssociationSet Name="FK__Kitab__Kateqoriy__33D4B598" Association="Self.FK__Kitab__Kateqoriy__33D4B598">
+          <EntitySet Name="Kitab" EntityType="LibraryManagementSystemDBModel.Kitab" />
+          <AssociationSet Name="FK__Icare__KitabID__38996AB5" Association="LibraryManagementSystemDBModel.FK__Icare__KitabID__38996AB5">
+            <End Role="Kitab" EntitySet="Kitab" />
+            <End Role="Icare" EntitySet="Icare" />
+          </AssociationSet>
+          <AssociationSet Name="KitabKateqoriya" Association="LibraryManagementSystemDBModel.KitabKateqoriya">
             <End Role="Kateqoriya" EntitySet="Kateqoriya" />
             <End Role="Kitab" EntitySet="Kitab" />
           </AssociationSet>
-          <AssociationSet Name="FK__Kitab__MuellifID__32E0915F" Association="Self.FK__Kitab__MuellifID__32E0915F">
-            <End Role="Muellif" EntitySet="Muellif" />
+          <AssociationSet Name="KitabMuellif" Association="LibraryManagementSystemDBModel.KitabMuellif">
             <End Role="Kitab" EntitySet="Kitab" />
+            <End Role="Muellif" EntitySet="Muellif" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Kitab">
+          <Key>
+            <PropertyRef Name="KitabID" />
+          </Key>
+          <Property Name="KitabID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KitabAdi" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IcareQiymeti" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StokdaVarmi" Type="Boolean" Nullable="false" />
+          <Property Name="Haqqinda" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Icare" Relationship="LibraryManagementSystemDBModel.FK__Icare__KitabID__38996AB5" FromRole="Kitab" ToRole="Icare" />
+          <NavigationProperty Name="Kateqoriya" Relationship="LibraryManagementSystemDBModel.KitabKateqoriya" FromRole="Kitab" ToRole="Kateqoriya" />
+          <NavigationProperty Name="Muellif" Relationship="LibraryManagementSystemDBModel.KitabMuellif" FromRole="Kitab" ToRole="Muellif" />
+        </EntityType>
+        <Association Name="FK__Icare__KitabID__38996AB5">
+          <End Type="LibraryManagementSystemDBModel.Kitab" Role="Kitab" Multiplicity="1" />
+          <End Type="LibraryManagementSystemDBModel.Icare" Role="Icare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kitab">
+              <PropertyRef Name="KitabID" />
+            </Principal>
+            <Dependent Role="Icare">
+              <PropertyRef Name="KitabID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="KitabKateqoriya">
+          <End Type="LibraryManagementSystemDBModel.Kateqoriya" Role="Kateqoriya" Multiplicity="*" />
+          <End Type="LibraryManagementSystemDBModel.Kitab" Role="Kitab" Multiplicity="*" />
+        </Association>
+        <Association Name="KitabMuellif">
+          <End Type="LibraryManagementSystemDBModel.Kitab" Role="Kitab" Multiplicity="*" />
+          <End Type="LibraryManagementSystemDBModel.Muellif" Role="Muellif" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -494,19 +523,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Kitab">
-            <EntityTypeMapping TypeName="LibraryManagementSystemDBModel.Kitab">
-              <MappingFragment StoreEntitySet="Kitab">
-                <ScalarProperty Name="KitabID" ColumnName="KitabID" />
-                <ScalarProperty Name="KitabAdi" ColumnName="KitabAdi" />
-                <ScalarProperty Name="MuellifID" ColumnName="MuellifID" />
-                <ScalarProperty Name="KateqoriyaID" ColumnName="KateqoriyaID" />
-                <ScalarProperty Name="IcareQiymeti" ColumnName="IcareQiymeti" />
-                <ScalarProperty Name="StokdaVarmi" ColumnName="StokdaVarmi" />
-                <ScalarProperty Name="Haqqinda" ColumnName="Haqqinda" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Muellif">
             <EntityTypeMapping TypeName="LibraryManagementSystemDBModel.Muellif">
               <MappingFragment StoreEntitySet="Muellif">
@@ -525,7 +541,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Kitab">
+            <EntityTypeMapping TypeName="LibraryManagementSystemDBModel.Kitab">
+              <MappingFragment StoreEntitySet="Kitab">
+                <ScalarProperty Name="Haqqinda" ColumnName="Haqqinda" />
+                <ScalarProperty Name="StokdaVarmi" ColumnName="StokdaVarmi" />
+                <ScalarProperty Name="IcareQiymeti" ColumnName="IcareQiymeti" />
+                <ScalarProperty Name="KitabAdi" ColumnName="KitabAdi" />
+                <ScalarProperty Name="KitabID" ColumnName="KitabID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="KitabKateqoriya" TypeName="LibraryManagementSystemDBModel.KitabKateqoriya" StoreEntitySet="KitabKateqoriya">
+            <EndProperty Name="Kitab">
+              <ScalarProperty Name="KitabID" ColumnName="KitabID" />
+            </EndProperty>
+            <EndProperty Name="Kateqoriya">
+              <ScalarProperty Name="KateqoriyaID" ColumnName="KateqoriyaID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="KitabMuellif" TypeName="LibraryManagementSystemDBModel.KitabMuellif" StoreEntitySet="KitabMuellif">
+            <EndProperty Name="Muellif">
+              <ScalarProperty Name="MuellifID" ColumnName="MuellifID" />
+            </EndProperty>
+            <EndProperty Name="Kitab">
+              <ScalarProperty Name="KitabID" ColumnName="KitabID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -11,8 +11,8 @@ namespace LibraryManagementSystem.BL.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class, new()
     {
-        private LibraryManagementSystemDBEntities context;
-        private DbSet<T> dbSet;
+        public readonly LibraryManagementSystemDBEntities context;
+        protected readonly DbSet<T> dbSet;
 
         public Repository() //ctor 
         {
@@ -29,9 +29,29 @@ namespace LibraryManagementSystem.BL.Repositories
             return Save();
         }
 
+        public void Attach(T entity)
+        {
+            dbSet.Attach(entity);
+            context.Entry(entity).State = EntityState.Unchanged;
+        }
+
         public int Delete(int id)
         {
             dbSet.Remove(FindById(id));
+            return Save();
+        }
+
+        public int Elave(T entity)
+        {
+            context.Entry(entity).State = EntityState.Added;
+
+            // Əlaqəli entity-lərin vəziyyətini dəyişmə:
+            foreach (var entry in context.ChangeTracker.Entries()
+                                         .Where(e => e.Entity != entity))
+            {
+                if (entry.State == EntityState.Added)
+                    entry.State = EntityState.Unchanged;
+            }
             return Save();
         }
 
@@ -72,11 +92,35 @@ namespace LibraryManagementSystem.BL.Repositories
             return dbSet.Include(table);
         }
 
+        public IQueryable<T> GetAllByIncludes(params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = dbSet;
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return query;
+        }
+
+        public int Redakte(T entity, int id)
+        {
+            var existing = dbSet.Find(id);
+            if (existing == null)
+                throw new Exception("Obyekt tapılmadı!");
+
+            // Scalar property-ləri kopyalayır:
+            context.Entry(existing).CurrentValues.SetValues(entity);
+
+            // Navigation-lar controller-də idarə olunur (Add/Clear):
+            return Save();
+        }
+
         public int Update(T entity)
         {
             dbSet.AddOrUpdate(entity);
             return Save(); // Dəyişiklikləri əlavə edir və saxlayır
         }
+
         public int Save()
         {
             return context.SaveChanges();

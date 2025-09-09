@@ -27,7 +27,7 @@ namespace LibraryManagementSystem.DAL
         [Required(ErrorMessage = "Cərimələnmə tarixini qeyd edin!")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public System.DateTime CerimeTarixi { get; set; } 
+        public System.DateTime CerimeTarixi { get; set; }
 
         [Display(Name = "Ödənmə Tarixi")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
@@ -43,8 +43,11 @@ namespace LibraryManagementSystem.DAL
 
         [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public int IcareID { get; set; }
+
     
         public virtual Icare Icare { get; set; }
+
+
         public virtual Istifadechi Istifadechi { get; set; }
     }
 }

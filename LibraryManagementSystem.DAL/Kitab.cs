@@ -19,6 +19,8 @@ namespace LibraryManagementSystem.DAL
         public Kitab()
         {
             this.Icare = new HashSet<Icare>();
+            this.Kateqoriya = new HashSet<Kateqoriya>();
+            this.Muellif = new HashSet<Muellif>();
         }
     
         public int KitabID { get; set; }
@@ -26,14 +28,6 @@ namespace LibraryManagementSystem.DAL
         [Display(Name = "Kitab")]
         [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string KitabAdi { get; set; }
-
-        [Display(Name = "Müəllif")]
-        [Required(ErrorMessage = "Müəllif təyin edin!")]
-        public int MuellifID { get; set; }
-
-        [Display(Name = "Kateqoriya")]
-        [Required(ErrorMessage = "Kateqoriya təyin edin!")]
-        public int KateqoriyaID { get; set; }
 
         [Display(Name = "İcarə Qiyməti")]
         public Nullable<decimal> IcareQiymeti { get; set; }
@@ -46,7 +40,15 @@ namespace LibraryManagementSystem.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Icare> Icare { get; set; }
-        public virtual Kateqoriya Kateqoriya { get; set; }
-        public virtual Muellif Muellif { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [Display(Name = "Kateqoriya")]
+        [Required(ErrorMessage = "Kateqoriya təyin edin!")]
+        public virtual ICollection<Kateqoriya> Kateqoriya { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [Display(Name = "Müəllif")]
+        [Required(ErrorMessage = "Müəllif təyin edin!")]
+        public virtual ICollection<Muellif> Muellif { get; set; }
     }
 }
