@@ -6,7 +6,7 @@
 
 <h2>Müəllif Məlumatlarını Redaktə Et</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditMuellif", "MuellifIdaresi", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MuellifinDoghumTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MuellifinDoghumTarixi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.MuellifinDoghumTarixi, new { htmlAttributes = new { @class = "form-control", type = "date" } })
                 @Html.ValidationMessageFor(model => model.MuellifinDoghumTarixi, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,3 +50,36 @@
 <div>
     @Html.ActionLink("Siyahıya Qayıt", "IndexMuellif")
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Uğurlu Redaktə</h5>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["SuccessMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+        if ($("#successModal").length) {
+            $("#successModal").modal("show");
+
+            $("#modalOkButton").click(function () {
+                window.location.href = '@Url.Action("IndexMuellif", "MuellifIdaresi", new { area = "Admin" })';
+            });
+        }
+    });
+    </script>
+}

@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -8,38 +9,57 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
     public class MuellifIdaresiController : Controller
     {
-        //private LibraryManagementSystemDBEntities db = new LibraryManagementSystemDBEntities();
         MuellifManager muellifManager = new MuellifManager();
 
         // GET: Admin/MuellifIdaresi
-        public ActionResult IndexMuellif(string searchText)
+        public ActionResult IndexMuellif(string searchText, string sortColumn, string sortOrder, string filterValue)
+        {
+            var muellif = muellifManager.GetAll();
+
+            //ViewBag.CurrentSortColumn = sortColumn;
+            //ViewBag.CurrentSortOrder = sortOrder;
+            //ViewBag.SelectedMuellifAdi = (sortColumn == "MuellifAdi") ? sortOrder : "";
+            //ViewBag.SelectedMuellifSoyadi = (sortColumn == "MuellifSoyadi") ? sortOrder : "";
+
+            return View(muellif);
+        }
+
+        public ActionResult MuellifPartial(string searchText, string sortColumn, string sortOrder)
         {
             var muellif = muellifManager.GetAll();
 
             if (!string.IsNullOrEmpty(searchText))
             {
+                string search = searchText.ToLower();
                 muellif = muellif.Where(m =>
-                    m.MuellifAdi.Contains(searchText) ||
-                    m.MuellifSoyadi.Contains(searchText)
+                    m.MuellifAdi.ToLower().Contains(search) ||
+                    m.MuellifSoyadi.ToLower().Contains(search)
                 ).ToList();
             }
 
-            return View(muellif);
-        }
+            // Sort:
+            if (!string.IsNullOrEmpty(sortColumn))
+            {
+                switch (sortColumn)
+                {
+                    case "MuellifAdi":
+                        muellif = (sortOrder == "asc")
+                            ? muellif.OrderBy(m => m.MuellifAdi).ToList()
+                            : muellif.OrderByDescending(m => m.MuellifAdi).ToList();
+                        break;
 
-        // GET: Admin/MuellifIdaresi/Details/5
-        public ActionResult DetailsMuellif(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    case "MuellifSoyadi":
+                        muellif = (sortOrder == "asc")
+                            ? muellif.OrderBy(m => m.MuellifSoyadi).ToList()
+                            : muellif.OrderByDescending(m => m.MuellifSoyadi).ToList();
+                        break;
+                    default:
+                        break;
+                }
+                // əgər sortColumn boş gəlirsə = heç bir sıralama aparılmır (default olaraq DB qaytarır)
             }
-            Muellif muellif = muellifManager.FindById(id.Value);
-            if (muellif == null)
-            {
-                return HttpNotFound();
-            }
-            return View(muellif);
+
+            return PartialView("_MuellifPartial", muellif);
         }
 
         // GET: Admin/MuellifIdaresi/Create
@@ -53,15 +73,40 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMuellif([Bind(Include = "MuellifID,MuellifAdi,MuellifSoyadi,MuellifinDoghumTarixi")] Muellif muellif)
+        public ActionResult CreateMuellif(Muellif muellif)
         {
-            if (ModelState.IsValid)
+            try
             {
-                muellifManager.Add(muellif);
-                //muellifManager.Save();
-                return RedirectToAction("IndexMuellif");
+                if (ModelState.IsValid)
+                {
+                    // Inline yoxlama: ad + soyad kombinasiyasının mövcudluğu
+                    bool eyniVar = muellifManager.GetAll().Any(m => m.MuellifID != muellif.MuellifID && m.MuellifAdi.ToLower() == muellif.MuellifAdi.ToLower() && m.MuellifSoyadi.ToLower() == muellif.MuellifSoyadi.ToLower());
+
+                    if (eyniVar)
+                    {
+                        ModelState.AddModelError("", "Bu müəllif artıq mövcuddur!");
+                        return View(muellif);
+                    }
+
+                    // Əgər yoxdursa, əlavə et:
+                    var emeliyyatNeticesi = muellifManager.Add(muellif);
+                    if (emeliyyatNeticesi > 0)
+                    {
+                        TempData["SuccessMessage"] = "Müəllif uğurla əlavə olundu!";
+                        return RedirectToAction("CreateMuellif");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Müəllif əlavə edilərkən xəta baş verdi!");
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                ModelState.AddModelError("", "Xəta baş verdi! Müəllif əlavə edilmədi!");
             }
 
+            // ModelState valid deyil və ya əlavə uğursuz olduqda view-ə qayıt:
             return View(muellif);
         }
 
@@ -83,14 +128,51 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // POST: Admin/MuellifIdaresi/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMuellif([Bind(Include = "MuellifID,MuellifAdi,MuellifSoyadi,MuellifinDoghumTarixi")] Muellif muellif)
+        public ActionResult EditMuellif(Muellif muellif)
         {
-            if (ModelState.IsValid)
+            try
             {
-                muellifManager.Update(muellif);
-                return RedirectToAction("IndexMuellif");
+                if (ModelState.IsValid)
+                {
+                    // Database-də var olan məlumatı al:
+                    var original = muellifManager.FindById(muellif.MuellifID);
+
+                    // Əgər heç bir dəyişiklik edilməyibsə:
+                    if (original.MuellifAdi == muellif.MuellifAdi &&
+                        original.MuellifSoyadi == muellif.MuellifSoyadi)
+                    {
+                        ModelState.AddModelError("", "Heç bir dəyişiklik edilməyib!");
+                        return View(muellif);
+                    }
+
+                    // Inline yoxlama: ad + soyad kombinasiyasının mövcudluğu
+                    bool eyniVar = muellifManager.GetAll().Any(m => m.MuellifID != muellif.MuellifID && m.MuellifAdi.ToLower() == muellif.MuellifAdi.ToLower() && m.MuellifSoyadi.ToLower() == muellif.MuellifSoyadi.ToLower());
+
+                    if (eyniVar)
+                    {
+                        ModelState.AddModelError("", "Bu müəllif artıq mövcuddur!");
+                        return View(muellif);
+                    }
+
+                    // Əgər yoxdursa, redaktə et:
+                    var emeliyyatNeticesi = muellifManager.Update(muellif);
+                    if (emeliyyatNeticesi > 0)
+                    {
+                        TempData["SuccessMessage"] = "Müəllif uğurla redaktə olundu!";
+                        return RedirectToAction("EditMuellif", new { id = muellif.MuellifID });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Müəllif redaktə edilərkən xəta baş verdi!");
+                    }
+                }
+                return View(muellif);
             }
-            return View(muellif);
+            catch (System.Exception)
+            {
+                ModelState.AddModelError("", "Xəta baş verdi! Müəllif redaktə edilmədi!");
+                return View(muellif);
+            }
         }
 
         // GET: Admin/MuellifIdaresi/Delete/5
@@ -113,9 +195,31 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Muellif muellif = muellifManager.FindById(id);
-            muellifManager.Delete(muellif.MuellifID);
-            return RedirectToAction("IndexMuellif");
-        } 
+            try
+            {
+                Muellif muellif = muellifManager.FindById(id);
+                var emeliyyatNeticesi = muellifManager.Delete(muellif.MuellifID);
+                if (emeliyyatNeticesi > 0)
+                {
+                    TempData["SuccessMessage"] = "Müəllif uğurla silindi!";
+                    return RedirectToAction("IndexMuellif");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Müəllif silinərkən xəta baş verdi!");
+                }
+            }
+            catch (System.Exception)
+            {
+                ModelState.AddModelError("", "Xəta baş verdi! Müəllif silimədi!");
+            }
+
+            return RedirectToAction("IndexMuellif", new { id = id });
+        }
     }
 }
+/*
+Problem: ModelState.AddModelError işləməyəcək.
+ModelState.AddModelError istifadə olunur, amma sonunda RedirectToAction edilir. ModelState məlumatları redirect zamanı itir, yəni istifadəçi heç bir xəta mesajı görməyəcək. Bunun əvəzinə, xətaları TempData və ya ViewBag vasitəsilə ötürmək lazımdır ki, redirect sonrası da mesajlar göstərilsin.
+*/
+//Delete üçün View-da ActionLink əvəzinə form + POST istifadə etmək daha təhlükəsizdir (CSRF üçün).

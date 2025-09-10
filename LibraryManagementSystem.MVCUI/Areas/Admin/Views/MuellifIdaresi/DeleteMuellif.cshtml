@@ -11,6 +11,7 @@
     <h4>Müəllif</h4>
     <hr />
     <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.MuellifID)
         <dt>
             @Html.DisplayNameFor(model => model.MuellifAdi)
         </dt>
@@ -37,13 +38,13 @@
 
     </dl>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("DeleteMuellif", "MuellifIdaresi", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> |
-            @Html.ActionLink("Siyahıya Qayıt", "IndexMuellif")
+            <input type="submit" value="Sil" class="btn btn-danger" />
+            <div>@Html.ActionLink("Siyahıya Qayıt", "IndexMuellif")</div>
         </div>
     }
 </div>
