@@ -65,10 +65,18 @@
         background-color: #f1f1f1;
         border: 1px solid #ccc;
         border-radius: 4px;
-        padding: 4px 8px;
+        padding: 4px 32px 4px 8px; /* sağdan boşluq verdik ox üçün */
         height: 32px; /* eyni hündürlük */
         line-height: 24px; /* mətn mərkəzləşməsi */
         box-sizing: border-box; /* padding-i daxil etmək üçün */
+        /* aşağı ox üçün */
+        appearance: none; /* default brauzer oxunu gizlətmək üçün */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 16px;
     }
 
     /* KateqoriyaTesviri üçün span: */
@@ -95,10 +103,10 @@
     @using (Html.BeginForm("IndexKateqoriya", "KateqoriyaIdaresi", FormMethod.Get, new { @class = "form-inline" }))
     {
         <div class="input-group">
-            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+            <input type="text" id="searchText" name="searchText" value="@Request.QueryString["searchText"]"
                    class="form-control" placeholder="Axtar (Kateqoriya Adı)" />
             <div class="input-group-append">
-                <button type="submit" class="btn btn-primary btn-spacing">Axtar</button>
+                <button type="button" id="btnSearch" class="btn btn-primary btn-spacing">Axtar</button>
                 <a href="@Url.Action("IndexKateqoriya")" class="btn btn-secondary">Hamısını Göstər</a>
             </div>
         </div>
@@ -112,7 +120,7 @@
                 <!-- Kateqoriya Adı üçün dropdown (sort): -->
                 @using (Html.BeginForm("IndexKateqoriya", "KateqoriyaIdaresi", FormMethod.Get))
                 {
-                    <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                    <select id="sortOrder" name="sortOrder" class="column-dropdown">
                         <option value="">Kateqoriya Adı</option>
                         <option value="asc" @(ViewBag.SelectedKateqoriyaAdi == "asc" ? "selected" : "")>A-Z</option>
                         <option value="desc" @(ViewBag.SelectedKateqoriyaAdi == "desc" ? "selected" : "")>Z-A</option>
@@ -121,33 +129,16 @@
                     <input type="hidden" name="searchText" value="@Request.QueryString["searchText"]" />
                 }
             </th>
+
             <th class="special-dropdown">
                 <span>@Html.DisplayNameFor(m => m.KateqoriyaTesviri)</span>
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.KateqoriyaAdi)</td>
-                <td class="description-cell">
-                    @if (!string.IsNullOrWhiteSpace(item.KateqoriyaTesviri))
-                    {
-                        @Html.DisplayFor(modelItem => item.KateqoriyaTesviri)
-                    }
-                    else
-                    {
-                        <span class="text-muted">Məlumat yoxdur</span>
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("Redaktə Et", "EditKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-primary" })
-                    @Html.ActionLink("Sil", "DeleteKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-danger" })
-                </td>
-            </tr>
-        }
+
+    <tbody id="kateqoriyaTableBody">
+        @Html.Partial("_KateqoriyaPartial", Model)
     </tbody>
 </table>
 
@@ -177,6 +168,8 @@
 }
 
 @section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function () {
             // Scroll zamanı oxu göstərir/gizlədir:
@@ -204,6 +197,33 @@
                     $('#feedbackModal').modal('hide');
                 });
             }
+        });
+
+        // AJAX ilə kateqoriyaları yükləyən funksiya:
+        function loadKateqoriyalar(searchText, sortColumn, sortOrder) {
+            $.get('@Url.Action("KateqoriyaPartial", "KateqoriyaIdaresi")',
+                { searchText: searchText, sortColumn: sortColumn, sortOrder: sortOrder },
+                function (data) {
+                    $("#kateqoriyaTableBody").html(data);
+                });
+        }
+
+        // Axtarış düyməsi
+        $("#btnSearch").on("click", function () {
+            var searchText = $("#searchText").val();
+            loadKateqoriyalar(searchText, "KateqoriyaAdi", $("#sortOrder").val());
+        });
+
+        // Hər düymə basılanda işləyir:
+        $("#searchText").on("keyup", function () {
+            var searchText = $(this).val();
+            loadKateqoriyalar(searchText, "KateqoriyaAdi", $("#sortOrder").val());
+        });
+
+        // Sort dəyişəndə
+        $("#sortOrder").on("change", function () {
+            var sortOrder = $(this).val();
+            loadKateqoriyalar($("#searchText").val(), "KateqoriyaAdi", sortOrder);
         });
     </script>
 }

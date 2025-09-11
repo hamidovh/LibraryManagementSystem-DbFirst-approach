@@ -4,30 +4,304 @@
     ViewBag.Title = "Rollar";
 }
 
+<style>
+    .description-cell {
+        max-width: 400px;
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    .input-group .form-control,
+    .input-group .btn {
+        height: 38px;
+    }
+
+    .form-control:focus,
+    button.btn:focus,
+    a.btn:focus,
+    .form-control:focus-visible,
+    button.btn:focus-visible,
+    a.btn:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .input-group:focus-within {
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
+    .btn-spacing {
+        margin-left: 8px;
+    }
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: none;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        color: white;
+        background-color: #007bff;
+        line-height: 40px;
+        border-radius: 50%;
+        z-index: 999;
+        transition: opacity 0.3s;
+    }
+
+        .scroll-to-top:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
+
+    /* Dropdown başlıqlarını qalın və qara etmək üçün: */
+    .column-dropdown {
+        font-weight: bold;
+        color: black;
+    }
+
+    /* Ümumi table stil: */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Başlıqlar: */
+    th {
+        background-color: #343a40; /* tünd başlıq fonu */
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+    }
+
+        /* Başlıqların dropdown-ları: */
+        th.column-dropdown select {
+            font-weight: bold;
+            color: black;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 32px 4px 8px; /* sağdan boşluq verdik ox üçün */
+            height: 32px; /* eyni hündürlük */
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+            /* aşağı ox üçün */
+            appearance: none; /* default brauzer oxunu gizlətmək üçün */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        /*  üçün span: */
+        th.special-dropdown span {
+            display: inline-block; /* yazının ətrafında qutu */
+            padding: 4px 8px; /* iç boşluq */
+            border: 1px solid #ccc; /* qutu çərçivəsi */
+            border-radius: 4px; /* yumru kənarlar */
+            background-color: #f1f1f1; /* qutu fonu */
+            font-weight: bold;
+            height: 32px; /* eyni hündürlük */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
+
+    /* Sətirlər: */
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Zebra stripes: */
+    tr:nth-child(even) {
+        background-color: #cccccc;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    /* Hover effekti: */
+    tr:hover {
+        background-color: #80deea;
+    }
+
+    .table-scroll-wrapper {
+        position: relative;
+    }
+
+    .table-scroll-top {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 16px; /* scroll hündürlüyü */
+    }
+
+        .table-scroll-top .table-scroll-inner {
+            width: 1000px; /* table genişliyinə uyğun */
+            height: 1px; /* fake div hündürlüyü */
+        }
+
+    .table-scroll-bottom {
+        overflow-x: auto;
+    }
+
+        /* table tam genişliyini saxla: */
+        .table-scroll-bottom table {
+            min-width: 1200px; /* table genişliyinə uyğunlaşdır */
+        }
+
+    /* Haqqında sütunu üçün: */
+    .haqqinda-column {
+        width: 300px !important;
+        min-width: 300px;
+        max-width: 300px;
+    }
+</style>
+
 <h2>Rollar</h2>
 
-<p>
-    @Html.ActionLink("Yeni Rol Əlavə Et", "CreateRol", null, new { @class = "btn btn-info" })
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.RolAdi)
-        </th>
-        <th></th>
-    </tr>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <div>
+        @Html.ActionLink("Yeni Rol Əlavə Et", "CreateRol", null, new { @class = "btn btn-info" })
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RolAdi)
-        </td>
-        <td>
-            @Html.ActionLink("Redaktə Et", "EditRol", new { id=item.RolID }, new { @class = "btn btn-sm btn-primary" }) |
-            
-            @Html.ActionLink("Sil", "DeleteRol", new { id=item.RolID }, new { @class = "btn btn-sm btn-danger" })
-        </td>
-    </tr>
+    @using (Html.BeginForm("IndexRol", "RolIdaresi", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="input-group">
+            <input type="text" name="searchText" value="@Request.QueryString["searchText"]"
+                   class="form-control" placeholder="Axtar (Ad, Soyad)" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Axtar</button>
+                <a href="@Url.Action("IndexRol")" class="btn btn-secondary">Hamısını Göstər</a>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th class="column-dropdown">
+                    <select name="sortRolAdiOrder" id="sortRolAdi" class="form-control column-dropdown">
+                        <option value="">Rol</option>
+                        <option value="asc">A-Z</option>
+                        <option value="desc">Z-A</option>
+                    </select>
+                </th>
+
+                @*<th>
+                        @Html.DisplayNameFor(model => model.RolAdi)
+                    </th>*@
+
+                <th></th>
+            </tr>
+        </thead>
+
+
+        <tbody id="rolTableBody">
+            @Html.Partial("_RolPartial", Model)
+        </tbody>
+
+        @*<tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RolAdi)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Redaktə Et", "EditRol", new { id = item.RolID }, new { @class = "btn btn-sm btn-primary" }) |
+
+                            @Html.ActionLink("Sil", "DeleteRol", new { id = item.RolID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>*@
+
+    </table>
+</div>
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    <div id="feedbackModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header @(TempData["SuccessMessage"] != null ? "bg-success" : "bg-danger") text-white">
+                    <h5 class="modal-title">
+                        @(TempData["SuccessMessage"] != null ? "Uğur" : "Xəta")
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>@(TempData["SuccessMessage"] ?? TempData["ErrorMessage"])</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
-</table>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    function loadRollar(searchText, sortColumn, sortOrder) {
+        $.get('@Url.Action("RolPartial", "RolIdaresi")',
+            { searchText: searchText, sortColumn: sortColumn, sortOrder: sortOrder },
+            function (data) {
+                $("#rolTableBody").html(data);
+            });
+        }
+
+        // Axtarış:
+        $("input[name='searchText']").on("keyup", function () {
+            var searchText = $(this).val();
+            loadRollar(searchText, "", "");
+        });
+
+        // RolAdi sort:
+        $("#sortRolAdi").on("change", function () {
+            var sortOrder = $(this).val();
+            var sortColumn = (sortOrder === "") ? "" : "RolAdi";
+            loadRollar($("input[name='searchText']").val(), sortColumn, sortOrder);
+        });
+
+        // Axtarış form submitini ləğv et:
+        $("form").on("submit", function (e) {
+            e.preventDefault(); // səhifəni reload etməsin
+            var searchText = $("input[name='searchText']").val();
+            var sortColumn = "";
+            var sortOrder = "";
+
+            // Əgər hazırda seçim olunmuş sort varsa, onu da götürək:
+            if ($("#sortRolAdi").val() !== "") {
+                sortColumn = "RolAdi";
+                sortOrder = $("#sortRolAdi").val();
+            }
+
+            loadRollar(searchText, sortColumn, sortOrder);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            if ($("#feedbackModal").length) {
+                $("#feedbackModal").modal("show");
+
+                $("#modalOkButton").on('click', function () {
+                    $("#feedbackModal").modal("hide");
+                });
+            }
+        });
+    </script>
+}

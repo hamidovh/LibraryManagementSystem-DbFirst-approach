@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
@@ -7,7 +8,6 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
     public class RolIdaresiController : Controller
     {
-        //private LibraryManagementSystemDBEntities db = new LibraryManagementSystemDBEntities();
         RolManager rolManager = new RolManager();
 
         // GET: Admin/RolIdaresi
@@ -16,19 +16,35 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             return View(rolManager.GetAll());
         }
 
-        // GET: Admin/RolIdaresi/DetailsRol/5
-        public ActionResult DetailsRol(int? id)
+        public ActionResult RolPartial(string searchText, string sortColumn, string sortOrder)
         {
-            if (id == null)
+            var rol = rolManager.GetAll();
+            if (!string.IsNullOrEmpty(searchText))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                string search = searchText.ToLower();
+                rol = rol.Where(r =>
+                    r.RolAdi.ToLower().Contains(search)
+                ).ToList();
             }
-            Rol rol = rolManager.FindById(id.Value);
-            if (rol == null)
+            // Sort:
+            if (!string.IsNullOrEmpty(sortColumn))
             {
-                return HttpNotFound();
+                switch (sortColumn)
+                {
+                    case "RolAdi":
+                        rol = (sortOrder == "asc")
+                            ? rol.OrderBy(r => r.RolAdi).ToList()
+                            : rol.OrderByDescending(r => r.RolAdi).ToList();
+                        break;
+                    default:
+                        break;
+                }
+                // əgər sortColumn boş gəlirsə = heç bir sıralama aparılmır (default olaraq DB qaytarır)
             }
-            return View(rol);
+            ViewBag.CurrentSortColumn = sortColumn;
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.SelectedRolAdi = (sortColumn == "RolAdi") ? sortOrder : "";
+            return PartialView("_RolPartial", rol);
         }
 
         // GET: Admin/RolIdaresi/CreateRol
@@ -42,14 +58,34 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateRol([Bind(Include = "RolID,RolAdi")] Rol rol)
+        public ActionResult CreateRol(Rol rol)
         {
-            if (ModelState.IsValid)
+            try
             {
-                rolManager.Add(rol);
-                return RedirectToAction("IndexRol");
-            }
+                if (ModelState.IsValid)
+                {
+                    bool eyniVar = rolManager.GetAll().Any(m => m.RolID != rol.RolID && m.RolAdi.ToLower() == rol.RolAdi.ToLower());
 
+                    if (eyniVar)
+                    {
+                        ModelState.AddModelError("", "Bu rol artıq mövcuddur!");
+                        return View(rol);
+                    }
+
+                    var emeliyyatNeticesi = rolManager.Add(rol);
+                    if (emeliyyatNeticesi > 0)
+                    {
+                        TempData["SuccessMessage"] = "Rol uğurla əlavə edildi!";
+                        return RedirectToAction("CreateRol");
+                    }
+                    else ModelState.AddModelError("", "Rol əlavə edilərkən xəta baş verdi!");
+                }
+            }
+            catch (System.Exception)
+            {
+                ModelState.AddModelError("", "Xəta baş verdi! Rol əlavə edilmədi!");
+            }
+            
             return View(rol);
         }
 
@@ -71,14 +107,50 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // POST: Admin/RolIdaresi/EditRol/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditRol([Bind(Include = "RolID,RolAdi")] Rol rol)
+        public ActionResult EditRol(Rol rol)
         {
-            if (ModelState.IsValid)
+            try
             {
-                rolManager.Update(rol);
-                return RedirectToAction("IndexRol");
+                if (ModelState.IsValid)
+                {
+                    // Database-də var olan məlumatı al:
+                    var original = rolManager.FindById(rol.RolID);
+
+                    // Əgər heç bir dəyişiklik edilməyibsə:
+                    if (original.RolAdi == rol.RolAdi)
+                    {
+                        ModelState.AddModelError("", "Heç bir dəyişiklik edilməyib!");
+                        return View(rol);
+                    }
+
+                    // Inline yoxlama: ad + soyad kombinasiyasının mövcudluğu
+                    bool eyniVar = rolManager.GetAll().Any(m => m.RolID != rol.RolID && m.RolAdi.ToLower() == rol.RolAdi.ToLower());
+
+                    if (eyniVar)
+                    {
+                        ModelState.AddModelError("", "Bu rol artıq mövcuddur!");
+                        return View(rol);
+                    }
+
+                    // Əgər yoxdursa, redaktə et:
+                    var emeliyyatNeticesi = rolManager.Update(rol);
+                    if (emeliyyatNeticesi > 0)
+                    {
+                        TempData["SuccessMessage"] = "Rol uğurla redaktə olundu!";
+                        return RedirectToAction("EditRol", new { id = rol.RolID });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Rol redaktə edilərkən xəta baş verdi!");
+                    }
+                }
+                return View(rol);
             }
-            return View(rol);
+            catch (System.Exception)
+            {
+                ModelState.AddModelError("", "Xəta baş verdi! Rol redaktə edilmədi!");
+                return View(rol);
+            }
         }
 
         // GET: Admin/RolIdaresi/DeleteRol/5
@@ -101,8 +173,25 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Rol rol = rolManager.FindById(id);
-            rolManager.Delete(id);
+            try
+            {
+                Rol rol = rolManager.FindById(id);
+                var emeliyyatNeticesi = rolManager.Delete(rol.RolID);
+                if (emeliyyatNeticesi > 0)
+                {
+                    TempData["SuccessMessage"] = "Rol uğurla silindi!";
+                    return RedirectToAction("IndexRol", new { id = id });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Rol silinərkən xəta baş verdi!");
+                }
+            }
+            catch (System.Exception)
+            {
+                TempData["ErrorMessage"] = "Xəta baş verdi! Rol silinmədi!";
+            }
+
             return RedirectToAction("IndexRol");
         }
     }

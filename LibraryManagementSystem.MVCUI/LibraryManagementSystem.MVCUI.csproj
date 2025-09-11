@@ -198,6 +198,8 @@
     <Content Include="Areas\Admin\Views\CerimeIdaresi\DeleteCerime.cshtml" />
     <Content Include="Areas\Admin\Views\Login\IndexLogin.cshtml" />
     <Content Include="Areas\Admin\Views\MuellifIdaresi\_MuellifPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\KateqoriyaIdaresi\_KateqoriyaPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\RolIdaresi\_RolPartial.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />

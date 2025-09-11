@@ -28,7 +28,7 @@
 
     </dl>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("DeleteKateqoriya", "KateqoriyaIdaresi", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
 

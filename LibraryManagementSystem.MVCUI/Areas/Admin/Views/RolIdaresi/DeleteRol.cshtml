@@ -20,12 +20,12 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("DeleteRol", "RolIdaresi", FormMethod.Post)) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> |
-            @Html.ActionLink("Siyahıya Qayıt", "Indexrol")
+            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <div>@Html.ActionLink("Siyahıya Qayıt", "IndexRol")</div>
         </div>
     }
 </div>

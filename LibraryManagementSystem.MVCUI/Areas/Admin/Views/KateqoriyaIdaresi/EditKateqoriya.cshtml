@@ -15,7 +15,7 @@
 
 <h2>Kateqoriyanı Redaktə Et</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditKateqoriya", "KateqoriyaIdaresi", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 

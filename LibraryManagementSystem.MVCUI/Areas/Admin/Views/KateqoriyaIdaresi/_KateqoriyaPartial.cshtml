@@ -1,0 +1,22 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Kateqoriya>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.KateqoriyaAdi)</td>
+            <td class="description-cell">
+                @if (!string.IsNullOrWhiteSpace(item.KateqoriyaTesviri))
+                {
+                    @Html.DisplayFor(modelItem => item.KateqoriyaTesviri)
+                }
+                else
+                {
+                    <span class="text-muted">Məlumat yoxdur</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Redaktə Et", "EditKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-primary" })
+                @Html.ActionLink("Sil", "DeleteKateqoriya", new { id = item.KateqoriyaID }, new { @class = "btn btn-sm btn-danger" })
+            </td>
+        </tr>
+    }

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Rol>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RolAdi)
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditRol", new { id = item.RolID }, new { @class = "btn btn-sm btn-primary" }) 
+
+            @Html.ActionLink("Sil", "DeleteRol", new { id = item.RolID }, new { @class = "btn btn-sm btn-danger" })
+        </td>
+    </tr>
+}

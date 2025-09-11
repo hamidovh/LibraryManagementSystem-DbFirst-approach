@@ -15,7 +15,7 @@
 
 <h2>Kateqoriya Əlavə Et</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CreateKateqoriya", "KateqoriyaIdaresi", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -76,6 +76,11 @@
                 $('#modalOkButton').on('click', function () {
                     window.location.href = '@Url.Action("IndexKateqoriya", "KateqoriyaIdaresi")';
                 });
+            });
+
+            $(document).on("input", "textarea.auto-expand", function () {
+                this.style.height = "auto";
+                this.style.height = (this.scrollHeight) + "px";
             });
         </script>
     }
