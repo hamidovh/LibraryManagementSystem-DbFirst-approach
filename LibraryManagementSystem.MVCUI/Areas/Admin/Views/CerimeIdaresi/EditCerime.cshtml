@@ -9,14 +9,14 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.CerimeID)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.IcareID, "IcareID", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.IcareID, "İcarə ID", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("IcareID", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.IcareID, "", new { @class = "text-danger" })
@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.IstifadechiID, "IstifadechiID", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.IstifadechiID, "İstifadəçi", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("IstifadechiID", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.IstifadechiID, "", new { @class = "text-danger" })
@@ -32,9 +32,13 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Sebeb, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Sebeb, "Cərimələnmə Səbəbi", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Sebeb, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(
+                model => model.Sebeb,
+                (SelectList)ViewBag.StatusList,
+                htmlAttributes: new { @class = "form-control" }
+            )
             @Html.ValidationMessageFor(model => model.Sebeb, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -42,18 +46,18 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CerimeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CerimeTarixi, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextBoxFor(model => model.CerimeTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
             @Html.ValidationMessageFor(model => model.CerimeTarixi, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Mebleg, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Mebleg, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Mebleg, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Mebleg, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mebleg, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mebleg, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.Odenilibmi, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -68,7 +72,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.OdenmeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.OdenmeTarixi, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextBoxFor(model => model.OdenmeTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
             @Html.ValidationMessageFor(model => model.OdenmeTarixi, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -84,3 +88,51 @@
 <div>
     @Html.ActionLink("Siyahıya Qayıt", "IndexCerime")
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Uğurlu Redaktə</h5>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["SuccessMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script>
+            // Modal göstərmə funksiyası:
+    var successMessageExists = @((TempData["SuccessMessage"] != null).ToString().ToLower());
+
+    if (successMessageExists) {
+        // Bootstrap 5 və 4 üçün eyni JS:
+        var modalEl = document.getElementById('successModal');
+
+        if (typeof bootstrap !== "undefined") {
+            // Bootstrap 5:
+            var modal = new bootstrap.Modal(modalEl);
+            modal.show();
+            $('#modalOkButton').click(function () {
+                modal.hide();
+                window.location.href = '@Url.Action("IndexCerime", "CerimeIdaresi")';
+            });
+        } else {
+            // Bootstrap 4:
+            $('#successModal').modal('show');
+            $('#modalOkButton').click(function () {
+                $('#successModal').modal('hide');
+                window.location.href = '@Url.Action("IndexCerime", "CerimeIdaresi")';
+            });
+        }
+    };
+    </script>
+}

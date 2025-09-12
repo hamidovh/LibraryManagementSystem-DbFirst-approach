@@ -25,8 +25,8 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             var istifadechiler = istifadechiManager.GetAll().Select(r => r.IstifadechiAdi).Distinct().ToList();
             ViewBag.Istifadechiler = istifadechiler;
 
-            var kitablarr = kitabManager.GetAll().Select(r => r.KitabAdi).Distinct().ToList();
-            ViewBag.Kitablar = kitablarr;
+            var kitablar = kitabManager.GetAll().Select(r => r.KitabAdi).Distinct().ToList();
+            ViewBag.Kitablar = kitablar;
 
             // Axtar:
             if (!string.IsNullOrEmpty(searchText))
@@ -45,31 +45,46 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             switch (sortColumn)
             {
                 case "Istifadechi":
-                    icar = sortOrder == "desc"
-                        ? icar.OrderByDescending(i => i.Istifadechi.AdSoyadi).ToList()
-                        : icar.OrderBy(i => i.Istifadechi.AdSoyadi).ToList();
+                    if (sortOrder == "asc")
+                        icar = icar.OrderBy(i => i.Istifadechi.AdSoyadi).ToList();
+                    else if (sortOrder == "desc")
+                        icar = icar.OrderByDescending(i => i.Istifadechi.AdSoyadi).ToList();
+                    else
+                        // Default: indexdəki sıralama
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
 
                 case "Kitab":
-                    icar = sortOrder == "desc"
-                        ? icar.OrderByDescending(i => i.Kitab.KitabAdi).ToList()
-                        : icar.OrderBy(i => i.Kitab.KitabAdi).ToList();
+                    if (sortOrder == "asc")
+                        icar = icar.OrderBy(i => i.Kitab.KitabAdi).ToList();
+                    else if (sortOrder == "desc")
+                        icar = icar.OrderByDescending(i => i.Kitab.KitabAdi).ToList();
+                    else
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
 
                 case "IcareTarixi":
-                    icar = sortOrder == "desc"
-                        ? icar.OrderByDescending(i => i.IcareTarixi).ToList()
-                        : icar.OrderBy(i => i.IcareTarixi).ToList();
+                    if (sortOrder == "asc")
+                        icar = icar.OrderBy(i => i.IcareTarixi).ToList();
+                    else if (sortOrder == "desc")
+                        icar = icar.OrderByDescending(i => i.IcareTarixi).ToList();
+                    else
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
 
                 case "SonTarix":
-                    icar = sortOrder == "desc"
-                        ? icar.OrderByDescending(i => i.SonTarix).ToList()
-                        : icar.OrderBy(i => i.SonTarix).ToList();
+                    if (sortOrder == "asc")
+                        icar = icar.OrderBy(i => i.SonTarix).ToList();
+                    else if (sortOrder == "desc")
+                        icar = icar.OrderByDescending(i => i.SonTarix).ToList();
+                    else
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
                 case "Statusu":
                     if (!string.IsNullOrEmpty(filterValue) && filterValue != "Hamısı")
                         icar = icar.Where(i => i.Statusu == filterValue).ToList();
+                    else
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
                 case "Qaytarilibmi":
                     if (!string.IsNullOrEmpty(filterValue) && filterValue != "Hamısı")
@@ -79,23 +94,24 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                         else if (filterValue == "Qaytarılmamış")
                             icar = icar.Where(i => i.Qaytarilibmi == false).ToList();
                     }
+                    else
+                    {
+                        // Hamısı və ya boş seçildikdə:
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
+                    }
                     break;
                 case "IcareQiymeti":
-                    if (string.IsNullOrEmpty(filterValue) || filterValue == "Hamısı")
-                    {
-                        // heç nə etmə, default siyahı göstərilsin
-                    }
-                    else if (filterValue == "Ucuzdan-bahaya")
-                    {
+                    if (filterValue == "Ucuzdan-bahaya")
                         icar = icar.OrderBy(i => i.IcareQiymeti).ToList();
-                    }
                     else if (filterValue == "Bahadan-ucuza")
-                    {
                         icar = icar.OrderByDescending(i => i.IcareQiymeti).ToList();
-                    }
+                    else if (filterValue == "Hamısı" || string.IsNullOrEmpty(filterValue))
+                        // Default: IcareID ilə
+                        icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
                 default:
-                    //icare = icare.OrderBy(i => i.IcareID).ToList();
+                    // Default sort: IcareID artan sıra ilə:
+                    icar = icar.OrderBy(i => i.IcareID).ToList();
                     break;
             }
 

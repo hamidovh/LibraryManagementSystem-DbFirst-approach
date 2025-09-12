@@ -5,6 +5,13 @@
     ViewBag.Title = "Yeni Cərimə";
 }
 
+<style>
+    option[disabled] {
+        color: gray;
+    }
+</style>
+
+
 <h2>Yeni Cərimə</h2>
 
 @using (Html.BeginForm())
@@ -14,11 +21,11 @@
     <div class="form-horizontal">
         <hr />
 
-        <!-- Icare seçimi -->
+        <!-- Icare seçimi: -->
         <div class="form-group">
-            @Html.LabelFor(model => model.IcareID, "İcarə", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IcareID, "İcarə ID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("IcareID", (SelectList)ViewBag.IcareID, "-- İcarə ID-si --", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.IcareID, (List<SelectListItem>)ViewBag.IcareList, "-- İcarə seçin --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IcareID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,14 +48,14 @@
         <div class="form-group">
             @Html.Label("İcarə Tarixi", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="date" id="IcareTarixi" class="form-control" readonly />
+                <input type="date" id="IcareTarixi" class="form-control" readonly max="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Son Tarix", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="date" id="SonTarix" class="form-control" readonly />
+                <input type="date" id="SonTarix" class="form-control" readonly max="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
         </div>
 
@@ -64,20 +71,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CerimeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CerimeTarixi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CerimeTarixi, new { htmlAttributes = new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })
                 @Html.ValidationMessageFor(model => model.CerimeTarixi, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Mebleg, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Mebleg, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Mebleg, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Odenilibmi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
@@ -85,15 +92,15 @@
                     @Html.ValidationMessageFor(model => model.Odenilibmi, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.OdenmeTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OdenmeTarixi, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OdenmeTarixi, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -107,7 +114,24 @@
     @Html.ActionLink("Siyahıya Qayıt", "IndexCerime")
 </div>
 
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Uğurlu Əlavə</h5>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["SuccessMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -123,10 +147,10 @@
                         data: { icareId: icareId },
                         success: function (data) {
                             if (data) {
-                                // Dropdown seç
+                                // Dropdown seç:
                                 $("#IstifadechiID").val(data.IstifadechiID);
 
-                                // Digər inputları doldur
+                                // Digər inputları doldur:
                                 $("#KitabAdi").val(data.KitabAdi);
                                 $("#IcareTarixi").val(data.IcareTarixi);
                                 $("#SonTarix").val(data.SonTarix)
@@ -137,6 +161,14 @@
                         }
                     });
                 }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#successModal").modal("show");
+
+            $("#modalOkButton").click(function () {
+                window.location.href = '@Url.Action("IndexCerime", "CerimeIdaresi", new { area = "Admin" })';
             });
         });
     </script>

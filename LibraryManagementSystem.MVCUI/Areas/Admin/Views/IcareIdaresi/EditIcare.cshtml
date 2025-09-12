@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IstifadechiID, "İstifadəçi", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("IstifadechiID", (SelectList)(ViewBag.IstifadechiID ?? new SelectList(Enumerable.Empty<SelectListItem>())), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("IstifadechiID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IstifadechiID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.KitabID, "Kitab", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("KitabID", (SelectList)(ViewBag.KitabID ?? new SelectList(Enumerable.Empty<SelectListItem>())), new { @class = "form-control" })
+                @Html.DropDownList("KitabID", null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.KitabID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IcareTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.IcareTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.TextBoxFor(model => model.IcareTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
                 @Html.ValidationMessageFor(model => model.IcareTarixi, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SonTarix, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SonTarix, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.TextBoxFor(model => model.SonTarix, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
                 @Html.ValidationMessageFor(model => model.SonTarix, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +50,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.QaytarilmaTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.QaytarilmaTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "QaytarilmaTarixi" })
+                @Html.TextBoxFor(model => model.QaytarilmaTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "QaytarilmaTarixi", max = DateTime.Now.ToString("yyyy-MM-dd") })
                 @Html.ValidationMessageFor(model => model.QaytarilmaTarixi, "", new { @class = "text-danger" })
             </div>
         </div>

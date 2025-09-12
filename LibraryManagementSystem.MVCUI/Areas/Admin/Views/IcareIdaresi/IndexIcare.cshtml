@@ -190,24 +190,24 @@
         <table class="table table-bordered table-striped table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th class="special-dropdown">
-                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                <th class="special-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
                         {
                             <span>@Html.DisplayNameFor(model => model.IcareID)</span>
                         }
-                        </th>
+                </th>
 
-                    <th class="column-dropdown">
-                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                        {
-                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
-                                <option value="">İstifadəçi</option>
-                                <option value="asc" @(ViewBag.SelectedIstifadechi == "asc" ? "selected" : "")>A-Z</option>
-                                <option value="desc" @(ViewBag.SelectedIstifadechi == "desc" ? "selected" : "")>Z-A</option>
-                            </select>
-                            <input type="hidden" name="sortColumn" value="Istifadechi" />
-                        }
-                    </th>
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                     {
+                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">İstifadəçi</option>
+                            <option value="asc" @(ViewBag.SelectedIstifadechi == "asc" ? "selected" : "")>A-Z</option>
+                            <option value="desc" @(ViewBag.SelectedIstifadechi == "desc" ? "selected" : "")>Z-A</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="Istifadechi" />
+                     }
+                </th>
 
                 <th class="column-dropdown">
                     @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))

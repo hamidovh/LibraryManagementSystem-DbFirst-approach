@@ -35,7 +35,7 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Son Tarix")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "Son tarixi seçilməlidir!")]
+        [Required(ErrorMessage = "Son tarix seçilməlidir!")]
         [DataType(DataType.Date)]
         public System.DateTime SonTarix { get; set; }
 

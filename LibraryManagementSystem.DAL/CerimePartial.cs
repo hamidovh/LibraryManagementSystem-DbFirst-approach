@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagementSystem.DAL
 {
     public partial class Cerime
     {
-        // Bu property bazada saxlanmır, sadəcə UI-da göstərmək üçündür
+        // Bu property bazada saxlanmır, sadəcə UI-da göstərmək üçündür:
+        [Display(Name = "Cərimə Məbləği (AZN)")]
         public decimal HesablanmisMebleg
         {
             get
