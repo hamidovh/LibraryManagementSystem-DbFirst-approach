@@ -9,86 +9,152 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.IcareID)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IstifadechiID, "İstifadəçi", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("IstifadechiID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IstifadechiID, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IcareID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IstifadechiID, "İstifadəçi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IstifadechiID", (SelectList)(ViewBag.IstifadechiID ?? new SelectList(Enumerable.Empty<SelectListItem>())), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IstifadechiID, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.KitabID, "Kitab", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("KitabID", null, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.KitabID, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.KitabID, "Kitab", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("KitabID", (SelectList)(ViewBag.KitabID ?? new SelectList(Enumerable.Empty<SelectListItem>())), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KitabID, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IcareTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.IcareTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.IcareTarixi, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IcareTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.IcareTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.IcareTarixi, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SonTarix, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.SonTarix, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.SonTarix, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.SonTarix, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.SonTarix, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.SonTarix, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.QaytarilmaTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.QaytarilmaTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.QaytarilmaTarixi, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.QaytarilmaTarixi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.QaytarilmaTarixi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "QaytarilmaTarixi" })
+                @Html.ValidationMessageFor(model => model.QaytarilmaTarixi, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Statusu, "Statusu", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Statusu, (SelectList)ViewBag.StatusList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Statusu, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Statusu, "Statusu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Statusu, (SelectList)(ViewBag.StatusList ?? new SelectList(Enumerable.Empty<SelectListItem>())), new { @class = "form-control", id = "Statusu" })
+                @Html.ValidationMessageFor(model => model.Statusu, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Qaytarilibmi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Qaytarilibmi)
-                @Html.ValidationMessageFor(model => model.Qaytarilibmi, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Qaytarilibmi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Qaytarilibmi, new { id = "Qaytarilibmi" })
+                    @Html.ValidationMessageFor(model => model.Qaytarilibmi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IcareQiymeti, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IcareQiymeti, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IcareQiymeti, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Saxla" class="btn btn-success" />
             </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IcareQiymeti, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.IcareQiymeti, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.IcareQiymeti, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Saxla" class="btn btn-success" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
     @Html.ActionLink("Siyahıya Qayıt", "IndexIcare")
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Uğurlu Redaktə</h5>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["SuccessMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton" class="btn btn-success">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+       $(document).ready(function () {
+            // Status dəyişəndə Qaytarılma sahələrini aç/bağla:
+            function toggleReturnFields() {
+                var status = $('#Statusu').val();
+                if (status === "Qaytarılıb") {
+                    $('#Qaytarilibmi').prop('disabled', false);
+                    $('#QaytarilmaTarixi').prop('disabled', false);
+                } else {
+                    $('#Qaytarilibmi').prop('disabled', true).prop('checked', false);
+                    $('#QaytarilmaTarixi').prop('disabled', true).val('');
+                }
+            }
+
+            toggleReturnFields(); // ilk yüklənəndə yoxla
+            $('#Statusu').change(toggleReturnFields);
+
+            // Modal göstərmə funksiyası:
+            var successMessageExists = @((TempData["SuccessMessage"] != null).ToString().ToLower());
+
+            if (successMessageExists) {
+                // Bootstrap 5 və 4 üçün eyni JS:
+                var modalEl = document.getElementById('successModal');
+
+                if (typeof bootstrap !== "undefined") {
+                    // Bootstrap 5:
+                    var modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+                    $('#modalOkButton').click(function () {
+                        modal.hide();
+                        window.location.href = '@Url.Action("IndexIcare", "IcareIdaresi")';
+                    });
+                } else {
+                    // Bootstrap 4:
+                    $('#successModal').modal('show');
+                    $('#modalOkButton').click(function () {
+                        $('#successModal').modal('hide');
+                        window.location.href = '@Url.Action("IndexIcare", "IcareIdaresi")';
+                    });
+                }
+            }
+        });
+</script>
+}

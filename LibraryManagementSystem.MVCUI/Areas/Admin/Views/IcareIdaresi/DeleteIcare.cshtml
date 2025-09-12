@@ -9,76 +9,76 @@
 <h3>İcarəni silmək istədiyinizdən əminsiz?</h3>
 <div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IcareID)
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IcareID)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Istifadechi.AdSoyadi)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Kitab.KitabAdi)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IcareTarixi)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IcareTarixi)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IcareTarixi, "{0:dd.MM.yyyy}")
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.SonTarix)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SonTarix)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SonTarix, "{0:dd.MM.yyyy}")
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.QaytarilmaTarixi)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.QaytarilmaTarixi)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QaytarilmaTarixi, "{0:dd.MM.yyyy}")
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Statusu)
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Statusu)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Qaytarilibmi)
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Qaytarilibmi)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IcareQiymeti)
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IcareQiymeti)
         </dd>
     </dl>
@@ -87,8 +87,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> |
-            @Html.ActionLink("Siyahıya Qayıt", "IndexIcare")
+            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <div>@Html.ActionLink("Siyahıya Qayıt", "IndexIcare")</div>
         </div>
     }
 </div>

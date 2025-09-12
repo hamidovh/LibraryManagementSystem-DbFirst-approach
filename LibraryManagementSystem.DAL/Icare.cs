@@ -20,7 +20,8 @@ namespace LibraryManagementSystem.DAL
         {
             this.Cerime = new HashSet<Cerime>();
         }
-    
+
+        [Display(Name = "İcarə ID")]
         public int IcareID { get; set; }
 
         [Display(Name = "İcarə Qiyməti")]

@@ -91,28 +91,28 @@
 
     /* Başlıqların dropdown-ları: */
     th.column-dropdown select {
-        font-weight: bold;
-        color: black;
-        background-color: #f1f1f1;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 4px 8px;
-        height: 32px; /* eyni hündürlük */
-        line-height: 24px; /* mətn mərkəzləşməsi */
-        box-sizing: border-box; /* padding-i daxil etmək üçün */
+       font-weight: bold;
+       color: black;
+       background-color: #f1f1f1;
+       border: 1px solid #ccc;
+       border-radius: 4px;
+       padding: 4px 8px;
+       height: 32px; /* eyni hündürlük */
+       line-height: 24px; /* mətn mərkəzləşməsi */
+       box-sizing: border-box; /* padding-i daxil etmək üçün */
     }
 
     /* FinKod və Shifre üçün span: */
     th.special-dropdown span {
-        display: inline-block; /* yazının ətrafında qutu */
-        padding: 4px 8px; /* iç boşluq */
-        border: 1px solid #ccc; /* qutu çərçivəsi */
-        border-radius: 4px; /* yumru kənarlar */
-        background-color: #f1f1f1; /* qutu fonu */
-        font-weight: bold;
-        height: 32px; /* eyni hündürlük */
-        line-height: 24px; /* mətn mərkəzləşməsi */
-        box-sizing: border-box; /* padding-i daxil etmək üçün */
+       display: inline-block; /* yazının ətrafında qutu */
+       padding: 4px 8px; /* iç boşluq */
+       border: 1px solid #ccc; /* qutu çərçivəsi */
+       border-radius: 4px; /* yumru kənarlar */
+       background-color: #f1f1f1; /* qutu fonu */
+       font-weight: bold;
+       height: 32px; /* eyni hündürlük */
+       line-height: 24px; /* mətn mərkəzləşməsi */
+       box-sizing: border-box; /* padding-i daxil etmək üçün */
     }
 
     /* Sətirlər: */
@@ -203,6 +203,7 @@
                             <input type="hidden" name="sortColumn" value="Adi" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Soyadı üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -215,6 +216,7 @@
                             <input type="hidden" name="sortColumn" value="Soyadi" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Doğum Tarixi üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -227,6 +229,7 @@
                             <input type="hidden" name="sortColumn" value="DoghumTarixi" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Cins üçün dropdown (filter): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -240,9 +243,11 @@
                             <input type="hidden" name="sortColumn" value="Cins" />
                         }
                     </th>
+
                     <th class="special-dropdown">
                         <span>@Html.DisplayNameFor(m => m.FinKod)</span>
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Email üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -258,6 +263,7 @@
                             <input type="hidden" name="sortColumn" value="Email" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- TelefonNo üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -275,6 +281,7 @@
                             <input type="hidden" name="sortColumn" value="TelefonNo" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Adres üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -289,6 +296,7 @@
                             <input type="hidden" name="sortColumn" value="Adres" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- İstifadəçi Adı üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -301,9 +309,11 @@
                             <input type="hidden" name="sortColumn" value="IstifadechiAdi" />
                         }
                     </th>
+
                     <th class="special-dropdown">
                         <span>@Html.DisplayNameFor(m => m.Shifre)</span>
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Aktivdirmi üçün dropdown (filter): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -317,6 +327,7 @@
                             <input type="hidden" name="sortColumn" value="Aktivdirmi" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Qeydiyyat Tarixi üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
@@ -329,14 +340,17 @@
                             <input type="hidden" name="sortColumn" value="QeydiyyatTarixi" />
                         }
                     </th>
+
                     <th class="column-dropdown">
                         <!-- Rol üçün dropdown (filter): -->
                         @using (Html.BeginForm("IndexIstifadechi", "IstifadechiIdaresi", FormMethod.Get))
                         {
                             <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
                                 <option value="">Rol</option>
-                                <option value="Adminlər" @(ViewBag.SelectedRol == "Adminlər" ? "selected" : "")>Adminlər</option>
-                                <option value="İstifadəçilər" @(ViewBag.SelectedRol == "İstifadəçilər" ? "selected" : "")>İstifadəçilər</option>
+                                @foreach (var rol in ViewBag.Rollar as List<string>)
+                                {
+                                    <option value="@rol" @(ViewBag.SelectedRol == rol ? "selected" : "")>@rol</option>
+                                }
                                 <option value="Hamısı" @(ViewBag.SelectedRol == "Rol" ? "selected" : "")>Hamısı</option>
                             </select>
                             <input type="hidden" name="sortColumn" value="Rol" />
@@ -347,56 +361,69 @@
             </thead>
 
             <tbody id="tableBody">
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(m => item.Adi)</td>
-                        <td>@Html.DisplayFor(m => item.Soyadi)</td>
-                        <td>@Html.DisplayFor(m => item.DoghumTarixi)</td>
-                        <td class="description-cell">
-                            @if (!string.IsNullOrWhiteSpace(item.Cins))
-                            {
-                                @Html.DisplayFor(modelItem => item.Cins)
-                            }
-                            else
-                            {
-                                <span class="text-muted">Məlumat yoxdur</span>
-                            }
-                        </td>
-                        <td>@Html.DisplayFor(m => item.FinKod)</td>
-                        <td>@Html.DisplayFor(m => item.Email)</td>
-                        <td class="description-cell">
-                            @if (!string.IsNullOrWhiteSpace(item.TelefonNo))
-                            {
-                                @Html.DisplayFor(modelItem => item.TelefonNo)
-                            }
-                            else
-                            {
-                                <span class="text-muted">Məlumat yoxdur</span>
-                            }
-                        </td>
-                        <td class="description-cell">
-                            @if (!string.IsNullOrWhiteSpace(item.Adres))
-                            {
-                                @Html.DisplayFor(modelItem => item.Adres)
-                            }
-                            else
-                            {
-                                <span class="text-muted">Məlumat yoxdur</span>
-                            }
-                        </td>
-                        <td>@Html.DisplayFor(m => item.IstifadechiAdi)</td>
-                        <td>@Html.DisplayFor(m => item.Shifre)</td>
-                        <td>@Html.DisplayFor(m => item.Aktivdirmi)</td>
-                        <td>@Html.DisplayFor(m => item.QeydiyyatTarixi)</td>
-                        <td>@Html.DisplayFor(m => item.Rol.RolAdi)</td>
-                        <td>
-                            @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" })
-                            @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(m => item.Adi)</td>
+
+                            <td>@Html.DisplayFor(m => item.Soyadi)</td>
+
+                            <td>@Html.DisplayFor(m => item.DoghumTarixi)</td>
+
+                            <td class="description-cell">
+                                @if (!string.IsNullOrWhiteSpace(item.Cins))
+                                {
+                                    @Html.DisplayFor(modelItem => item.Cins)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Məlumat yoxdur</span>
+                                }
+                            </td>
+
+                            <td>@Html.DisplayFor(m => item.FinKod)</td>
+
+                            <td>@Html.DisplayFor(m => item.Email)</td>
+
+                            <td class="description-cell">
+                                @if (!string.IsNullOrWhiteSpace(item.TelefonNo))
+                                {
+                                    @Html.DisplayFor(modelItem => item.TelefonNo)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Məlumat yoxdur</span>
+                                }
+                            </td>
+
+                            <td class="description-cell">
+                                @if (!string.IsNullOrWhiteSpace(item.Adres))
+                                {
+                                    @Html.DisplayFor(modelItem => item.Adres)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Məlumat yoxdur</span>
+                                }
+                            </td>
+
+                            <td>@Html.DisplayFor(m => item.IstifadechiAdi)</td>
+
+                            <td>@Html.DisplayFor(m => item.Shifre)</td>
+
+                            <td>@Html.DisplayFor(m => item.Aktivdirmi)</td>
+
+                            <td>@Html.DisplayFor(m => item.QeydiyyatTarixi)</td>
+
+                            <td>@Html.DisplayFor(m => item.Rol.RolAdi)</td>
+
+                            <td>
+                                @Html.ActionLink("Redaktə Et", "EditIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-primary" })
+                                @Html.ActionLink("Sil", "DeleteIstifadechi", new { id = item.IstifadechiID }, new { @class = "btn btn-sm btn-danger" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
         </table>
     </div>
 </div>
@@ -423,6 +450,8 @@
 }
 
 @section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         // YUXARI SCROLL İŞLƏDİ
         $(document).ready(function () {

@@ -16,6 +16,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         {
             var istifadechi = istifadechiManager.GetAll();
 
+            var rollar = rolManager.GetAll().Select(r => r.RolAdi).Distinct().ToList();
+            ViewBag.Rollar = rollar;
+
             // Axtarış filteri:
             if (!string.IsNullOrEmpty(searchText))
             {
@@ -116,10 +119,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                     case "Rol":
                         if (!string.IsNullOrEmpty(filterValue) && filterValue != "Hamısı")
                         {
-                            if (filterValue == "Adminlər")
-                                istifadechi = istifadechi.Where(i => i.Rol.RolAdi == "Admin").ToList();
-                            else if (filterValue == "İstifadəçilər")
-                                istifadechi = istifadechi.Where(i => i.Rol.RolAdi == "İstifadəçi").ToList();
+                            istifadechi = istifadechi.Where(i => i.Rol.RolAdi == filterValue).ToList();
                         }
                         break;
 
@@ -304,7 +304,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             try
             {
                 Istifadechi istifadechi = istifadechiManager.FindById(id.Value);
-                istifadechiManager.Delete(istifadechi.IstifadechiID);
+
+                if (istifadechi != null)
+                    istifadechiManager.Delete(istifadechi.IstifadechiID);
 
                 TempData["SuccessMessage"] = "İstifadəçi uğurla silindi!";
             }

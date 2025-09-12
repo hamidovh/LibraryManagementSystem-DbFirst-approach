@@ -4,6 +4,161 @@
     ViewBag.Title = "İcarələr";
 }
 
+<style>
+        .description-cell {
+            max-width: 400px;
+            white-space: normal !important;
+            word-break: break-word;
+        }
+
+        .input-group .form-control,
+        .input-group .btn {
+            height: 38px;
+        }
+
+        .form-control:focus,
+        button.btn:focus,
+        a.btn:focus,
+        .form-control:focus-visible,
+        button.btn:focus-visible,
+        a.btn:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: inherit !important;
+        }
+
+        .input-group:focus-within {
+            box-shadow: none !important;
+            border-color: inherit !important;
+        }
+
+        .btn-spacing {
+            margin-left: 8px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: none;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            color: white;
+            background-color: #007bff;
+            line-height: 40px;
+            border-radius: 50%;
+            z-index: 999;
+            transition: opacity 0.3s;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Dropdown başlıqlarını qalın və qara etmək üçün: */
+        .column-dropdown {
+            font-weight: bold;
+            color: black;
+        }
+
+        /* Ümumi table stil: */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Başlıqlar: */
+        th {
+            background-color: #343a40; /* tünd başlıq fonu */
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+        }
+
+       /*th.column-dropdown {
+            font-weight: bold;
+            color: black;
+            background-color: #f1f1f1;*/ /* dropdown-ların fon rəngi */
+            /*padding: 6px 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }*/
+
+        /* Başlıqların dropdown-ları: */
+        th.column-dropdown select {
+            font-weight: bold;
+            color: black;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            height: 32px; /* eyni hündürlük */
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
+
+        /* FinKod və Shifre üçün span: */
+        th.special-dropdown span {
+            display: inline-block; /* yazının ətrafında qutu */
+            padding: 4px 8px; /* iç boşluq */
+            border: 1px solid #ccc; /* qutu çərçivəsi */
+            border-radius: 4px; /* yumru kənarlar */
+            background-color: #f1f1f1; /* qutu fonu */
+            font-weight: bold;
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
+
+        /* Sətirlər: */
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Zebra stripes: */
+        tr:nth-child(even) {
+            background-color: #cccccc;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        /* Hover effekti: */
+        tr:hover {
+            background-color: #80deea;
+        }
+
+        .table-scroll-wrapper {
+            position: relative;
+        }
+
+        .table-scroll-top {
+            overflow-x: auto;
+            overflow-y: hidden;
+            height: 16px; /* scroll hündürlüyü */
+        }
+
+        .table-scroll-top .table-scroll-inner {
+            width: 1000px; /* table genişliyinə uyğun */
+            height: 1px; /* fake div hündürlüyü */
+        }
+
+        .table-scroll-bottom {
+            overflow-x: auto;
+        }
+
+        /* table tam genişliyini saxla */
+        .table-scroll-bottom table {
+            min-width: 1200px; /* table genişliyinə uyğunlaşdır */
+        }
+</style>
+
 <h2>İcarələr</h2>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -24,73 +179,236 @@
     }
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IcareID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Istifadechi.AdSoyadi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Kitab.KitabAdi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IcareTarixi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SonTarix)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QaytarilmaTarixi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Statusu)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Qaytarilibmi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IcareQiymeti)
-        </th>
-        <th></th>
-    </tr>
+<div class="table-scroll-wrapper">
+    <!-- Yuxarı scroll -->
+    <div class="table-scroll-top">
+        <div class="table-scroll-inner"></div>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <th>
-            @Html.DisplayFor(modelItem => item.IcareID)
-        </th>
-        <td>
-            @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Kitab.KitabAdi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IcareTarixi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SonTarix)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QaytarilmaTarixi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Statusu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Qaytarilibmi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IcareQiymeti)
-        </td>
-        <td>
-            @Html.ActionLink("Redaktə Et", "EditIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-primary" }) |
+    <!-- Aşağı scroll (table) -->
+    <div class="table-scroll-bottom table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="special-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <span>@Html.DisplayNameFor(model => model.IcareID)</span>
+                        }
+                        </th>
 
-            @Html.ActionLink("Sil", "DeleteIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-danger" })
-        </td>
-    </tr>
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">İstifadəçi</option>
+                                <option value="asc" @(ViewBag.SelectedIstifadechi == "asc" ? "selected" : "")>A-Z</option>
+                                <option value="desc" @(ViewBag.SelectedIstifadechi == "desc" ? "selected" : "")>Z-A</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Istifadechi" />
+                        }
+                    </th>
+
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    {
+                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">Kitab</option>
+                            <option value="asc" @(ViewBag.SelectedKitab == "asc" ? "selected" : "")>A-Z</option>
+                            <option value="desc" @(ViewBag.SelectedKitab == "desc" ? "selected" : "")>Z-A</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="Kitab" />
+                    }
+                </th>
+
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    {
+                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">İcarə tarixi</option>
+                            <option value="asc" @(ViewBag.SelectedIcareTarixi == "asc" ? "selected" : "")>Ən uzaq</option>
+                            <option value="desc" @(ViewBag.SelectedIcareTarixi == "desc" ? "selected" : "")>Ən yaxın</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="IcareTarixi" />
+                    }
+                </th>
+
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    {
+                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">Son tarix</option>
+                            <option value="asc" @(ViewBag.SelectedSonTarix == "asc" ? "selected" : "")>Ən uzaq</option>
+                            <option value="desc" @(ViewBag.SelectedSonTarix == "desc" ? "selected" : "")>Ən yaxın</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="SonTarix" />
+                    }
+                </th>
+
+                <th class="special-dropdown">
+                    <span>@Html.DisplayNameFor(model => model.QaytarilmaTarixi)</span> 
+                </th>
+
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    {
+                        <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">Statusu</option>
+                            <option value="Aktiv" @(ViewBag.SelectedStatusu == "Aktiv" ? "selected" : "")>Aktiv</option>
+                            <option value="Gecikir" @(ViewBag.SelectedStatusu == "Gecikir" ? "selected" : "")>Gecikir</option>
+                            <option value="Qaytarılıb" @(ViewBag.SelectedStatusu == "Qaytarılıb" ? "selected" : "")>Qaytarılıb</option>
+                            <option value="Hamısı" @(ViewBag.SelectedStatusu == "Statusu" ? "selected" : "")>Hamısı</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="Statusu" />
+                    }
+                </th>
+
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    {
+                        <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">Qaytarılıbmı</option>
+                            <option value="Qaytarılmış" @(ViewBag.SelectedQaytarilibmi == "Qaytarılmış" ? "selected" : "")>Qaytarılmış</option>
+                            <option value="Qaytarılmamış" @(ViewBag.SelectedQaytarilibmi == "Qaytarılmamış" ? "selected" : "")>Qaytarılmamış</option>
+                            <option value="Hamısı" @(ViewBag.SelectedQaytarilibmi == "Qaytarılıbmı" ? "selected" : "")>Hamısı</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="Qaytarilibmi" />
+                    }
+                </th>
+
+                <th class="column-dropdown">
+                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    {
+                        <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                            <option value="">İcarə Qiyməti</option>
+                            <option value="Ucuzdan-bahaya" @(ViewBag.SelectedIcareQiymeti == "Ucuzdan-bahaya" ? "selected" : "")>Ucuzdan-bahaya</option>
+                            <option value="Bahadan-ucuza" @(ViewBag.SelectedIcareQiymeti == "Bahadan-ucuza" ? "selected" : "")>Bahadan-ucuza</option>
+                            <option value="Hamısı" @(ViewBag.SelectedIcareQiymeti == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
+                        </select>
+                        <input type="hidden" name="sortColumn" value="IcareQiymeti" />
+                    }
+                </th>
+
+                    <th></th>
+
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.IcareID)
+                        </th>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Istifadechi.AdSoyadi)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kitab.KitabAdi)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IcareTarixi)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SonTarix)
+                        </td>
+
+                        <td class="description-cell">
+                            @if (item.QaytarilmaTarixi.HasValue)
+                            {
+                                @item.QaytarilmaTarixi.Value.ToString("dd.MM.yyyy")
+                            }
+                            else
+                            {
+                                <span class="text-muted">Hələki qaytarılmayıb</span>
+                            }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Statusu)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qaytarilibmi)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IcareQiymeti)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Redaktə Et", "EditIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-primary" }) 
+
+                            @Html.ActionLink("Sil", "DeleteIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    <div id="feedbackModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header @(TempData["SuccessMessage"] != null ? "bg-success" : "bg-danger") text-white">
+                    <h5 class="modal-title">
+                        @(TempData["SuccessMessage"] != null ? "Uğur" : "Xəta")
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>@(TempData["SuccessMessage"] ?? TempData["ErrorMessage"])</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalOkButton"
+                            class="btn @(TempData["SuccessMessage"] != null ? "btn-success" : "btn-danger")">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
-</table>
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // YUXARI SCROLL İŞLƏDİ
+        $(document).ready(function () {
+            var topScroll = $('.table-scroll-top');
+            var bottomScroll = $('.table-scroll-bottom');
+
+            // scroll sinxronlaşdırma:
+            topScroll.on('scroll', function () {
+                bottomScroll.scrollLeft(topScroll.scrollLeft());
+            });
+
+            bottomScroll.on('scroll', function () {
+                topScroll.scrollLeft(bottomScroll.scrollLeft());
+            });
+
+            // table genişliyini yuxarı scroll div-inə tətbiq edir:
+            var tableWidth = bottomScroll.find('table').outerWidth();
+            topScroll.find('.table-scroll-inner').width(tableWidth);
+
+            // Əgər modal üçün TempData varsa, onu göstərir:
+            var modalExists = $('#feedbackModal').length > 0;
+            if (modalExists) {
+                $('#feedbackModal').modal('show');
+
+                $('#modalOkButton').on('click', function () {
+                    $('#feedbackModal').modal('hide');
+                });
+            }
+        });
+    </script>
+}

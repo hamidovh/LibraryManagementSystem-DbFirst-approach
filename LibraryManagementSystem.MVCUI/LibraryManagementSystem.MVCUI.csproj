@@ -187,7 +187,6 @@
     <Content Include="Areas\Admin\Views\RolIdaresi\CreateRol.cshtml" />
     <Content Include="Areas\Admin\Views\RolIdaresi\EditRol.cshtml" />
     <Content Include="Areas\Admin\Views\RolIdaresi\DeleteRol.cshtml" />
-    <Content Include="Areas\Admin\Views\IcareIdaresi\Details.cshtml" />
     <Content Include="Areas\Admin\Views\IcareIdaresi\IndexIcare.cshtml" />
     <Content Include="Areas\Admin\Views\IcareIdaresi\CreateIcare.cshtml" />
     <Content Include="Areas\Admin\Views\IcareIdaresi\EditIcare.cshtml" />
