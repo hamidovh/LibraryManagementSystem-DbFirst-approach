@@ -19,6 +19,38 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // GET: Admin/IcareIdaresi
         public ActionResult IndexIcare(string searchText, string sortColumn, string sortOrder, string filterValue, string statusFilter, string qaytarilibFilter, string qiymetFilter)
         {
+            // Gecikmiş icarələri avtomatik yenilə:
+            var butunIcareler = icareManager.GetAll();
+            foreach (var i in butunIcareler)
+            {
+                if (i.Statusu == "Aktiv"
+                    && i.SonTarix.AddDays(1) < DateTime.Now
+                    && !i.Qaytarilibmi
+                    && !i.QaytarilmaTarixi.HasValue)
+                {
+                    i.Statusu = "Gecikir";
+                    icareManager.Update(i);
+
+                    // Eyni icare üçün cərimə artıq yaradılmayıbsa:
+                    var movcudCerime = i.Cerime.Any(c => c.Sebeb == "Gecikir");
+                    if (!movcudCerime)
+                    {
+                        var yeniCerime = new Cerime
+                        {
+                            IcareID = i.IcareID,
+                            IstifadechiID = i.IstifadechiID,
+                            Sebeb = "Gecikir",
+                            CerimeTarixi = DateTime.Now.Date,
+                            Mebleg = 0, // ilkin olaraq 0 qoyuruq, hesablanmış məbləği UI-da HesablanmisMebleg property-si göstərir
+                            Odenilibmi = false
+                        };
+
+                        var cerimeManager = new CerimeManager();
+                        cerimeManager.Add(yeniCerime);
+                    }
+                }
+            }
+
             var icare = icareManager.GetAllByInclude(i => i.Istifadechi, i => i.Kitab);
             var icar = icareManager.GetAll();
 
@@ -38,6 +70,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                         (i.Istifadechi != null && i.Istifadechi.Soyadi != null && i.Istifadechi.Soyadi.ToLower().Contains(lowerSearch)) ||
                         (i.Kitab != null && i.Kitab.KitabAdi != null && i.Kitab.KitabAdi.ToLower().Contains(lowerSearch))
                     ).ToList();
+
+                //icar = icar.Where(i => i.Istifadechi.AdSoyadi.ToLower().Contains(lowerSearch) || i.Kitab.KitabAdi.ToLower().Contains(lowerSearch)).ToList();
+
                 return View(icar);
             }
 
@@ -221,19 +256,42 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         {
             try
             {
+                // Əlavə şərt: yalnız "Qaytarılıb" statusunda qaytarılma mümkün olsun
+                if ((icare.Statusu == "Aktiv" || icare.Statusu == "Gecikir")
+                    && (icare.Qaytarilibmi || icare.QaytarilmaTarixi.HasValue))
+                {
+                    ModelState.AddModelError("", "Aktiv və ya gecikmiş icarəni qaytarılmış kimi qeyd etmək mümkün deyil!");
+                }
+
+                // Qaytarılma yoxlamaları:
+                if (icare.Qaytarilibmi && !icare.QaytarilmaTarixi.HasValue)
+                {
+                    ModelState.AddModelError("QaytarilmaTarixi", "İcarə qaytarılıbsa, qaytarılma tarixini də qeyd edin!");
+                }
+
+                if (icare.QaytarilmaTarixi.HasValue && !icare.Qaytarilibmi)
+                {
+                    ModelState.AddModelError("Qaytarilibmi", "İcarə qaytarılıbsa, qaytarılmanı təsdiqləyin!");
+                }
+
+                if (icare.SonTarix < icare.IcareTarixi)
+                {
+                    ModelState.AddModelError("", "Son tarix, icarə tarixindən əvvəl ola bilməz!");
+                }
+
+                if (icare.QaytarilmaTarixi.HasValue && icare.QaytarilmaTarixi < icare.IcareTarixi)
+                {
+                    ModelState.AddModelError("", "Qaytarılma tarixi, icarə tarixindən əvvəl ola bilməz!");
+                }
+
+                // Yalnız bütün validasiyalardan sonra update:
                 if (ModelState.IsValid)
                 {
+                    // dbIcare-ni yoxla və update icra et:
                     var dbIcare = icareManager.FindById(icare.IcareID);
                     if (dbIcare == null)
                     {
                         return HttpNotFound();
-                    }
-
-                    // Əlavə şərt: yalnız "Qaytarılıb" statusunda qaytarılma mümkün olsun
-                    if ((icare.Statusu == "Aktiv" || icare.Statusu == "Gecikir")
-                        && (icare.Qaytarilibmi || icare.QaytarilmaTarixi.HasValue))
-                    {
-                        ModelState.AddModelError("", "Aktiv və ya gecikmiş icarəni qaytarılmış kimi qeyd etmək mümkün deyil!");
                     }
                     else
                     {
@@ -267,6 +325,28 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                                 if (emeliyyatNeticesi > 0)
                                 {
                                     TempData["SuccessMessage"] = "İcarə uğurla redaktə olundu!";
+
+                                    // Əlavə məntiq: əgər icarə qaytarılıbsa cərimələri avtomatik ödənmiş et
+                                    if (icare.Qaytarilibmi && icare.QaytarilmaTarixi.HasValue)
+                                    {
+                                        var cerimeManager = new CerimeManager();
+                                        var cerimeler = cerimeManager.GetAll()
+                                            .Where(c => c.IcareID == icare.IcareID && c.Odenilibmi == false)
+                                            .ToList();
+
+                                        if (cerimeler.Any())
+                                        {
+                                            foreach (var cerime in cerimeler)
+                                            {
+                                                cerime.Odenilibmi = true;
+                                                cerime.OdenmeTarixi = icare.QaytarilmaTarixi.Value;
+                                                cerimeManager.Update(cerime);
+                                            }
+
+                                            TempData["InfoMessage"] = "Bu icarəyə aid cərimə məlumatları da müvafiq olaraq dəyişdirildi!";
+                                        }
+                                    }
+
                                     return RedirectToAction("EditIcare", new { id = icare.IcareID });
                                 }
                                 else

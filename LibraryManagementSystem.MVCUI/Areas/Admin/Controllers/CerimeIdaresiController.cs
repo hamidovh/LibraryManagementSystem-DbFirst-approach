@@ -195,7 +195,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 bool movcudCerime = cerimeManager.GetAll().Any(c => c.IcareID == cerime.IcareID);
                 if (movcudCerime)
                 {
-                    ModelState.AddModelError("IcareID", "Bu icarə artıq mövcuddur!");
+                    ModelState.AddModelError("IcareID", "Bu cərimə artıq mövcuddur!");
                 }
 
                 if (ModelState.IsValid)
@@ -277,7 +277,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
                 if (cerime.OdenmeTarixi.HasValue && !cerime.Odenilibmi)
                 {
-                    ModelState.AddModelError("Odenilibmi", "Cərimə ödənilibsə, ödənilməni təsdiqləyin");
+                    ModelState.AddModelError("Odenilibmi", "Cərimə ödənilibsə, ödənilməni təsdiqləyin!");
                 }
 
                 if (ModelState.IsValid)

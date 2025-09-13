@@ -190,104 +190,104 @@
         <table class="table table-bordered table-striped table-hover">
             <thead class="thead-dark">
                 <tr>
-                <th class="special-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                    <th class="special-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                            {
+                                <span>@Html.DisplayNameFor(model => model.IcareID)</span>
+                            }
+                    </th>
+
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                            {
+                                <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                    <option value="">İstifadəçi</option>
+                                    <option value="asc" @(ViewBag.SelectedIstifadechi == "asc" ? "selected" : "")>A-Z</option>
+                                    <option value="desc" @(ViewBag.SelectedIstifadechi == "desc" ? "selected" : "")>Z-A</option>
+                                </select>
+                                <input type="hidden" name="sortColumn" value="Istifadechi" />
+                            }
+                    </th>
+
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
                         {
-                            <span>@Html.DisplayNameFor(model => model.IcareID)</span>
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Kitab</option>
+                                <option value="asc" @(ViewBag.SelectedKitab == "asc" ? "selected" : "")>A-Z</option>
+                                <option value="desc" @(ViewBag.SelectedKitab == "desc" ? "selected" : "")>Z-A</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Kitab" />
                         }
-                </th>
+                    </th>
 
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                     {
-                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">İstifadəçi</option>
-                            <option value="asc" @(ViewBag.SelectedIstifadechi == "asc" ? "selected" : "")>A-Z</option>
-                            <option value="desc" @(ViewBag.SelectedIstifadechi == "desc" ? "selected" : "")>Z-A</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="Istifadechi" />
-                     }
-                </th>
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">İcarə tarixi</option>
+                                <option value="asc" @(ViewBag.SelectedIcareTarixi == "asc" ? "selected" : "")>Ən uzaq</option>
+                                <option value="desc" @(ViewBag.SelectedIcareTarixi == "desc" ? "selected" : "")>Ən yaxın</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="IcareTarixi" />
+                        }
+                    </th>
 
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                    {
-                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">Kitab</option>
-                            <option value="asc" @(ViewBag.SelectedKitab == "asc" ? "selected" : "")>A-Z</option>
-                            <option value="desc" @(ViewBag.SelectedKitab == "desc" ? "selected" : "")>Z-A</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="Kitab" />
-                    }
-                </th>
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Son tarix</option>
+                                <option value="asc" @(ViewBag.SelectedSonTarix == "asc" ? "selected" : "")>Ən uzaq</option>
+                                <option value="desc" @(ViewBag.SelectedSonTarix == "desc" ? "selected" : "")>Ən yaxın</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="SonTarix" />
+                        }
+                    </th>
 
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                    {
-                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">İcarə tarixi</option>
-                            <option value="asc" @(ViewBag.SelectedIcareTarixi == "asc" ? "selected" : "")>Ən uzaq</option>
-                            <option value="desc" @(ViewBag.SelectedIcareTarixi == "desc" ? "selected" : "")>Ən yaxın</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="IcareTarixi" />
-                    }
-                </th>
+                    <th class="special-dropdown">
+                        <span>@Html.DisplayNameFor(model => model.QaytarilmaTarixi)</span> 
+                    </th>
 
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                    {
-                        <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">Son tarix</option>
-                            <option value="asc" @(ViewBag.SelectedSonTarix == "asc" ? "selected" : "")>Ən uzaq</option>
-                            <option value="desc" @(ViewBag.SelectedSonTarix == "desc" ? "selected" : "")>Ən yaxın</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="SonTarix" />
-                    }
-                </th>
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Statusu</option>
+                                <option value="Aktiv" @(ViewBag.SelectedStatusu == "Aktiv" ? "selected" : "")>Aktiv</option>
+                                <option value="Gecikir" @(ViewBag.SelectedStatusu == "Gecikir" ? "selected" : "")>Gecikir</option>
+                                <option value="Qaytarılıb" @(ViewBag.SelectedStatusu == "Qaytarılıb" ? "selected" : "")>Qaytarılıb</option>
+                                <option value="Hamısı" @(ViewBag.SelectedStatusu == "Statusu" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Statusu" />
+                        }
+                    </th>
 
-                <th class="special-dropdown">
-                    <span>@Html.DisplayNameFor(model => model.QaytarilmaTarixi)</span> 
-                </th>
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">Qaytarılıbmı</option>
+                                <option value="Qaytarılmış" @(ViewBag.SelectedQaytarilibmi == "Qaytarılmış" ? "selected" : "")>Qaytarılmış</option>
+                                <option value="Qaytarılmamış" @(ViewBag.SelectedQaytarilibmi == "Qaytarılmamış" ? "selected" : "")>Qaytarılmamış</option>
+                                <option value="Hamısı" @(ViewBag.SelectedQaytarilibmi == "Qaytarılıbmı" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="Qaytarilibmi" />
+                        }
+                    </th>
 
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                    {
-                        <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">Statusu</option>
-                            <option value="Aktiv" @(ViewBag.SelectedStatusu == "Aktiv" ? "selected" : "")>Aktiv</option>
-                            <option value="Gecikir" @(ViewBag.SelectedStatusu == "Gecikir" ? "selected" : "")>Gecikir</option>
-                            <option value="Qaytarılıb" @(ViewBag.SelectedStatusu == "Qaytarılıb" ? "selected" : "")>Qaytarılıb</option>
-                            <option value="Hamısı" @(ViewBag.SelectedStatusu == "Statusu" ? "selected" : "")>Hamısı</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="Statusu" />
-                    }
-                </th>
-
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                    {
-                        <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">Qaytarılıbmı</option>
-                            <option value="Qaytarılmış" @(ViewBag.SelectedQaytarilibmi == "Qaytarılmış" ? "selected" : "")>Qaytarılmış</option>
-                            <option value="Qaytarılmamış" @(ViewBag.SelectedQaytarilibmi == "Qaytarılmamış" ? "selected" : "")>Qaytarılmamış</option>
-                            <option value="Hamısı" @(ViewBag.SelectedQaytarilibmi == "Qaytarılıbmı" ? "selected" : "")>Hamısı</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="Qaytarilibmi" />
-                    }
-                </th>
-
-                <th class="column-dropdown">
-                    @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
-                    {
-                        <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
-                            <option value="">İcarə Qiyməti</option>
-                            <option value="Ucuzdan-bahaya" @(ViewBag.SelectedIcareQiymeti == "Ucuzdan-bahaya" ? "selected" : "")>Ucuzdan-bahaya</option>
-                            <option value="Bahadan-ucuza" @(ViewBag.SelectedIcareQiymeti == "Bahadan-ucuza" ? "selected" : "")>Bahadan-ucuza</option>
-                            <option value="Hamısı" @(ViewBag.SelectedIcareQiymeti == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
-                        </select>
-                        <input type="hidden" name="sortColumn" value="IcareQiymeti" />
-                    }
-                </th>
+                    <th class="column-dropdown">
+                        @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
+                        {
+                            <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
+                                <option value="">İcarə Qiyməti</option>
+                                <option value="Ucuzdan-bahaya" @(ViewBag.SelectedIcareQiymeti == "Ucuzdan-bahaya" ? "selected" : "")>Ucuzdan-bahaya</option>
+                                <option value="Bahadan-ucuza" @(ViewBag.SelectedIcareQiymeti == "Bahadan-ucuza" ? "selected" : "")>Bahadan-ucuza</option>
+                                <option value="Hamısı" @(ViewBag.SelectedIcareQiymeti == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
+                            </select>
+                            <input type="hidden" name="sortColumn" value="IcareQiymeti" />
+                        }
+                    </th>
 
                     <th></th>
 
@@ -331,7 +331,17 @@
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.Statusu)
+                            @{
+                                var status = item.Statusu;
+                                if (status == "Aktiv"
+                                    && item.SonTarix.AddDays(1) < DateTime.Now
+                                    && !item.Qaytarilibmi
+                                    && !item.QaytarilmaTarixi.HasValue)
+                                {
+                                    status = "Gecikir";
+                                }
+                            }
+                            @status
                         </td>
 
                         <td>
@@ -343,7 +353,7 @@
                         </td>
 
                         <td>
-                            @Html.ActionLink("Redaktə Et", "EditIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-primary" }) 
+                            @Html.ActionLink("Redaktə Et", "EditIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-primary" })
 
                             @Html.ActionLink("Sil", "DeleteIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-danger" })
                         </td>

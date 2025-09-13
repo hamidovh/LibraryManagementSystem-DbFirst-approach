@@ -42,7 +42,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SonTarix, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.SonTarix, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                @Html.TextBoxFor(model => model.SonTarix, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" }) @*, max = DateTime.Now.ToString("yyyy-MM-dd")*@
                 @Html.ValidationMessageFor(model => model.SonTarix, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -112,6 +112,25 @@
     </div>
 }
 
+@if (TempData["InfoMessage"] != null)
+{
+    <div id="infoModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Məlumat</h5>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["InfoMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="infoOkButton" class="btn btn-info">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 <script>
@@ -131,29 +150,44 @@
             toggleReturnFields(); // ilk yüklənəndə yoxla
             $('#Statusu').change(toggleReturnFields);
 
-            // Modal göstərmə funksiyası:
+            // TempData mesajları yoxla:
+            var infoMessageExists = @((TempData["InfoMessage"] != null).ToString().ToLower());
             var successMessageExists = @((TempData["SuccessMessage"] != null).ToString().ToLower());
 
-            if (successMessageExists) {
-                // Bootstrap 5 və 4 üçün eyni JS:
-                var modalEl = document.getElementById('successModal');
-
+            // Modal açma funksiyası (Bootstrap 4/5 dəstəkli):
+            function showModal(modalId, okButtonId, onOkCallback) {
+                var modalEl = document.getElementById(modalId);
                 if (typeof bootstrap !== "undefined") {
-                    // Bootstrap 5:
+                    // Bootstrap 5
                     var modal = new bootstrap.Modal(modalEl);
                     modal.show();
-                    $('#modalOkButton').click(function () {
+                    $('#' + okButtonId).off('click').on('click', function () {
                         modal.hide();
-                        window.location.href = '@Url.Action("IndexIcare", "IcareIdaresi")';
+                        if (onOkCallback) onOkCallback();
                     });
                 } else {
-                    // Bootstrap 4:
-                    $('#successModal').modal('show');
-                    $('#modalOkButton').click(function () {
-                        $('#successModal').modal('hide');
+                    // Bootstrap 4
+                    $('#' + modalId).modal('show');
+                    $('#' + okButtonId).off('click').on('click', function () {
+                        $('#' + modalId).modal('hide');
+                        if (onOkCallback) onOkCallback();
+                    });
+                }
+            }
+
+            // Ardıcıllıqla modal aç:
+            if (infoMessageExists) {
+                showModal('infoModal', 'infoOkButton', function () {
+                if (successMessageExists) {
+                    showModal('successModal', 'modalOkButton', function () {
                         window.location.href = '@Url.Action("IndexIcare", "IcareIdaresi")';
                     });
                 }
+            });
+            } else if (successMessageExists) {
+                showModal('successModal', 'modalOkButton', function () {
+                    window.location.href = '@Url.Action("IndexIcare", "IcareIdaresi")';
+                });
             }
         });
 </script>
