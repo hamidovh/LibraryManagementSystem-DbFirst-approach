@@ -538,6 +538,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\UserPanel\" />
   </ItemGroup>
   <ItemGroup>
