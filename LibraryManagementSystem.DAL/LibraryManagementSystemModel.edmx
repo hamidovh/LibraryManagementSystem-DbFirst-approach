@@ -68,6 +68,7 @@
           <Property Name="IcareQiymeti" Type="decimal" Precision="18" Scale="2" />
           <Property Name="StokdaVarmi" Type="bit" Nullable="false" />
           <Property Name="Haqqinda" Type="nvarchar(max)" />
+          <Property Name="Foto" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="KitabKateqoriya">
           <Key>
@@ -438,6 +439,7 @@
           <NavigationProperty Name="Icare" Relationship="LibraryManagementSystemDBModel.FK__Icare__KitabID__38996AB5" FromRole="Kitab" ToRole="Icare" />
           <NavigationProperty Name="Kateqoriya" Relationship="LibraryManagementSystemDBModel.KitabKateqoriya" FromRole="Kitab" ToRole="Kateqoriya" />
           <NavigationProperty Name="Muellif" Relationship="LibraryManagementSystemDBModel.KitabMuellif" FromRole="Kitab" ToRole="Muellif" />
+          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Icare__KitabID__38996AB5">
           <End Type="LibraryManagementSystemDBModel.Kitab" Role="Kitab" Multiplicity="1" />
@@ -544,6 +546,7 @@
           <EntitySetMapping Name="Kitab">
             <EntityTypeMapping TypeName="LibraryManagementSystemDBModel.Kitab">
               <MappingFragment StoreEntitySet="Kitab">
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="Haqqinda" ColumnName="Haqqinda" />
                 <ScalarProperty Name="StokdaVarmi" ColumnName="StokdaVarmi" />
                 <ScalarProperty Name="IcareQiymeti" ColumnName="IcareQiymeti" />

@@ -35,8 +35,6 @@ namespace LibraryManagementSystem.DAL
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> MuellifinDoghumTarixi { get; set; }
-
-
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kitab> Kitab { get; set; }

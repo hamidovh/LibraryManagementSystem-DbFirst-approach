@@ -37,6 +37,9 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Haqqında")]
         public string Haqqinda { get; set; }
+
+        [Display(Name = "Kitab")]
+        public string Foto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Icare> Icare { get; set; }

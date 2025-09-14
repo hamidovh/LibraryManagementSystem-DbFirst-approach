@@ -85,6 +85,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryManagementSystemModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Metadata\Cerime.Metadata.cs" />
+    <Compile Include="Metadata\Icare.Metadata.cs" />
+    <Compile Include="Metadata\Istifadechi.Metadata.cs" />
+    <Compile Include="Metadata\Kateqoriya.Metadata.cs" />
+    <Compile Include="Metadata\Kitab.Metadata.cs" />
+    <Compile Include="Metadata\Muellif.Metadata.cs" />
+    <Compile Include="Metadata\Rol.Metadata.cs" />
     <Compile Include="Muellif.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>

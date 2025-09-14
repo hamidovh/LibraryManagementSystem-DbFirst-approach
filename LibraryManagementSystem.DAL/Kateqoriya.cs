@@ -29,8 +29,6 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Kateqoriya Haqqında")]
         public string KateqoriyaTesviri { get; set; }
-
-
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kitab> Kitab { get; set; }
