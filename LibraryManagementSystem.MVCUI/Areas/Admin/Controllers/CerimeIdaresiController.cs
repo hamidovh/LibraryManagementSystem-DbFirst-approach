@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class CerimeIdaresiController : Controller
+    public class CerimeIdaresiController : BaseController
     {
         CerimeManager cerimeManager = new CerimeManager();
         IcareManager icareManager = new IcareManager();

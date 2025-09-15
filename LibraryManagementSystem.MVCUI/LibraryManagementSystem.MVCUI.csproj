@@ -119,6 +119,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CerimeIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\DefaultController.cs" />
     <Compile Include="Areas\Admin\Controllers\IcareIdaresiController.cs" />
@@ -196,10 +197,10 @@
     <Content Include="Areas\Admin\Views\CerimeIdaresi\CreateCerime.cshtml" />
     <Content Include="Areas\Admin\Views\CerimeIdaresi\EditCerime.cshtml" />
     <Content Include="Areas\Admin\Views\CerimeIdaresi\DeleteCerime.cshtml" />
-    <Content Include="Areas\Admin\Views\Login\IndexLogin.cshtml" />
     <Content Include="Areas\Admin\Views\MuellifIdaresi\_MuellifPartial.cshtml" />
     <Content Include="Areas\Admin\Views\KateqoriyaIdaresi\_KateqoriyaPartial.cshtml" />
     <Content Include="Areas\Admin\Views\RolIdaresi\_RolPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\IndexLogin.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -539,6 +540,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Views\UserPanel\" />
   </ItemGroup>
   <ItemGroup>

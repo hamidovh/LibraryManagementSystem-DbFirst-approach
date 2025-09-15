@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class KateqoriyaIdaresiController : Controller
+    public class KateqoriyaIdaresiController : BaseController
     {
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
 

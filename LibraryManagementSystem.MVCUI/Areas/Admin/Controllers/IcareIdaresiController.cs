@@ -10,7 +10,7 @@ using WebGrease;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class IcareIdaresiController : Controller
+    public class IcareIdaresiController : BaseController
     {
         IcareManager icareManager = new IcareManager();
         IstifadechiManager istifadechiManager = new IstifadechiManager();

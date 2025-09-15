@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class MuellifIdaresiController : Controller
+    public class MuellifIdaresiController : BaseController
     {
         MuellifManager muellifManager = new MuellifManager();
 

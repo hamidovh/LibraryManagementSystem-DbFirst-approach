@@ -6,7 +6,7 @@ using LibraryManagementSystem.DAL;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class RolIdaresiController : Controller
+    public class RolIdaresiController : BaseController
     {
         RolManager rolManager = new RolManager();
 

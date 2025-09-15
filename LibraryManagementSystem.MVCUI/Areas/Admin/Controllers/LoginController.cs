@@ -1,15 +1,18 @@
 ﻿using LibraryManagementSystem.BL;
+using LibraryManagementSystem.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
     public class LoginController : Controller
     {
         IstifadechiManager istifadechiManager = new IstifadechiManager();
+        RolManager rolManager = new RolManager();
 
         // GET: Admin/Login
         public ActionResult IndexLogin()
@@ -18,33 +21,47 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult IndexLogin(string IstifadechiAdi, string Shifre)
+        public ActionResult IndexLogin(string email, string shifre, bool? rememberMe)
         {
-            try
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(shifre))
             {
-                var istifadechi = istifadechiManager.Get(i => i.IstifadechiAdi == IstifadechiAdi && i.Shifre == Shifre && i.Aktivdirmi == true);
-                if (istifadechi != null)
+                TempData["Message"] = "Email və ya şifrə boş buraxılmamalıdır!";
+            }
+            else
+            {
+                var istifadechi = istifadechiManager.GetAll().FirstOrDefault(i => i.Email == email && i.Shifre == shifre && i.Aktivdirmi == true && i.RolID == 1);
+                var rol = rolManager.GetAll(r => r.RolAdi == "Admin");
+                if (istifadechi != null) //rol = "Admin"
                 {
-                    Session["admin"] = istifadechi;
-                    return Redirect("/Admin");
+                    Session["Admin"] = istifadechi;
+                    Session["AdminID"] = istifadechi.IstifadechiID;
+                    Session["AdminName"] = istifadechi.AdSoyadi;
+
+                    // rememberMe = true olarsa cookie qalıcı olacaq:
+                    FormsAuthentication.SetAuthCookie(istifadechi.AdSoyadi, rememberMe ?? false);
+
+                    if (Request.QueryString["ReturnUrl"] == null) return Redirect("/Admin/Default");
+                    else return Redirect(Request.QueryString["ReturnUrl"] ?? "/Admin/Default");
+                    //return Redirect(Request.QueryString["ReturnUrl"]);
+
+                    //return RedirectToAction("Index", "Default");
                 }
                 else
                 {
-                    TempData["mesaj"] = "İstifadəçi adı və ya şifrə yalnışdır!";
+                    TempData["Message"] = "Email və ya şifrə yalnışdır!";
                 }
-            }
-            catch (Exception)
-            {
-                TempData["mesaj"] = "Xəta baş verdi!";
             }
 
             return View();
         }
 
-        public ActionResult LogOut()
+        // GET: Admin/LogOut
+        public ActionResult IndexLogout()
         {
-            Session.Remove("admin");
-            return Redirect("/Admin/Login");
+            Session.Remove("Admin");
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("IndexLogin");
         }
     }
 }

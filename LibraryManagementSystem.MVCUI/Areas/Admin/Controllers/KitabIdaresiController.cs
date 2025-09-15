@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class KitabIdaresiController : Controller
+    public class KitabIdaresiController : BaseController
     {
         KitabManager kitabManager = new KitabManager();
         MuellifManager muellifManager = new MuellifManager();

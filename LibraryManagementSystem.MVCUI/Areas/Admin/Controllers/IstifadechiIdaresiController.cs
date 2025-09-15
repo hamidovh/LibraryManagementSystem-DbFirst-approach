@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
-    public class IstifadechiIdaresiController : Controller
+    public class IstifadechiIdaresiController : BaseController
     {
         IstifadechiManager istifadechiManager = new IstifadechiManager();
         RolManager rolManager = new RolManager();
