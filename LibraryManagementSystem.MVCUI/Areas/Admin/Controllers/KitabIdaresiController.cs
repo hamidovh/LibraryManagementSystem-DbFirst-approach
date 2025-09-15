@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -116,6 +117,23 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
             // IcareQiymeti dropdown üçün ViewBag:
             ViewBag.IcareQiymetiSort = icareSort;
+
+            return View(kitab);
+        }
+
+        // GET: Admin/KitabIdaresi/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Kitab kitab = kitabManager.GetAllByIncludes(k => k.Muellif, k => k.Kateqoriya)
+                .FirstOrDefault(k => k.KitabID == id.Value);
+            if (kitab == null)
+            { 
+                return HttpNotFound();
+            }
 
             return View(kitab);
         }

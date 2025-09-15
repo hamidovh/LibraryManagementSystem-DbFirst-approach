@@ -536,6 +536,8 @@
     <Content Include="Themes\soft-ui-dashboard-main\LICENSE" />
     <Content Include="Themes\soft-ui-dashboard-main\package.json" />
     <Content Include="Themes\soft-ui-dashboard-main\README.md" />
+    <Content Include="Views\Shared\_PartialMenu.cshtml" />
+    <Content Include="Views\Home\KitabDetal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
