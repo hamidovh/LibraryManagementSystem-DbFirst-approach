@@ -24,7 +24,7 @@
         <dd>
             @Html.DisplayFor(model => model.sechilmishMuellifAdi)
         </dd>
-        
+
         <dt>Kateqoriya(lar)</dt>
         <dd>
             @Html.DisplayFor(model => model.sechilmishKateqoriyaAdi)
@@ -53,6 +53,14 @@
         <dd>
             @Html.DisplayFor(model => model.StokdaVarmi)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+
+        <dd>
+            <img src="~/Images/@Html.DisplayFor(model => model.Foto)" alt="" height="50" class="clickable-photo" style="cursor:pointer;" />
+        </dd>
     </dl>
 
     @using (Html.BeginForm("DeleteKitab", "KitabIdaresi", FormMethod.Post))
@@ -60,8 +68,32 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <input type="submit" value="Sil" class="btn btn-danger" />
             <div>@Html.ActionLink("Siyahıya Qayıt", "IndexKitab")</div>
         </div>
     }
 </div>
+
+<!-- Foto Modal -->
+<div id="fotoModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background: transparent; border: none;">
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="Foto" style="max-width: 100%; max-height: 80vh;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        // Foto kliklə açmaq:
+        $(document).ready(function () {
+            $('.clickable-photo').on('click', function () {
+                var src = $(this).attr('src');
+                $('#modalImage').attr('src', src);
+                $('#fotoModal').modal('show');
+            })
+        });
+    </script>
+}

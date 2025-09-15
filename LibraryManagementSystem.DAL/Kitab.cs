@@ -25,7 +25,7 @@ namespace LibraryManagementSystem.DAL
     
         public int KitabID { get; set; }
 
-        [Display(Name = "Kitab")]
+        [Display(Name = "Kitabın Adı")]
         [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string KitabAdi { get; set; }
 

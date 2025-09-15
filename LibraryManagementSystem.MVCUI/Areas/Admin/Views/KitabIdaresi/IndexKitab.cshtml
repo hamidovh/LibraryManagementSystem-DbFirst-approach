@@ -52,11 +52,11 @@
         transition: opacity 0.3s;
     }
 
-    .scroll-to-top:hover {
-        background-color: #0056b3;
-        text-decoration: none;
-        color: white;
-    }
+        .scroll-to-top:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
 
     /* Dropdown başlıqlarını qalın və qara etmək üçün: */
     .column-dropdown {
@@ -80,31 +80,31 @@
         text-align: left;
     }
 
-    /* Başlıqların dropdown-ları: */
-    th.column-dropdown select {
-        font-weight: bold;
-        color: black;
-        background-color: #f1f1f1;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 4px 8px;
-        height: 32px; /* eyni hündürlük */
-        line-height: 24px; /* mətn mərkəzləşməsi */
-        box-sizing: border-box; /* padding-i daxil etmək üçün */
-    }
+        /* Başlıqların dropdown-ları: */
+        th.column-dropdown select {
+            font-weight: bold;
+            color: black;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            height: 32px; /* eyni hündürlük */
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
 
-    /*  üçün span: */
-    th.special-dropdown span {
-        display: inline-block; /* yazının ətrafında qutu */
-        padding: 4px 8px; /* iç boşluq */
-        border: 1px solid #ccc; /* qutu çərçivəsi */
-        border-radius: 4px; /* yumru kənarlar */
-        background-color: #f1f1f1; /* qutu fonu */
-        font-weight: bold;
-        height: 32px; /* eyni hündürlük */
-        line-height: 24px; /* mətn mərkəzləşməsi */
-        box-sizing: border-box; /* padding-i daxil etmək üçün */
-    }
+        /*  üçün span: */
+        th.special-dropdown span {
+            display: inline-block; /* yazının ətrafında qutu */
+            padding: 4px 8px; /* iç boşluq */
+            border: 1px solid #ccc; /* qutu çərçivəsi */
+            border-radius: 4px; /* yumru kənarlar */
+            background-color: #f1f1f1; /* qutu fonu */
+            font-weight: bold;
+            height: 32px; /* eyni hündürlük */
+            line-height: 24px; /* mətn mərkəzləşməsi */
+            box-sizing: border-box; /* padding-i daxil etmək üçün */
+        }
 
     /* Sətirlər: */
     td {
@@ -136,19 +136,19 @@
         height: 16px; /* scroll hündürlüyü */
     }
 
-    .table-scroll-top .table-scroll-inner {
-        width: 1000px; /* table genişliyinə uyğun */
-        height: 1px; /* fake div hündürlüyü */
-    }
+        .table-scroll-top .table-scroll-inner {
+            width: 1000px; /* table genişliyinə uyğun */
+            height: 1px; /* fake div hündürlüyü */
+        }
 
     .table-scroll-bottom {
         overflow-x: auto;
     }
 
-    /* table tam genişliyini saxla: */
-    .table-scroll-bottom table {
-        min-width: 1200px; /* table genişliyinə uyğunlaşdır */
-    }
+        /* table tam genişliyini saxla: */
+        .table-scroll-bottom table {
+            min-width: 1200px; /* table genişliyinə uyğunlaşdır */
+        }
 
     /* Haqqında sütunu üçün: */
     .haqqinda-column {
@@ -189,12 +189,16 @@
         <table class="table table-bordered table-striped table-hover">
             <thead class="thead-dark">
                 <tr>
+                    <th class="special-dropdown">
+                        <span>@Html.DisplayNameFor(model => model.Foto)</span>
+                    </th>
+
                     <th class="column-dropdown">
                         <!-- KitabAdi üçün dropdown (sort): -->
                         @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
                         {
                             <select name="sortOrder" onchange="this.form.submit()" class="column-dropdown">
-                                <option value="">Kitab</option>
+                                <option value="">Kitabın Adı</option>
                                 <option value="asc" @(ViewBag.SelectedKitabAdi == "asc" ? "selected" : "")>A-Z</option>
                                 <option value="desc" @(ViewBag.SelectedKitabAdi == "desc" ? "selected" : "")>Z-A</option>
                             </select>
@@ -259,7 +263,6 @@
                             <input type="hidden" name="sortColumn" value="StokdaVarmi" />
                         }
                     </th>
-
                 </tr>
             </thead>
 
@@ -267,6 +270,10 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            <img src="~/Images/@Html.DisplayFor(modelItem => item.Foto)" alt="" height="50" class="clickable-photo" style="cursor:pointer;" />
+                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.KitabAdi)
                         </td>
@@ -310,7 +317,7 @@
                         </td>
 
                         <td>
-                            @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-primary" }) |
+                            @Html.ActionLink("Redaktə Et", "EditKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-primary" })
                             @Html.ActionLink("Sil", "DeleteKitab", new { id = item.KitabID }, new { @class = "btn btn-sm btn-danger" })
                         </td>
                     </tr>
@@ -341,6 +348,17 @@
     </div>
 }
 
+<!-- Foto Modal -->
+<div id="fotoModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background: transparent; border: none;">
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="Foto" style="max-width: 100%; max-height: 80vh;" />
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts {
     <script>
         // YUXARI SCROLL İŞLƏDİ
@@ -370,6 +388,13 @@
                     $('#feedbackModal').modal('hide');
                 });
             }
+
+            // Foto kliklə açmaq:
+            $('.clickable-photo').on('click', function () {
+                var src = $(this).attr('src');
+                $('#modalImage').attr('src', src);
+                $('#fotoModal').modal('show');
+            });
         });
     </script>
 }

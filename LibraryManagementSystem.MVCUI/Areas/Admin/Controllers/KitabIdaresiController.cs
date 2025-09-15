@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
@@ -132,7 +134,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateKitab(KitabViewModel kitabViewModel)
+        public ActionResult CreateKitab(KitabViewModel kitabViewModel, HttpPostedFileBase Foto)
         {
             try
             {
@@ -181,6 +183,30 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                             kitab.Kateqoriya.Add(kateqoriya);
                         }
 
+                        //Foto əlavə et:
+                        if (Foto != null && Foto.ContentLength > 0)
+                        {
+                            // Serverdə Images qovluğu yolunu müəyyən edirik:
+                            string directory = Server.MapPath("~/Images/");
+
+                            // Qovluq yoxlanır, yoxdursa yaradılır:
+                            if (!System.IO.Directory.Exists(directory))
+                                System.IO.Directory.CreateDirectory(directory);
+
+                            // Orijinal fayl adını və extension-ı alırıq:
+                            var fileNameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(Foto.FileName);
+                            var extension = System.IO.Path.GetExtension(Foto.FileName);
+
+                            // Unikal fayl adı yaradırıq:
+                            var uniqueFileName = $"{fileNameWithoutExt}_{Guid.NewGuid()}{extension}";
+
+                            // Faylı serverdə saxlayırıq:
+                            Foto.SaveAs(System.IO.Path.Combine(directory, uniqueFileName));
+
+                            // Kitab obyektinə fayl adını əlavə edirik:
+                            kitab.Foto = uniqueFileName;
+                        }
+
                         var emeliyyatNeticesi = kitabManager.Elave(kitab); // Repositorydə Elave metodu var
                         if (emeliyyatNeticesi > 0)
                         {
@@ -226,6 +252,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 Haqqinda = kitab.Haqqinda,
                 IcareQiymeti = kitab.IcareQiymeti,
                 StokdaVarmi = kitab.StokdaVarmi,
+                Foto = kitab.Foto,
 
                 // Burada array-ları doldururuq:
                 sechilmishMuellifIDler = kitab.Muellif.Select(m => m.MuellifID).ToArray(),
@@ -241,7 +268,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditKitab(KitabViewModel kitabViewModel)
+        public ActionResult EditKitab(KitabViewModel kitabViewModel, HttpPostedFileBase Foto, bool? chbFotoSil)
         {
             try
             {
@@ -284,11 +311,24 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 bool eyniIcareQiymeti = original.IcareQiymeti == kitabViewModel.IcareQiymeti;
                 bool eyniStokdaVarmi = original.StokdaVarmi == kitabViewModel.StokdaVarmi;
 
+                bool eyniFoto = true;
+
+                // Əgər yeni foto yüklənibsə, mövcud foto dəyişib:
+                if (Foto != null && Foto.ContentLength > 0)
+                    eyniFoto = false;
+
+                // Əgər "Foto sil" işarələnibsə, mövcud foto dəyişib:
+                if (chbFotoSil == true)
+                    eyniFoto = false;
+
+                // Əgər həm yeni foto, həm silinmə yoxdursasa, mövcud foto dəyişməyib
+
+
                 bool eyniMuellifler = original.Muellif.Select(m => m.MuellifID).OrderBy(x => x).SequenceEqual((kitabViewModel.sechilmishMuellifIDler ?? new int[0]).OrderBy(x => x));
 
                 bool eyniKateqoriyalar = original.Kateqoriya.Select(k => k.KateqoriyaID).OrderBy(x => x).SequenceEqual((kitabViewModel.sechilmishKateqoriyaIDler ?? new int[0]).OrderBy(x => x));
 
-                if (eyniKitabAdi && eyniHaqqinda && eyniIcareQiymeti && eyniStokdaVarmi && eyniMuellifler && eyniKateqoriyalar)
+                if (eyniKitabAdi && eyniHaqqinda && eyniIcareQiymeti && eyniStokdaVarmi && eyniFoto && eyniMuellifler && eyniKateqoriyalar)
                 {
                     ModelState.AddModelError("", "Heç bir dəyişiklik edilməyib!");
 
@@ -303,6 +343,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 original.Haqqinda = kitabViewModel.Haqqinda;
                 original.IcareQiymeti = kitabViewModel.IcareQiymeti;
                 original.StokdaVarmi = kitabViewModel.StokdaVarmi;
+                original.Foto = kitabViewModel.Foto;
 
                 // Müəllif və kateqoriyaları yenilə:
                 original.Muellif.Clear();
@@ -323,6 +364,37 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                         var kateqoriya = kitabManager.context.Kateqoriya.Find(kId);
                         if (kateqoriya != null) original.Kateqoriya.Add(kateqoriya);
                     }
+                }
+
+                // Mövcud foto silinməsi:
+                if (chbFotoSil == true)
+                {
+                    original.Foto = string.Empty;
+                }
+
+                //Yeni foto əlavə et:
+                if (Foto != null && Foto.ContentLength > 0)
+                {
+                    // Serverdə Images qovluğu yolunu müəyyən edirik:
+                    string directory = Server.MapPath("~/Images/");
+
+                    // Qovluq yoxlanır, yoxdursa yaradılır:
+                    if (!System.IO.Directory.Exists(directory))
+                        System.IO.Directory.CreateDirectory(directory);
+
+                    // Orijinal fayl adını və extension-ı alırıq:
+                    var fileNameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(Foto.FileName);
+                    var extension = System.IO.Path.GetExtension(Foto.FileName);
+
+                    // Unikal fayl adı yaradırıq:
+                    var uniqueFileName = $"{fileNameWithoutExt}_{Guid.NewGuid()}{extension}";
+
+                    // Faylı serverdə saxlayırıq:
+                    var filePath = System.IO.Path.Combine(directory, uniqueFileName);
+                    Foto.SaveAs(filePath);
+
+                    // Kitab obyektinə fayl adını əlavə edirik:
+                    original.Foto = uniqueFileName;
                 }
 
                 var emeliyyatNeticesi = kitabManager.Redakte(original, original.KitabID);
@@ -368,6 +440,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 Haqqinda = kitab.Haqqinda,
                 IcareQiymeti = kitab.IcareQiymeti,
                 StokdaVarmi = kitab.StokdaVarmi,
+                Foto = kitab.Foto,
 
                 // Burada array-ları doldururuq:
                 sechilmishMuellifIDler = kitab.Muellif.Select(m => m.MuellifID).ToArray(),

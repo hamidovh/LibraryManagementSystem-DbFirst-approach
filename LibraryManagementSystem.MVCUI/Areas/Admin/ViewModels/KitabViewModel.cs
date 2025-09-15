@@ -9,7 +9,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.ViewModels
     {
         public int KitabID { get; set; }
 
-        [Display(Name = "Kitab")]
+        [Display(Name = "Kitabın Adı")]
         [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string KitabAdi { get; set; }
 
@@ -21,6 +21,11 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.ViewModels
 
         [Display(Name = "Stokda Var")]
         public bool StokdaVarmi { get; set; }
+
+        [Display(Name = "Kitab")]
+        public string Foto { get; set; }
+
+        public bool chbFotoSil { get; set; }
 
         [Display(Name = "Müəllif")]
         [Required(ErrorMessage = "Müəllif təyin edin!")]
