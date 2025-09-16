@@ -37,14 +37,22 @@ namespace LibraryManagementSystem.MVCUI.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Haqqımızda səhifəsi.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Əlaqə səhifəsi.";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Contact(string email, string Adi, string Soyadi, string Mesaj)
+        {
+            TempData["Message"] = $"Hörmətli {Adi} {Soyadi}, Mesajınız Göndərildi!";
 
             return View();
         }

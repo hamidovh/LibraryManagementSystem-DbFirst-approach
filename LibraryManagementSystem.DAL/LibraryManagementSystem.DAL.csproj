@@ -57,6 +57,7 @@
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CerimePartial.cs" />
+    <Compile Include="Elaqe.cs" />
     <Compile Include="Icare.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>

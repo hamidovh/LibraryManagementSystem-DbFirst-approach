@@ -1,19 +1,71 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Əlaqə";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+<div class="container m-5 mt-5 ms-20">
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
-</main>
+    <div class="row">
+        <div class="col">
+
+            <main aria-labelledby="title">
+                <h2 id="title">@ViewBag.Title.</h2>
+                <h3>@ViewBag.Message</h3>
+
+                <address>
+                    Ünvan:<br />
+                    Bakı şəhəri, Yasamal rayonu<br />
+                    <abbr title="Telefon">Telefon:</abbr>
+                    +994 50 123 45 67
+                </address>
+
+                <address>
+                    <strong>Dəstək:</strong>   <a href="mailto:Destek@lms.com">Destek@lms.com</a><br />
+                    <strong>Marketing:</strong> <a href="mailto:Marketing@lms.com">Marketing@lms.com</a>
+                </address>
+            </main>
+
+        </div>
+
+        <div class="col">
+
+            <form method="post">
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email Adresiniz</label>
+                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+
+                <div class="mb-3">
+                    <label for="Adi" class="form-label">Adınız</label>
+                    <input type="text" class="form-control" id="Adi" name="Adi">
+                </div>
+
+                <div class="mb-3">
+                    <label for="Soyadi" class="form-label">Soyadınız</label>
+                    <input type="text" class="form-control" id="Soyadi" name="Soyadi" placeholder="">
+                </div>
+
+                <div class="mb-3">
+                    <label for="Mesaj" class="form-label">Mesajınız</label>
+                    <textarea class="form-control" id="Mesaj" name="Mesaj" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Göndər</button>
+
+            </form>
+
+        </div>
+    </div>
+
+    @{
+        if (IsPost)
+        {
+            if (TempData["Message"] != null)
+            {
+                <hr />
+                <div class="alert alert-info">@TempData["Message"]</div>
+            }
+        }
+    }
+
+</div>
