@@ -5,6 +5,7 @@
 <div class="container m-5 mt-5 ms-20">
 
     <div class="row">
+
         <div class="col">
 
             <main aria-labelledby="title">
@@ -28,11 +29,11 @@
 
         <div class="col">
 
-            <form method="post">
+            <form method="post" id="elaqe_formu">
 
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email Adresiniz</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="email" class="form-label">Email Adresiniz</label>
+                    <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp">
                 </div>
 
                 <div class="mb-3">
@@ -50,13 +51,14 @@
                     <textarea class="form-control" id="Mesaj" name="Mesaj" rows="3" required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Göndər</button>
+                <button type="button" class="btn btn-primary" onclick="elaqe_formu()">Göndər</button>
 
             </form>
 
         </div>
-    </div>
 
+    </div>
+    <div class="alert alert-success" id="netice" style="display:none"></div>
     @{
         if (IsPost)
         {
@@ -69,3 +71,37 @@
     }
 
 </div>
+
+@section scripts {
+    <script>
+        function elaqe_formu() {
+            var email = $("#email").val();
+            var adi = $("#Adi").val();
+            var soyadi = $("#Soyadi").val();
+            var mesaj = $("#Mesaj").val();
+
+            var message = {
+                "email": email,
+                "Adi": adi,
+                "Soyadi": soyadi,
+                "Mesaj": mesaj
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/Home/Contact",
+                type: "json",
+                data: message,
+                success: function (data) {
+                    document.getElementById("elaqe_formu").reset();
+                    $("#netice").show().html("Mesajınız Göndərildi!").delay("5000").fadeOut();
+                },
+                error: function (err) {
+                    alert("Xəta baş verdi!");
+                }
+
+            });
+
+        }
+    </script>
+}

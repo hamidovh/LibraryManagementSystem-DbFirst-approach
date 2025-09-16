@@ -22,21 +22,6 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             return View(elaqeManager.GetAll());
         }
 
-        // GET: Admin/Elaqe/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Elaqe elaqe = db.Elaqes.Find(id);
-        //    if (elaqe == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(elaqe);
-        //}
-
         // GET: Admin/Elaqe/CreateElaqe
         public ActionResult CreateElaqe()
         {
@@ -53,7 +38,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 elaqe.ElaqeTarixi = DateTime.Now;
+
                 elaqeManager.Add(elaqe);
+
                 return RedirectToAction("IndexElaqe");
             }
 
@@ -67,11 +54,14 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Elaqe elaqe = elaqeManager.FindById(id.Value);
+
             if (elaqe == null)
             {
                 return HttpNotFound();
             }
+
             return View(elaqe);
         }
 
@@ -95,11 +85,14 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Elaqe elaqe = elaqeManager.FindById(id.Value);
+
             if (elaqe == null)
             {
                 return HttpNotFound();
             }
+
             return View(elaqe);
         }
 

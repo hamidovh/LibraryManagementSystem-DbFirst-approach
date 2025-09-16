@@ -17,11 +17,13 @@
     </nav>
 
     <h2>@kateqoriyaAdi <small class="text-muted">(@kitabSayi kitab)</small></h2>
+
     <hr />
 
     @if (Model != null && Model.Any())
     {
         <div class="row text-center">
+
             @foreach (var item in Model)
             {
                 <div class="col-lg-4 mb-4">
@@ -35,6 +37,7 @@
                     <p><a class="btn btn-secondary" href="/Home/KitabDetal/@item.KitabID">Ətraflı bax »</a></p>
                 </div>
             }
+
         </div>
     }
     else
@@ -43,4 +46,5 @@
             Bu kateqoriyada kitab yoxdur
         </div>
     }
+
 </div>
