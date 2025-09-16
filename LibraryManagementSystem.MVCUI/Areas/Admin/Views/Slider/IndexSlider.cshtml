@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Slider>
+
+@{
+    ViewBag.Title = "Slider";
+}
+
+<h2>Slider</h2>
+
+<p>
+    @Html.ActionLink("Yeni Slider Əlavə Et", "CreateSlider", "Slider", FormMethod.Post, new { enctype = "multipart/form-data", @class = "btn btn-info" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Bashliq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Achiqlama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Link)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sekil)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bashliq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Achiqlama)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Link)
+        </td>
+        <td>
+            <img src="~/Images/@Html.DisplayFor(modelItem => item.Sekil)" alt="" height="50" class="clickable-photo" style="cursor:pointer;" />
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditSlider", new { id=item.SliderID }, new { @class = "btn btn-sm btn-primary" }) 
+            @Html.ActionLink("Sil", "DeleteSlider", new { id=item.SliderID }, new { @class = "btn btn-sm btn-danger" })
+        </td>
+    </tr>
+}
+</table>

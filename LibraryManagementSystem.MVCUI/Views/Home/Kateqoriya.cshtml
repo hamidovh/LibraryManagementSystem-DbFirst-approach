@@ -1,0 +1,46 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Kitab>
+
+@{
+    ViewBag.Title = "Kateqoriya üzrə kitablar";
+    string kateqoriyaAdi = Model.FirstOrDefault()?.Kateqoriya?.FirstOrDefault()?.KateqoriyaAdi ?? "Seçilmiş kateqoriya";
+    int kitabSayi = Model?.Count() ?? 0;
+}
+
+<div class="container mt-5">
+
+    <!-- Breadcrumb (geri dönüş) -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Əsas səhifə</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@kateqoriyaAdi</li>
+        </ol>
+    </nav>
+
+    <h2>@kateqoriyaAdi <small class="text-muted">(@kitabSayi kitab)</small></h2>
+    <hr />
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row text-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 mb-4">
+                    <img src="~/Images/@item.Foto"
+                         alt="@item.KitabAdi"
+                         height="200"
+                         class="clickable-photo img-fluid mb-3"
+                         style="cursor:pointer; object-fit:cover;" />
+                    <h4 class="fw-normal">@item.KitabAdi</h4>
+                    <p class="text-truncate" title="@item.Haqqinda">@item.Haqqinda</p>
+                    <p><a class="btn btn-secondary" href="/Home/KitabDetal/@item.KitabID">Ətraflı bax »</a></p>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-4">
+            Bu kateqoriyada kitab yoxdur
+        </div>
+    }
+</div>

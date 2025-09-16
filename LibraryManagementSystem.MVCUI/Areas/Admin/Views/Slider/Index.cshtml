@@ -1,0 +1,51 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Slider>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Bashliq)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Achiqlama)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Link)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sekil)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bashliq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Achiqlama)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Link)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sekil)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SliderID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SliderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SliderID })
+        </td>
+    </tr>
+}
+
+</table>

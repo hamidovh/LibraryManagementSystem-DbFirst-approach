@@ -92,6 +92,7 @@
     <Compile Include="Metadata\Kitab.Metadata.cs" />
     <Compile Include="Metadata\Muellif.Metadata.cs" />
     <Compile Include="Metadata\Rol.Metadata.cs" />
+    <Compile Include="Metadata\Slider.Metadata.cs" />
     <Compile Include="Muellif.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
@@ -100,7 +101,9 @@
     <Compile Include="Rol.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Slider.cs" />
+    <Compile Include="Slider.cs">
+      <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

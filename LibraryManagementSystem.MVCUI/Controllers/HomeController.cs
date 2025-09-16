@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
+using LibraryManagementSystem.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,24 @@ namespace LibraryManagementSystem.MVCUI.Controllers
         KitabManager kitabManager = new KitabManager();
         MuellifManager muellifManager = new MuellifManager();
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
+        SliderManager sliderManager = new SliderManager();
 
         public ActionResult Index()
         {
-            return View(kitabManager.GetAll());
+            var sehifeModeli = new EsasSehifeVM
+            {
+                Sliders = sliderManager.GetAll(),
+                Kitablar = kitabManager.GetAllByIncludes(k => k.Muellif, k => k.Kateqoriya).ToList()
+                //kitabManager.GetAll();
+            };
+
+            return View(sehifeModeli);
+        }
+
+        public PartialViewResult _PartialMenu()
+        {
+            var kateqoriyalar = kateqoriyaManager.GetAll();
+            return PartialView(kateqoriyalar);
         }
 
         public ActionResult About()
@@ -48,6 +63,23 @@ namespace LibraryManagementSystem.MVCUI.Controllers
             }
 
             return View(kitab);
+        }
+
+        public ActionResult Kateqoriya(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var kitablar = kitabManager.GetAllByIncludes(k => k.Kateqoriya).Where(k => k.Kateqoriya.Any(c => c.KateqoriyaID == id.Value)).ToList();
+
+            if (!kitablar.Any())
+            {
+                return HttpNotFound();
+            }
+
+            return View(kitablar);
         }
     }
 }

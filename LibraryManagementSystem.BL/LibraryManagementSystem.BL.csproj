@@ -61,6 +61,7 @@
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="RolManager.cs" />
+    <Compile Include="SliderManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

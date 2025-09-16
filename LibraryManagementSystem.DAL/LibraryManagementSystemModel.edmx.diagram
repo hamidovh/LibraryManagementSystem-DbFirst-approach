@@ -19,6 +19,7 @@
         <AssociationConnector Association="LibraryManagementSystemDBModel.FK__Icare__KitabID__38996AB5" />
         <AssociationConnector Association="LibraryManagementSystemDBModel.KitabKateqoriya" />
         <AssociationConnector Association="LibraryManagementSystemDBModel.KitabMuellif" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Slider" Width="1.5" PointX="7.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

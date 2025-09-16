@@ -1,0 +1,56 @@
+﻿@model LibraryManagementSystem.DAL.Slider
+
+@{
+    ViewBag.Title = "Sol";
+}
+
+<h2>Sil</h2>
+
+<h3>Silmək istədiyinizdən əminsiniz?</h3>
+<div>
+    <h4>Slider</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Bashliq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bashliq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Achiqlama)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Achiqlama)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Link)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Link)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sekil)
+        </dt>
+
+        <dd>
+            <img src="~/Images/@Html.DisplayFor(modelItem => Model.Sekil)" alt="" height="50" class="clickable-photo" style="cursor:pointer;" />
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("DeleteSlider", "Slider", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <div>@Html.ActionLink("Siyahıya qayıt", "IndexSlider")</div>
+        </div>
+    }
+</div>

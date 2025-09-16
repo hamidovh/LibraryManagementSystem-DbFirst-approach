@@ -32,5 +32,6 @@ namespace LibraryManagementSystem.DAL
         public virtual DbSet<Muellif> Muellif { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Kitab> Kitab { get; set; }
+        public virtual DbSet<Slider> Slider { get; set; }
     }
 }

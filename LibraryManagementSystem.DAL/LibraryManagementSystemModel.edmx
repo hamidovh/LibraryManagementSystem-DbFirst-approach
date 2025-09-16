@@ -102,6 +102,16 @@
           <Property Name="RolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RolAdi" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Slider">
+          <Key>
+            <PropertyRef Name="SliderID" />
+          </Key>
+          <Property Name="SliderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bashliq" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Achiqlama" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar" MaxLength="100" />
+          <Property Name="Sekil" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <Association Name="FK__Cerime__IcareID__3D5E1FD2">
           <End Role="Icare" Type="Self.Icare" Multiplicity="1" />
           <End Role="Cerime" Type="Self.Cerime" Multiplicity="*" />
@@ -220,6 +230,7 @@
           <EntitySet Name="KitabMuellif" EntityType="Self.KitabMuellif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Muellif" EntityType="Self.Muellif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Slider" EntityType="Self.Slider" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Cerime__IcareID__3D5E1FD2" Association="Self.FK__Cerime__IcareID__3D5E1FD2">
             <End Role="Icare" EntitySet="Icare" />
             <End Role="Cerime" EntitySet="Cerime" />
@@ -426,6 +437,7 @@
             <End Role="Kitab" EntitySet="Kitab" />
             <End Role="Muellif" EntitySet="Muellif" />
           </AssociationSet>
+          <EntitySet Name="Slider" EntityType="LibraryManagementSystemDBModel.Slider" />
         </EntityContainer>
         <EntityType Name="Kitab">
           <Key>
@@ -461,6 +473,16 @@
           <End Type="LibraryManagementSystemDBModel.Kitab" Role="Kitab" Multiplicity="*" />
           <End Type="LibraryManagementSystemDBModel.Muellif" Role="Muellif" Multiplicity="*" />
         </Association>
+        <EntityType Name="Slider">
+          <Key>
+            <PropertyRef Name="SliderID" />
+          </Key>
+          <Property Name="SliderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bashliq" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Achiqlama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Sekil" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -571,6 +593,17 @@
               <ScalarProperty Name="KitabID" ColumnName="KitabID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Slider">
+            <EntityTypeMapping TypeName="LibraryManagementSystemDBModel.Slider">
+              <MappingFragment StoreEntitySet="Slider">
+                <ScalarProperty Name="Sekil" ColumnName="Sekil" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Achiqlama" ColumnName="Achiqlama" />
+                <ScalarProperty Name="Bashliq" ColumnName="Bashliq" />
+                <ScalarProperty Name="SliderID" ColumnName="SliderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

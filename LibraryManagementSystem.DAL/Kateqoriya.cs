@@ -27,7 +27,7 @@ namespace LibraryManagementSystem.DAL
         [Required(ErrorMessage = "Boş buraxılmamalıdır!")]
         public string KateqoriyaAdi { get; set; }
 
-        [Display(Name = "Kateqoriya Haqqında")]
+        [Display(Name = "Kateqoriyanın Təsviri")]
         public string KateqoriyaTesviri { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
