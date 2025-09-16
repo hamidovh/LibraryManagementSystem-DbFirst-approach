@@ -13,7 +13,7 @@ namespace LibraryManagementSystem.DAL
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Slider
+    public partial class Slider
     {
         public int SliderID { get; set; }
 

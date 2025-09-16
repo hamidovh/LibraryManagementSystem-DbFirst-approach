@@ -57,7 +57,9 @@
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CerimePartial.cs" />
-    <Compile Include="Elaqe.cs" />
+    <Compile Include="Elaqe.cs">
+      <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Icare.cs">
       <DependentUpon>LibraryManagementSystemModel.tt</DependentUpon>
     </Compile>
@@ -87,6 +89,7 @@
       <DependentUpon>LibraryManagementSystemModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Metadata\Cerime.Metadata.cs" />
+    <Compile Include="Metadata\Elaqe.Metadata.cs" />
     <Compile Include="Metadata\Icare.Metadata.cs" />
     <Compile Include="Metadata\Istifadechi.Metadata.cs" />
     <Compile Include="Metadata\Kateqoriya.Metadata.cs" />

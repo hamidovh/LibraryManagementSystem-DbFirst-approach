@@ -18,6 +18,17 @@
           <Property Name="IstifadechiID" Type="int" Nullable="false" />
           <Property Name="IcareID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Elaqe">
+          <Key>
+            <PropertyRef Name="ElaqeID" />
+          </Key>
+          <Property Name="ElaqeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Soyadi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mesaj" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ElaqeTarixi" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Icare">
           <Key>
             <PropertyRef Name="IcareID" />
@@ -222,6 +233,7 @@
         </Association>
         <EntityContainer Name="LibraryManagementSystemDBModelStoreContainer">
           <EntitySet Name="Cerime" EntityType="Self.Cerime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Elaqe" EntityType="Self.Elaqe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Icare" EntityType="Self.Icare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Istifadechi" EntityType="Self.Istifadechi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kateqoriya" EntityType="Self.Kateqoriya" Schema="dbo" store:Type="Tables" />
@@ -438,6 +450,7 @@
             <End Role="Muellif" EntitySet="Muellif" />
           </AssociationSet>
           <EntitySet Name="Slider" EntityType="LibraryManagementSystemDBModel.Slider" />
+          <EntitySet Name="Elaqe" EntityType="LibraryManagementSystemDBModel.Elaqe" />
         </EntityContainer>
         <EntityType Name="Kitab">
           <Key>
@@ -482,6 +495,17 @@
           <Property Name="Achiqlama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Sekil" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Elaqe">
+          <Key>
+            <PropertyRef Name="ElaqeID" />
+          </Key>
+          <Property Name="ElaqeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mesaj" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ElaqeTarixi" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -601,6 +625,18 @@
                 <ScalarProperty Name="Achiqlama" ColumnName="Achiqlama" />
                 <ScalarProperty Name="Bashliq" ColumnName="Bashliq" />
                 <ScalarProperty Name="SliderID" ColumnName="SliderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Elaqe">
+            <EntityTypeMapping TypeName="LibraryManagementSystemDBModel.Elaqe">
+              <MappingFragment StoreEntitySet="Elaqe">
+                <ScalarProperty Name="ElaqeTarixi" ColumnName="ElaqeTarixi" />
+                <ScalarProperty Name="Mesaj" ColumnName="Mesaj" />
+                <ScalarProperty Name="Soyadi" ColumnName="Soyadi" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ElaqeID" ColumnName="ElaqeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

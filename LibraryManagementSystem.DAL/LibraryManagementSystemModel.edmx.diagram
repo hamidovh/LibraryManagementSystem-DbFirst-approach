@@ -20,6 +20,7 @@
         <AssociationConnector Association="LibraryManagementSystemDBModel.KitabKateqoriya" />
         <AssociationConnector Association="LibraryManagementSystemDBModel.KitabMuellif" />
         <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Slider" Width="1.5" PointX="7.375" PointY="6.75" />
+        <EntityTypeShape EntityType="LibraryManagementSystemDBModel.Elaqe" Width="1.5" PointX="9.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
