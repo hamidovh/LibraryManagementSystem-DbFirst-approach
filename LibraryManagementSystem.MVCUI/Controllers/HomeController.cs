@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.BL;
 using LibraryManagementSystem.DAL;
 using LibraryManagementSystem.MVCUI.Models;
+using LibraryManagementSystem.MVCUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace LibraryManagementSystem.MVCUI.Controllers
         MuellifManager muellifManager = new MuellifManager();
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
         SliderManager sliderManager = new SliderManager();
+        ElaqeManager elaqeManager = new ElaqeManager();
 
         public ActionResult Index()
         {
@@ -52,7 +54,30 @@ namespace LibraryManagementSystem.MVCUI.Controllers
         [HttpPost]
         public ActionResult Contact(string email, string Adi, string Soyadi, string Mesaj)
         {
-            TempData["Message"] = $"Hörmətli {Adi} {Soyadi}, Mesajınız Göndərildi!";
+            try
+            {
+                var forMesaj = (new Elaqe
+                {
+                    Adi = Adi,
+                    Soyadi = Soyadi,
+                    ElaqeTarixi = DateTime.Now,
+                    Email = email,
+                    Mesaj = Mesaj
+                });
+
+                var emeliyyatNeticesi = elaqeManager.Add(forMesaj);
+
+                //bool mailGonderildimi = MailHelper.SendMail(forMesaj);
+
+                if (emeliyyatNeticesi > 0) //if (emeliyyatNeticesi > 0 && mailGonderildimi == true)
+                {
+                    TempData["Message"] = $"Hörmətli {Adi} {Soyadi}, Mesajınız Göndərildi!";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Message"] = $"Xəta Baş Verdi! Hörmətli {Adi} {Soyadi}, Mesajınız Göndərilmədi!";
+            }
 
             return View();
         }

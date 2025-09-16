@@ -1,0 +1,56 @@
+﻿@model IEnumerable<LibraryManagementSystem.DAL.Elaqe>
+
+@{
+    ViewBag.Title = "Əlaqə Formları";
+}
+
+<h2>Əlaqə Formları</h2>
+
+<p>
+    @Html.ActionLink("Əlavə Et", "CreateElaqe", null, new { @class = "btn btn-sm btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Soyadi)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Mesaj)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ElaqeTarixi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Soyadi)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Mesaj)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.ElaqeTarixi)
+        </td>
+        <td>
+            @Html.ActionLink("Redaktə Et", "EditElaqe", new { id=item.ElaqeID }, new {@class = "btn btn-sm btn-primary"}) 
+            @Html.ActionLink("Sil", "DeleteElaqe", new { id=item.ElaqeID }, new { @class = "btn btn-sm btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

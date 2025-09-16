@@ -1,0 +1,64 @@
+﻿@model LibraryManagementSystem.DAL.Elaqe
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Silmək istədiyinizdən əminsiniz?</h3>
+<div>
+    <h4>Əlaqə</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Soyadi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Soyadi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mesaj)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mesaj)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ElaqeTarixi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ElaqeTarixi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-danger" /> 
+            <div>@Html.ActionLink("Siyahıya qayıt", "IndexElaqe")</div>
+        </div>
+    }
+</div>

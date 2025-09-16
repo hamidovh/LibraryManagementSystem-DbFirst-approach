@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CerimeManager.cs" />
+    <Compile Include="ElaqeManager.cs" />
     <Compile Include="IcareManager.cs" />
     <Compile Include="IstifadechiManager.cs" />
     <Compile Include="KateqoriyaManager.cs" />

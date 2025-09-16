@@ -27,5 +27,8 @@ namespace LibraryManagementSystem.MVCUI.Models
         public virtual DbSet<Muellif> Muellif { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Slider> Slider { get; set; }
+        public virtual DbSet<Elaqe> Elaqe { get; set; }
+
+        public System.Data.Entity.DbSet<LibraryManagementSystem.DAL.Elaqe> Elaqes { get; set; }
     }
 }
