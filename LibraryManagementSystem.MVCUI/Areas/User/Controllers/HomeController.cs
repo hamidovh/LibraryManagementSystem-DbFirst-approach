@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
 {
-    // User Area HomeController.cs (~/Areas/User/Controllers/HomeController)::
+    // User Area HomeController.cs (~/Areas/User/Controllers/HomeController):
     public class HomeController : Controller
     {
         KitabManager kitabManager = new KitabManager();

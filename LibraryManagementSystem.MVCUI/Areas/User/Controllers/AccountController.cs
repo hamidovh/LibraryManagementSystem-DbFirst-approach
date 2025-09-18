@@ -43,7 +43,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
                     TelefonNo = model.TelefonNo,
                     Adres = model.Adres,
                     IstifadechiAdi = model.IstifadechiAdi,
-                    Shifre = model.Shifre, // gələcəkdə hash-lənməlidir
+                    Shifre = model.Shifre,
                     Aktivdirmi = true,
                     QeydiyyatTarixi = DateTime.Now,
                     RolID = 2 // 1 = Admin, 2 = İstifadəçi
@@ -68,37 +68,39 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(string email, string shifre, bool? rememberMe)
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(shifre))
             {
                 TempData["Message"] = "Email və ya şifrə boş buraxılmamalıdır!";
+                return View(); // Login səhifəsində qalır
+            }
+            
+            var istifadechi = istifadechiManager.GetAll().FirstOrDefault(i => i.Email == email && i.Shifre == shifre && i.Aktivdirmi == true && i.RolID == 2); // RolID = 2 (İstifadəçi)
+
+            if (istifadechi != null)
+            {
+                Session["User"] = istifadechi;
+                Session["UserID"] = istifadechi.IstifadechiID;
+                Session["UserName"] = istifadechi.AdSoyadi;
+
+                FormsAuthentication.SetAuthCookie(istifadechi.AdSoyadi, rememberMe ?? false);
+
+                // Əgər ReturnUrl varsa ora yönlənsin:
+                if (Request.QueryString["ReturnUrl"] != null)
+                        return Redirect(Request.QueryString["ReturnUrl"]);
+
+                // Əks halda əsas (root area) Home/Index-ə yönləndir:
+                else
+                    return RedirectToAction("Index", "Home", new { area = "" }); // root area
+                    //return RedirectToAction("Index", "Home", new { area = "User" }); // User Areasının əsas səhifəsi
             }
             else
             {
-                var istifadechi = istifadechiManager.GetAll()
-                    .FirstOrDefault(i => i.Email == email && i.Shifre == shifre && i.Aktivdirmi == true && i.RolID == 2); // RolID = 2 (İstifadəçi)
-
-                if (istifadechi != null)
-                {
-                    Session["User"] = istifadechi;
-                    Session["UserID"] = istifadechi.IstifadechiID;
-                    Session["UserName"] = istifadechi.AdSoyadi;
-
-                    FormsAuthentication.SetAuthCookie(istifadechi.AdSoyadi, rememberMe ?? false);
-
-                    if (Request.QueryString["ReturnUrl"] != null)
-                        return Redirect(Request.QueryString["ReturnUrl"]);
-                    else
-                        return RedirectToAction("Index", "Home", new { area = "User" }); // User Areasının əsas səhifəsi
-                }
-                else
-                {
-                    TempData["Message"] = "Email və ya şifrə yalnışdır!";
-                }
+                TempData["Message"] = "Email və ya şifrə yalnışdır!";
+                return View(); // Login səhifəsində qalır
             }
-
-            return View();
         }
 
         // GET: User/Account/Logout

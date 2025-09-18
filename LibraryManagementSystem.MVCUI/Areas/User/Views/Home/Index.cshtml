@@ -1,17 +1,19 @@
-﻿<!-- ~/Areas/User/Views/Home/Index (HomeController.cs-in Index.cshtml methodu, ~/Modals/EsasSehifeVM və ~/Areas/User/Views/User/Profile.cshtml ilə işləyir. HomeController-dakı bu public ActionResult Index(int page = 1) Repository-lərdəki GetPaged (for KitabManager) methodunu istifadə edir.): -->
+﻿<!-- ~/Areas/User/Views/Home/Index (HomeController.cs-in Index.cshtml methodu, ~/Modals/EsasSehifeVM və ~/Areas/User/Views/User/MyProfile.cshtml ilə işləyir. HomeController-dakı bu public ActionResult Index(int page = 1) Repository-lərdəki GetPaged (for KitabManager) methodunu istifadə edir.): -->
 
 @model LibraryManagementSystem.MVCUI.Models.EsasSehifeVM
 
 @{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "İstifadəçi Əsas Səhifəsi";
 }
 
-<h2>Salam, @Session["UserName"]!</h2>
+<h2> <a href="@Url.Action("MyProfile", "User", new { area = "User" })" class="text-decoration-none text-dark"> Salam, @Session["UserName"]! </a> </h2>
+
 <p>Bu səhifə yalnız login olmuş istifadəçilər üçün nəzərdə tutulub.</p>
 
 <div class="container mt-4 text-center">
-    <a href="@Url.Action("Profile", "User", new { area = "User" })"
+    <a href="@Url.Action("MyProfile", "User", new { area = "User" })"
        class="btn btn-lg btn-primary shadow-sm rounded-pill">
-        Hesabımı Gör
+        Mənim Hesabım
     </a>
 </div>
