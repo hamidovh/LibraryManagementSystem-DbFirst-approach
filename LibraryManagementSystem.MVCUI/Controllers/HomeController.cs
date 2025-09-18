@@ -13,6 +13,7 @@ using X.PagedList.Extensions;
 
 namespace LibraryManagementSystem.MVCUI.Controllers
 {
+    // Əsas HomeController.cs (~/Controllers/HomeController):
     public class HomeController : Controller
     {
         KitabManager kitabManager = new KitabManager();

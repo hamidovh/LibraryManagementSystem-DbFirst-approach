@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 {
+    // Admin Area DefaultController.cs (~/Areas/Admin/Controllers/DefaultController):
     public class DefaultController : BaseController
     {
         // GET: Admin/Default

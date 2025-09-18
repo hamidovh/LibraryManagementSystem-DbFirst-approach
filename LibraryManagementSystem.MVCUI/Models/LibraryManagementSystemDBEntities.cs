@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ~/Models/LibraryManagementSystemDBEntities.cs (Database ilə LibraryManagementSystem.MVCUI arasında əlaqə quran təbəqə):
+
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;

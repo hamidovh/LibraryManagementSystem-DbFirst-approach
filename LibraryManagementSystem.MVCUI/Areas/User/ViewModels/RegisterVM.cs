@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ~/Areas/User/ViewModels/RegisterVM.cs (AccountController.cs-in Register.cshtml [HttpPost] methodu üçün):
+
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagementSystem.MVCUI.Areas.User.ViewModels

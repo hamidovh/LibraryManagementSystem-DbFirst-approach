@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
 {
+    // User Area HomeController.cs (~/Areas/User/Controllers/HomeController)::
     public class HomeController : Controller
     {
         KitabManager kitabManager = new KitabManager();
@@ -17,7 +18,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
         [Authorize] // yalnız login olmuş istifadəçilər baxa bilər
         public ActionResult Index(int page = 1)
         {
-            // İstifadəçi məlumatlarını Session və ya DB-dən çəkin
+            // İstifadəçi məlumatlarını Session və ya DB-dən çəkir:
 
             int pageSize = 10; // istəyə görə
             var model = new EsasSehifeVM

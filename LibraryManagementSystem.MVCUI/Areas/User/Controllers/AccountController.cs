@@ -9,6 +9,7 @@ using System.Web.Security;
 
 namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
 {
+    // User Area AccountController.cs (~/Areas/User/Controllers/AccountController):
     public class AccountController : Controller
     {
         IstifadechiManager istifadechiManager = new IstifadechiManager();
