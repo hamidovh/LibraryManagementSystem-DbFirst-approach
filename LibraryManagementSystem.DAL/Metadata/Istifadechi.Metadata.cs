@@ -34,9 +34,11 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "FİN")]
         [Required(ErrorMessage = "FİN mütləqdir!")]
-        [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvol ola bilər!")]
+        [MinLength(7, ErrorMessage = "FİN kod minimum 7 simvoldan ibarət ola bilər!")]
+        [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvoldan ibarət ola bilər!")]
         public string FinKod { get; set; }
 
+        [EmailAddress]
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Email mütləqdir!")]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Email formata uyğun deyil!")]
@@ -44,6 +46,7 @@ namespace LibraryManagementSystem.DAL
 
         [Display(Name = "Əlaqə Nömrəsi")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Əlaqə nömrəsi 10 rəqəmdən ibarət olmalıdır!")]
+        [MinLength(10, ErrorMessage = "Əlaqə nömrəsi minimum 10 rəqəmdən ibarət ola bilər!")]
         [StringLength(10, ErrorMessage = "Əlaqə nömrəsi maksimum 10 rəqəmdən ibarət ola bilər!")]
         public string TelefonNo { get; set; }
 

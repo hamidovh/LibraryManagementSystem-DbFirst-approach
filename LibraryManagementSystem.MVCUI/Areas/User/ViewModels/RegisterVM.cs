@@ -49,7 +49,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.ViewModels
 
         [Display(Name = "Şifrə")]
         [MinLength(6)]
-        [Required(ErrorMessage = "Şifrə minimum 6 simvoldan ibarət olmalıdır")]
+        [Required(ErrorMessage = "Şifrə minimum 6 simvoldan ibarət olmalıdır!")]
         [DataType(DataType.Password)]
         public string Shifre { get; set; }
 
