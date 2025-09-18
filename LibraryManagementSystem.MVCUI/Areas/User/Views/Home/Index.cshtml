@@ -1,0 +1,15 @@
+﻿@model LibraryManagementSystem.MVCUI.Models.EsasSehifeVM
+
+@{
+    ViewBag.Title = "İstifadəçi Əsas Səhifəsi";
+}
+
+<h2>Salam, @Session["UserName"]!</h2>
+<p>Bu səhifə yalnız login olmuş istifadəçilər üçün nəzərdə tutulub.</p>
+
+<div class="container mt-4 text-center">
+    <a href="@Url.Action("Profile", "User", new { area = "User" })"
+       class="btn btn-lg btn-primary shadow-sm rounded-pill">
+        Hesabımı Gör
+    </a>
+</div>

@@ -18,8 +18,8 @@
 
         /* Input və button hündürlüyünü bərabərləşdirilir: */
         .search-input, .search-btn {
-            height: 38px; 
-            box-sizing: border-box; 
+            height: 38px;
+            box-sizing: border-box;
         }
 
         .search-input {
@@ -65,10 +65,21 @@
 
                     </ul>
 
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2 search-input" type="search" placeholder="Axtarış" aria-label="Search">
+                    <form id="searchForm" class="d-flex" role="search">
+                        <input id="searchInput" class="form-control me-2 search-input" type="search" placeholder="Axtarış" aria-label="Search">
                         <button class="btn btn-outline-success search-btn" type="submit">Axtar</button>
                     </form>
+
+                    @if (Session["User"] == null)
+                    {
+                        <a href="@Url.Action("Login", "Account", new { area = "User" })" class="btn btn-primary">Daxil Ol</a>
+                        <a href="@Url.Action("Register", "Account", new { area = "User" })" class="btn btn-success">Qeydiyyatdan Keç</a>
+                    }
+                    else
+                    {
+                        <span class="text-light">Salam, @Session["UserName"]!</span>
+                        <a href="@Url.Action("Logout", "Account", new { area = "User" })" class="btn btn-danger">Çıx</a>
+                    }
 
                 </div>
 
@@ -80,9 +91,12 @@
 
     <main style="padding-top: 70px;">
 
+        <!-- Axtarış nəticələrinin düşəcəyi yer: -->
+        <div id="searchResults" class="mt-4"></div>
+
         @RenderBody()
 
-        <!-- FOOTER -->
+        <!-- FOOTER: -->
         <footer class="footer mt-auto bg-light">
             <div class="container-fluid">
                 <p class="float-end"><a href="#">Yuxarı Çıx</a></p>
@@ -92,9 +106,58 @@
 
     </main>
 
+    <!-- Scroll to top button: -->
+    <button type="button" id="scrollTopBtn" title="Yuxarı çıx"
+            class="btn btn-primary"
+            style="display:none; position:fixed; bottom:40px; right:40px; z-index:9999; border-radius:50%; width:50px; height:50px;">
+        ↑
+    </button>
+
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $("#searchForm").submit(function (e) {
+                e.preventDefault(); // form reload olmasın
+
+                var query = $("#searchInput").val();
+                console.log("Form submit olundu:", query); // debug üçün
+
+                $.ajax({
+                    url: '@Url.Action("Search", "Home")',
+                    type: 'GET',
+                    data: { query: query },
+                    success: function (data) {
+                        $("#searchResults").html(data); // nəticəni göstər
+                    },
+                    error: function () {
+                        $("#searchResults").html("<p class='text-danger'>Xəta baş verdi.</p>");
+                    }
+                });
+            });
+        });
+
+        // Düyməni tap:
+        var scrollBtn = document.getElementById("scrollTopBtn");
+
+        // Scroll edəndə düyməni göstər/gizlət:
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+
+        // Klikləyəndə səhifəni yuxarı sürüşdür:
+        scrollBtn.onclick = function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
 
 </body>
 

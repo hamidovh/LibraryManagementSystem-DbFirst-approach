@@ -195,6 +195,34 @@
         </div>
     </footer>
 
+    <!-- Scroll to top button: -->
+    <button type="button" id="scrollTopBtn" title="Yuxarı çıx"
+            class="btn btn-primary"
+            style="display:none; position:fixed; bottom:40px; right:40px; z-index:9999; border-radius:50%; width:50px; height:50px;">
+        ↑
+    </button>
+
+    <script>
+        // Düyməni tap:
+        var scrollBtn = document.getElementById("scrollTopBtn");
+
+        // Scroll edəndə düyməni göstər/gizlət:
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+
+        // Klikləyəndə səhifəni yuxarı sürüşdür:
+        scrollBtn.onclick = function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
+
     <!--   Core JS Files   -->
     <script src="~/Themes/soft-ui-dashboard-main/assets/js/core/popper.min.js"></script>
     <script src="~/Themes/soft-ui-dashboard-main/assets/js/core/bootstrap.min.js"></script>

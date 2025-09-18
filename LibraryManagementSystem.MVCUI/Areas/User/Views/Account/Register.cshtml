@@ -1,0 +1,87 @@
+﻿@model LibraryManagementSystem.MVCUI.Areas.User.ViewModels.RegisterVM
+
+@{
+    ViewBag.Title = "Qeydiyyatdan Keç";
+}
+
+<h2>Qeydiyyatdan Keç</h2>
+
+@using (Html.BeginForm("Register", "Account", new { area = "User" }, FormMethod.Post, new { @class = "mt-4" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.Adi)
+            @Html.TextBoxFor(m => m.Adi, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Adi, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.Soyadi)
+            @Html.TextBoxFor(m => m.Soyadi, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Soyadi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.DoghumTarixi)
+            @Html.TextBoxFor(m => m.DoghumTarixi, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DoghumTarixi, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.Cins)
+            @Html.DropDownListFor(m => m.Cins, new SelectList(new[] { "Kişi", "Qadın" }), "Seçin", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Cins, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.FinKod)
+            @Html.TextBoxFor(m => m.FinKod, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FinKod, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.TelefonNo)
+            @Html.TextBoxFor(m => m.TelefonNo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TelefonNo, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.Adres)
+            @Html.TextBoxFor(m => m.Adres, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Adres, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.IstifadechiAdi)
+            @Html.TextBoxFor(m => m.IstifadechiAdi, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.IstifadechiAdi, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.Shifre)
+            @Html.PasswordFor(m => m.Shifre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Shifre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.ShifreTəsdiq)
+            @Html.PasswordFor(m => m.ShifreTəsdiq, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ShifreTəsdiq, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Qeydiyyatdan Keç</button>
+}

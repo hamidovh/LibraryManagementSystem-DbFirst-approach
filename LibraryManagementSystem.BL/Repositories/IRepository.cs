@@ -20,5 +20,6 @@ namespace LibraryManagementSystem.BL.Repositories
         int Redakte(T entity, int id);
         int Update(T entity);
         int Delete(int id);
+        IQueryable<T> GetPaged<TKey>(int page, int pageSize, Expression<Func<T, TKey>> orderBy);
     }
 }

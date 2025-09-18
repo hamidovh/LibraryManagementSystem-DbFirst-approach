@@ -9,10 +9,12 @@ namespace LibraryManagementSystem.MVCUI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Default root route:
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "LibraryManagementSystem.MVCUI.Controllers" } // default HomeController üçün
             );
         }
     }

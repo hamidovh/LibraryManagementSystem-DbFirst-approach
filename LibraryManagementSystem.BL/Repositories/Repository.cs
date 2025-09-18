@@ -125,5 +125,15 @@ namespace LibraryManagementSystem.BL.Repositories
         {
             return context.SaveChanges();
         }
+
+        public IQueryable<T> GetPaged<TKey>(int page, int pageSize, Expression<Func<T, TKey>> orderBy)
+        {
+            if (page < 1) page = 1;
+            if (orderBy == null) throw new ArgumentNullException(nameof(orderBy));
+
+            return dbSet.OrderBy(orderBy)
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize);
+        }
     }
 }

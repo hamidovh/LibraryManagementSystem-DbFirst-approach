@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace LibraryManagementSystem.MVCUI.Controllers
 {
@@ -19,16 +21,42 @@ namespace LibraryManagementSystem.MVCUI.Controllers
         SliderManager sliderManager = new SliderManager();
         ElaqeManager elaqeManager = new ElaqeManager();
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
+            int pageSize = 9; // hər səhifədə 9 kitab
+
+            var allBooks = kitabManager
+                .GetAllByIncludes(k => k.Muellif, k => k.Kateqoriya)
+                .OrderBy(k => k.KitabID)
+                .ToList();
+
+            int totalBooks = allBooks.Count;
+            int totalPages = (int)Math.Ceiling((double)totalBooks / pageSize);
+
             var sehifeModeli = new EsasSehifeVM
             {
                 Sliders = sliderManager.GetAll(),
-                Kitablar = kitabManager.GetAllByIncludes(k => k.Muellif, k => k.Kateqoriya).ToList()
-                //kitabManager.GetAll();
+                Kitablar = allBooks.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                CurrentPage = page,
+                TotalPages = totalPages
             };
 
             return View(sehifeModeli);
+        }
+
+        public ActionResult Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return PartialView("_SearchResults", new List<Kitab>());
+            }
+
+            var result = kitabManager
+                .GetAllByIncludes(k => k.Muellif, k => k.Kateqoriya)
+                .Where(k => k.KitabAdi.Contains(query))
+                .ToList();
+
+            return PartialView("_SearchResults", result);
         }
 
         public PartialViewResult _PartialMenu()

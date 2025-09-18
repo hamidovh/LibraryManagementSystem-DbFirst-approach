@@ -135,6 +135,10 @@
     <Compile Include="Areas\Admin\Controllers\RolIdaresiController.cs" />
     <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
     <Compile Include="Areas\Admin\ViewModels\KitabViewModel.cs" />
+    <Compile Include="Areas\User\Controllers\AccountController.cs" />
+    <Compile Include="Areas\User\Controllers\HomeController.cs" />
+    <Compile Include="Areas\User\UserAreaRegistration.cs" />
+    <Compile Include="Areas\User\ViewModels\RegisterVM.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -166,7 +170,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Default\Index.cshtml" />
     <Content Include="Images\2023-09-29-10-57-461695970666.jpg" />
@@ -239,6 +242,14 @@
     <Content Include="Areas\Admin\Views\Elaqe\CreateElaqe.cshtml" />
     <Content Include="Areas\Admin\Views\Elaqe\EditElaqe.cshtml" />
     <Content Include="Areas\Admin\Views\Elaqe\DeleteElaqe.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\User\Views\web.config" />
+    <Content Include="Areas\User\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\User\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\User\Views\Account\Register.cshtml" />
+    <Content Include="Areas\User\Views\Account\Login.cshtml" />
+    <Content Include="Areas\User\Views\Home\Index.cshtml" />
+    <Content Include="Areas\User\Views\User\Profile.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -577,11 +588,13 @@
     <Content Include="Views\Shared\_PartialMenu.cshtml" />
     <Content Include="Views\Home\KitabDetal.cshtml" />
     <Content Include="Views\Home\Kateqoriya.cshtml" />
+    <Content Include="Views\Home\_SearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
+    <Folder Include="Areas\User\Data\" />
     <Folder Include="Views\UserPanel\" />
   </ItemGroup>
   <ItemGroup>
