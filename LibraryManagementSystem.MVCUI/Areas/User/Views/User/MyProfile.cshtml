@@ -27,7 +27,9 @@
                         </div>
                         <div class="col-md-6">
                             <label class="fw-bold">Doğum Tarixi:</label>
-                            <p class="text-muted">@Model.DoghumTarixi?.ToString("dd.MM.yyyy")</p>
+                            <p class="text-muted">
+                                @(Model.DoghumTarixi.HasValue ? Model.DoghumTarixi.Value.ToString("dd.MM.yyyy") : "—")
+                            </p>
                         </div>
                     </div>
 

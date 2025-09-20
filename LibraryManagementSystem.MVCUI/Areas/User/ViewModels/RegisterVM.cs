@@ -55,9 +55,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.ViewModels
         [DataType(DataType.Password)]
         public string Shifre { get; set; }
 
-        [Required]
         [Display(Name = "Şifrə Təsdiqi")]
         [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Şifrə Təsdiqi Tələb Olunur!")]
         [Compare("Shifre", ErrorMessage = "Şifrələr eyni olmalıdır.")]
         public string ShifreTesdiq { get; set; }
     }
