@@ -1,15 +1,90 @@
 ﻿<!-- ~/Areas/User/Views/User/MyProfile.cshtml (~/Areas/User/Views/Home/Index.cshtml-in işləməsi üçün istifadə olunur) : -->
 
-@{
-    Layout = null;
-}
+@model LibraryManagementSystem.MVCUI.Areas.User.ViewModels.RegisterVM
 
 @{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Mənim Hesabım";
 }
 
 <div class="container mt-5">
-    <h2 class="mb-4">Xoş gəlmisiniz, @Session["UserName"]!</h2>
-    <p>Bu sizin istifadəçi panelinizdir.</p>
-    <p>Burada hesabınıza aid xüsusi məlumatları görə bilərsiniz.</p>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Profil Kartı: -->
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0">👤 Mənim Hesabım</h3>
+                    <small>Xoş gəlmisiniz, @Model.Adi @Model.Soyadi!</small>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold">Ad Soyad:</label>
+                            <p class="text-muted">@Model.Adi @Model.Soyadi</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold">Doğum Tarixi:</label>
+                            <p class="text-muted">@Model.DoghumTarixi?.ToString("dd.MM.yyyy")</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold">Cinsi:</label>
+                            <p class="text-muted">@Model.Cins</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold">FİN Kod:</label>
+                            <p class="text-muted">@Model.FinKod</p>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold">Email:</label>
+                            <p class="text-muted">@Model.Email</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold">Əlaqə Nömrəsi:</label>
+                            <p class="text-muted">+994 @Model.TelefonNo</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="fw-bold">Ünvan:</label>
+                            <p class="text-muted">@Model.Adres</p>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold">İstifadəçi Adı:</label>
+                            <p class="text-muted">@Model.IstifadechiAdi</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold">Şifrə:</label>
+                            <p class="text-muted">•••••••</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer text-center bg-light">
+                    <a href="@Url.Action("EditProfile", "User", new { area = "User" })"
+                       class="btn btn-warning me-2">✏️ Redaktə Et</a>
+                    <a href="@Url.Action("Logout", "Account", new { area = "User" })"
+                       class="btn btn-danger">🚪 Çıxış</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

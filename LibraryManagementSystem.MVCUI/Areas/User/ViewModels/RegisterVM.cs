@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Doğum tarixini daxil edin!")]
         [DataType(DataType.Date)]
-        public DateTime DoghumTarixi { get; set; }
+        public DateTime? DoghumTarixi { get; set; } //sonradan nullable edildi
 
         [Display(Name = "Cinsi")]
         public string Cins { get; set; }
@@ -59,6 +59,6 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.ViewModels
         [Display(Name = "Şifrə Təsdiqi")]
         [DataType(DataType.Password)]
         [Compare("Shifre", ErrorMessage = "Şifrələr eyni olmalıdır.")]
-        public string ShifreTəsdiq { get; set; }
+        public string ShifreTesdiq { get; set; }
     }
 }

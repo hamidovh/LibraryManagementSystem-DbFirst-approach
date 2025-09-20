@@ -7,13 +7,53 @@
     ViewBag.Title = "İstifadəçi Əsas Səhifəsi";
 }
 
-<h2> <a href="@Url.Action("MyProfile", "User", new { area = "User" })" class="text-decoration-none text-dark"> Salam, @Session["UserName"]! </a> </h2>
+<header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
 
-<p>Bu səhifə yalnız login olmuş istifadəçilər üçün nəzərdə tutulub.</p>
+            <a class="navbar-brand" href="#">Library Management System</a>
 
-<div class="container mt-4 text-center">
-    <a href="@Url.Action("MyProfile", "User", new { area = "User" })"
-       class="btn btn-lg btn-primary shadow-sm rounded-pill">
-        Mənim Hesabım
-    </a>
-</div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Kitabxana", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Hesab Məlumatları", "MyProfile", "User", new { area = "User" }, new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("İcarələrim", "MyRentals", "User", new { area = "User" }, new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Cərimələrim", "MyFines", "User", new { area = "User" }, new { @class = "nav-link" })
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<main style="padding-top: 70px;">
+
+    <h2>
+        <a href="@Url.Action("MyProfile", "User", new { area = "User" })"
+           class="text-decoration-none text-dark">
+            Salam, @Session["UserName"]!
+        </a>
+    </h2>
+
+    <p>Bu səhifə yalnız login olmuş istifadəçilər üçün nəzərdə tutulub.</p>
+
+    
+</main>

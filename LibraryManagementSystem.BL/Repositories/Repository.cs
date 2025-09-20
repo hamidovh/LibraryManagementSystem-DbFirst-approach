@@ -121,6 +121,12 @@ namespace LibraryManagementSystem.BL.Repositories
             return Save(); // Dəyişiklikləri əlavə edir və saxlayır
         }
 
+        public int Edit(T entity)
+        {
+            context.Entry(entity).State = EntityState.Modified;
+            return Save();
+        }
+
         public int Save()
         {
             return context.SaveChanges();

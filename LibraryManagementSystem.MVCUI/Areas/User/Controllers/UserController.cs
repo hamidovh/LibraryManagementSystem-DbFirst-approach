@@ -1,4 +1,8 @@
-﻿using System;
+﻿using LibraryManagementSystem.BL;
+using LibraryManagementSystem.DAL;
+using LibraryManagementSystem.MVCUI.Areas.User.ViewModels;
+using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
@@ -6,6 +10,8 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
     // User Area UserController.cs (~/Areas/User/Controllers/UserController):
     public class UserController : Controller
     {
+        IstifadechiManager istifadechiManager = new IstifadechiManager();
+
         // İstifadəçi əsas səhifəsi (dashboard və ya yönləndirmə üçün):
         public ActionResult Index()
         {
@@ -21,10 +27,119 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
             if (Session["User"] == null)
                 return RedirectToAction("Login", "Account", new { area = "User" });
 
-            return View();
+            var user = (Istifadechi)Session["User"];
+
+            var model = new RegisterVM
+            {
+                Adi = user.Adi,
+                Soyadi = user.Soyadi,
+                DoghumTarixi = user.DoghumTarixi.Value,
+                Cins = user.Cins,
+                FinKod = user.FinKod,
+                Email = user.Email,
+                TelefonNo = user.TelefonNo,
+                Adres = user.Adres,
+                IstifadechiAdi = user.IstifadechiAdi,
+                Shifre = user.Shifre
+            };
+
+            return View(model);
         }
 
-        // Çıxış etmək (Logout):
+        // GET: User/EditProfile
+        [HttpGet]
+        public ActionResult EditProfile()
+        {
+            var user = (Istifadechi)Session["User"];
+            if (user == null)
+                return RedirectToAction("Login", "Account", new { area = "User" });
+
+            // Repository vasitəsilə user gətiririk:
+            //var user = istifadechiManager.Get(u => u.IstifadechiAdi == username);
+
+            if (user == null)
+                return HttpNotFound();
+
+            var model = new RegisterVM
+            {
+                Adi = user.Adi,
+                Soyadi = user.Soyadi,
+                DoghumTarixi = user.DoghumTarixi, // Nullable DateTime üçün yoxlama: DateTime.Value or DoghumTarixi = user.DoghumTarixi ?? DateTime.MinValue,
+                Cins = user.Cins,
+                FinKod = user.FinKod,
+                Email = user.Email,
+                TelefonNo = user.TelefonNo,
+                Adres = user.Adres,
+                IstifadechiAdi = user.IstifadechiAdi,
+                Shifre = user.Shifre
+                // Şifrəni burada göstərməyə ehtiyac varmı?
+            };
+
+            return View(model);
+        }
+
+        // POST: User/EditProfile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(RegisterVM model)
+        {
+            // Model validasiyası zamanı problem yaranarsa xətaları TempData-ya at:
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .Where(s => !string.IsNullOrEmpty(s))
+                                              .ToList();
+                TempData["ModelErrors"] = string.Join(" | ", errors);
+                return View(model);
+            }
+
+            var sessionUser = (Istifadechi)Session["User"];
+            if (sessionUser == null)
+                return RedirectToAction("Login", "Account", new { area = "User" });
+
+            try
+            {
+                // DB-dən mövcud istifadəçini gətir:
+                var userFromDb = istifadechiManager.FindById(sessionUser.IstifadechiID);
+                if (userFromDb == null)
+                    return HttpNotFound();
+
+                // Yalnız scalar sahələri kopyala:
+                userFromDb.Adi = model.Adi;
+                userFromDb.Soyadi = model.Soyadi;
+                userFromDb.DoghumTarixi = model.DoghumTarixi;
+                userFromDb.Cins = model.Cins;
+                userFromDb.FinKod = model.FinKod;
+                userFromDb.Email = model.Email;
+                userFromDb.TelefonNo = model.TelefonNo;
+                userFromDb.Adres = model.Adres;
+                userFromDb.IstifadechiAdi = model.IstifadechiAdi;
+                userFromDb.Shifre = model.Shifre;
+
+                // Şifrəni yalnız istifadəçi yeni şifrə daxil etmişsə yenilə:
+                if (!string.IsNullOrWhiteSpace(model.Shifre))
+                {
+                    userFromDb.Shifre = model.Shifre;
+                }
+
+                // Repository-dəki Redakte metodu:
+                istifadechiManager.Redakte(userFromDb, userFromDb.IstifadechiID);
+
+                // Session-ı yenilə ki, UI yeni məlumatları göstərsin:
+                Session["User"] = userFromDb;
+
+                TempData["SuccessMessage"] = "Profil məlumatlarınız uğurla yeniləndi!";
+                return RedirectToAction("MyProfile");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Xəta baş verdi: " + ex.Message);
+                return View(model);
+            }
+        }
+
+        // Çıxmaq (Logout):
         public ActionResult Logout()
         {
             Session.Clear();

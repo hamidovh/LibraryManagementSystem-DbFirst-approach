@@ -251,6 +251,7 @@
     <Content Include="Areas\User\Views\Account\Login.cshtml" />
     <Content Include="Areas\User\Views\Home\Index.cshtml" />
     <Content Include="Areas\User\Views\User\MyProfile.cshtml" />
+    <Content Include="Areas\User\Views\User\EditProfile.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
