@@ -170,10 +170,16 @@
 
                     </ul>
 
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2 search-input" type="search" placeholder="Axtarış" aria-label="Search">
-                        <button class="btn btn-outline-success search-btn" type="submit">Axtar</button>
-                    </form>
+                    <div class="d-flex align-items-center text-light fw-bold">
+                        @if (Session["AdminName"] != null)
+                        {
+                            @Session["AdminName"]
+                        }
+                        else
+                        {
+                            <span>Admin</span>
+                        }
+                    </div>
 
                 </div>
 

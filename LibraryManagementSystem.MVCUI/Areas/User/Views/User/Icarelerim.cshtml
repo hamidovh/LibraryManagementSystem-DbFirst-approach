@@ -1,0 +1,104 @@
+﻿<!-- ~/Areas/User/Views/User/Icarelerim.cshtml: -->
+
+@model List<LibraryManagementSystem.MVCUI.Areas.User.ViewModels.IcareVM>
+
+@{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "İcarələrim";
+}
+
+<!DOCTYPE html>
+
+<div class="container mt-5">
+    <h2>İcarələrim</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            İcarəniz yoxdur. <a href="@Url.Action("Index", "Home", new { area = "" })">Kitabxana</a>
+        </div>
+    }
+    else
+    {
+        var aktivIcareler = Model.Where(i => i.Statusu == "Aktiv" || i.Statusu == "Gecikir" || i.Qaytarilibmi == false).ToList();
+        var kechmishIcareler = Model.Where(i => i.Statusu != "Aktiv" && i.Statusu != "Gecikir" && i.Qaytarilibmi == true).ToList();
+
+        <h4>Aktiv İcarələr</h4>
+        if (!aktivIcareler.Any())
+        {
+            <p class="text-muted">Aktiv icarəniz yoxdur.</p>
+        }
+        else
+        {
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Kitabın Adı</th>
+                        <th>İcarə Tarixi</th>
+                        <th>Son Tarix</th>
+                        <th>Status</th>
+                        <th>Qaytarılıbmı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ic in aktivIcareler)
+                    {
+                        <tr>
+                            <td>@ic.KitabAdi</td>
+                            <td>@ic.IcareTarixi.ToString("dd.MM.yyyy")</td>
+                            <td>@ic.SonTarix.ToString("dd.MM.yyyy")</td>
+                            <td>@ic.Statusu</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ic.Qaytarilibmi)
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-success" style="height:38px" ;>İcarə müddətini uzat</a>
+                                @*@Html.ActionLink("İcarə müddətini uzat", "Edit", new { id = ic.IcareID })*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <hr />
+
+        <h4>Keçmiş İcarələr</h4>
+        if (!kechmishIcareler.Any())
+        {
+            <p class="text-muted">Keçmiş icarəniz yoxdur.</p>
+        }
+        else
+        {
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Kitabın Adı</th>
+                        <th>İcarə Tarixi</th>
+                        <th>Son Tarix</th>
+                        <th>Qaytarılma Tarixi</th>
+                        <th>Status</th>
+                        <th>Qaytarılıbmı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ic in kechmishIcareler)
+                    {
+                        <tr>
+                            <td>@ic.KitabAdi</td>
+                            <td>@ic.IcareTarixi.ToString("dd.MM.yyyy")</td>
+                            <td>@ic.SonTarix.ToString("dd.MM.yyyy")</td>
+                            <td>@(ic.QaytarilmaTarixi.HasValue ? ic.QaytarilmaTarixi.Value.ToString("dd.MM.yyyy") : "—")</td>
+                            <td>@ic.Statusu</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => ic.Qaytarilibmi)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <a href="@Url.Action("Index", "Home", new { area = "" })" class="btn btn-primary mt-3">Kitabxana</a>
+    }
+</div>

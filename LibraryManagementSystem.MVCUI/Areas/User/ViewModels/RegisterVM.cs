@@ -1,4 +1,4 @@
-﻿// ~/Areas/User/ViewModels/RegisterVM.cs (AccountController.cs-in Register.cshtml [HttpPost] methodu üçün):
+﻿// ~/Areas/User/ViewModels/RegisterVM.cs (AccountController.cs-in Register.cshtml [HttpPost] methodu və UserController.cs-in EditProfile.cshtml [HttpPost] methodu üçün):
 
 using System;
 using System.ComponentModel.DataAnnotations;

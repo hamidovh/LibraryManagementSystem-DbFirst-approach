@@ -276,7 +276,7 @@
                         }
                     </th>
 
-                    <th class="column-dropdown">
+                    @*<th class="column-dropdown">
                         @using (Html.BeginForm("IndexIcare", "IcareIdaresi", FormMethod.Get))
                         {
                             <select name="filterValue" onchange="this.form.submit()" class="column-dropdown">
@@ -287,7 +287,7 @@
                             </select>
                             <input type="hidden" name="sortColumn" value="IcareQiymeti" />
                         }
-                    </th>
+                    </th>*@
 
                     <th></th>
 
@@ -348,9 +348,9 @@
                             @Html.DisplayFor(modelItem => item.Qaytarilibmi)
                         </td>
 
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(modelItem => item.IcareQiymeti)
-                        </td>
+                        </td>*@
 
                         <td>
                             @Html.ActionLink("Redaktə Et", "EditIcare", new { id = item.IcareID }, new { @class = "btn btn-sm btn-primary" })

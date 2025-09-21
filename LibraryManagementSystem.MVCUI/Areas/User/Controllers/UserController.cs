@@ -11,6 +11,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
     public class UserController : Controller
     {
         IstifadechiManager istifadechiManager = new IstifadechiManager();
+        KitabManager kitabManager = new KitabManager();
+        IcareManager icareManager = new IcareManager();
+        CerimeManager cerimeManager = new CerimeManager();
 
         // İstifadəçi əsas səhifəsi (dashboard və ya yönləndirmə üçün):
         public ActionResult Index()
@@ -137,6 +140,64 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
                 ModelState.AddModelError("", "Xəta baş verdi: " + ex.Message);
                 return View(model);
             }
+        }
+
+        // GET: User/Icarelerim
+        public ActionResult Icarelerim()
+        {
+            var sessionUser = (Istifadechi)Session["User"];
+            if (sessionUser == null)
+                return RedirectToAction("Login", "Account", new { area = "User" });
+
+            int userId = sessionUser.IstifadechiID;
+
+            // İstifadəçinin bütün icarələrini gətiririk:
+            //var icare = icareManager.GetAllByInclude(i => i.Kitab);
+
+            var icareler = icareManager.GetAllByInclude(i => i.Kitab)
+                               .Where(i => i.IstifadechiID == userId)
+                               .OrderByDescending(i => i.IcareTarixi)
+                               .Select(i => new IcareVM
+                               {
+                                   IcareID = i.IcareID,
+                                   KitabAdi = i.Kitab != null ? i.Kitab.KitabAdi : "",
+                                   IcareTarixi = i.IcareTarixi,
+                                   SonTarix = i.SonTarix,
+                                   Qaytarilibmi = i.Qaytarilibmi,
+                                   QaytarilmaTarixi = i.QaytarilmaTarixi,
+                                   Statusu = i.Statusu
+                               }).ToList();
+
+            return View(icareler);
+        }
+
+        // GET: User/Cerimelerim
+        public ActionResult Cerimelerim()
+        {
+            var sessionUser = (Istifadechi)Session["User"];
+            if (sessionUser == null)
+                return RedirectToAction("Login", "Account", new { area = "User" });
+
+            int userId = sessionUser.IstifadechiID;
+
+            // İstifadəçinin bütün cərimələrini gətiririk:
+            var cerimelerFromDb = cerimeManager.GetAllByInclude(c => c.Icare)
+                           .Where(c => c.IstifadechiID == userId)
+                           .OrderByDescending(c => c.CerimeTarixi)
+                           .ToList();
+
+            var cerimeler = cerimelerFromDb.Select(c => new CerimeVM
+            {
+                CerimeID = c.CerimeID,
+                KitabAdi = c.Icare?.Kitab?.KitabAdi ?? "",
+                HesablanmisMebleg = c.HesablanmisMebleg, 
+                Odenilibmi = c.Odenilibmi,
+                CerimeTarixi = c.CerimeTarixi,
+                OdenmeTarixi = c.OdenmeTarixi,
+                Sebeb = c.Sebeb
+            }).ToList();
+
+            return View(cerimeler);
         }
 
         // Çıxmaq (Logout):

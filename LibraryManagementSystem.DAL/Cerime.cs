@@ -18,6 +18,7 @@ namespace LibraryManagementSystem.DAL
         public int CerimeID { get; set; }
 
         [Display(Name = "Cərimənin Məbləği")]
+        [DataType(DataType.Currency)]
         public decimal Mebleg { get; set; }
 
         [Display(Name = "Ödənilibmi")]

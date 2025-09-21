@@ -49,6 +49,15 @@
                         </li>
 
                     </ul>
+
+                    <a href="@Url.Action("Index", "Home", new { area = "User" })"
+                       class="nav-link text-white me-3 user-greeting"
+                       style="height:38px; line-height:38px;">
+                        Salam, @Session["UserName"]!
+                    </a>
+
+                    <a href="@Url.Action("Logout", "Account", new { area = "User" })" class="btn btn-danger" style="height:38px;">Çıx</a>
+
                 </div>
 
             </div>

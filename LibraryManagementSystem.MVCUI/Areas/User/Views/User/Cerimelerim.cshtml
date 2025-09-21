@@ -1,0 +1,52 @@
+﻿@model List<LibraryManagementSystem.MVCUI.Areas.User.ViewModels.CerimeVM>
+
+@{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Cərimələrim";
+}
+
+<div class="container mt-5">
+    <h2>Cərimələrim</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Cəriməniz yoxdur. <a href="@Url.Action("Index", "Home", new { area = "" })">Kitabxana</a>
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Kitab</th>
+                    <th>Cərimə Məbləği (AZN)</th>
+                    <th>Cərimələnmə Tarixi</th>
+                    <th>Səbəb</th>
+                    <th>Ödənilibmi</th>
+                    <th>Ödənmə Tarixi</th>
+                    <th>Ödəniş Etmək</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.KitabAdi</td>
+                        <td>@c.HesablanmisMebleg</td>
+                        <td>@c.CerimeTarixi.ToString("dd.MM.yyyy")</td>
+                        <td>@c.Sebeb</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => c.Odenilibmi)
+                        </td>
+                        <td>@(c.OdenmeTarixi.HasValue ? c.OdenmeTarixi.Value.ToString("dd.MM.yyyy") : "—")</td>
+                        <td><a href="#" class="btn btn-success" style="height:38px;">Ödəniş</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a href="@Url.Action("Index", "Home", new { area = "" })" class="btn btn-primary mt-3">Kitabxana</a>
+    }
+</div>
