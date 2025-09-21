@@ -156,13 +156,28 @@
         min-width: 300px;
         max-width: 300px;
     }
+
+    /* Haqqında sütunu üçün */
+    .description-cell.haqqinda-column {
+        width: 300px !important;
+        min-width: 300px;
+        max-width: 300px;
+
+        max-height: 200px; /* maksimum hündürlük (istəyə görə dəyişə bilər) */
+        overflow-y: auto; /* şaquli scroll aktiv olsun */
+        overflow-x: hidden; /* üfiqi scroll olmasın */
+        display: block; /* td içində işləməsi üçün */
+        padding-right: 4px; /* scrollbar üst-üstə düşməsin deyə */
+        white-space: normal; /* mətni sətir-sətir büksün */
+        word-wrap: break-word; /* uzun sözləri də sındırsın */
+    }
 </style>
 
 <h2>Kitablar</h2>
 
 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
     <div>
-        @Html.ActionLink("Yenisini Əlavə Et", "CreateKitab", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("Kitab Əlavə Et", "CreateKitab", null, new { @class = "btn btn-info" })
     </div>
 
     @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get, new { @class = "form-inline" }))
@@ -237,7 +252,7 @@
                         <span>@Html.DisplayNameFor(model => model.Haqqinda)</span>
                     </th>
 
-                    <th class="column-dropdown">
+                    @*<th class="column-dropdown">
                         @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
                         {
                             <select name="icareSort" onchange="this.form.submit()" class="column-dropdown">
@@ -248,7 +263,7 @@
                                 <option value="Hamisi" @(ViewBag.IcareQiymetiSort == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
                             </select>
                         }
-                    </th>
+                    </th>*@
 
                     <th class="column-dropdown">
                         <!-- StokdaVarmi üçün dropdown (filter): -->
@@ -301,7 +316,7 @@
                             }
                         </td>
 
-                        <td class="description-cell">
+                        @*<td class="description-cell">
                             @if (item.IcareQiymeti.HasValue && item.IcareQiymeti.Value > 0)
                             {
                                 @Html.DisplayFor(modelItem => item.IcareQiymeti)
@@ -310,7 +325,7 @@
                             {
                                 <span class="text-muted">Yoxdur</span>
                             }
-                        </td>
+                        </td>*@
 
                         <td>
                             @Html.DisplayFor(modelItem => item.StokdaVarmi)
