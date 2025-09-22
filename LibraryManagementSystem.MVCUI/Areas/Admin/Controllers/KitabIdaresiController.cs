@@ -20,10 +20,11 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         KateqoriyaManager kateqoriyaManager = new KateqoriyaManager();
 
         // GET: Admin/KitabIdaresi/IndexKitab
-        public ActionResult IndexKitab(string searchText, int? muellifId, int? kateqoriyaId, string sortColumn, string sortOrder, string filterValue, string icareSort)
+        public ActionResult IndexKitab(string searchText, int? muellifId, int? kateqoriyaId, string sortColumn, string sortOrder, string filterValue, string icareSort, int page = 1, int pageSize = 20)
         {
             var kitab = kitabManager.GetAll();
 
+            // Axtarış:
             if (!string.IsNullOrEmpty(searchText))
             {
                 string search = searchText.ToLower();
@@ -104,6 +105,15 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 }
             }
 
+            // Pagination:
+            int totalItems = kitab.Count();
+            var kitablar = kitab.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.TotalItems = totalItems;
+            ViewBag.PageSize = pageSize;
+            ViewBag.CurrentPage = page;
+
+            // ViewBag-lər:
             ViewBag.CurrentSortColumn = sortColumn;
             ViewBag.CurrentSortOrder = sortOrder;
             ViewBag.SelectedKitabAdi = (sortColumn == "KitabAdi") ? sortOrder : "";
@@ -118,7 +128,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             // IcareQiymeti dropdown üçün ViewBag:
             ViewBag.IcareQiymetiSort = icareSort;
 
-            return View(kitab);
+            return View(kitablar);
         }
 
         // GET: Admin/KitabIdaresi/Details/5
@@ -484,6 +494,13 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
 
                 if (kitab == null)
                     return HttpNotFound();
+
+                // Əlavə yoxlama: əgər kitab stokda varsa, silinməsin
+                if (kitab.StokdaVarmi)
+                {
+                    TempData["ErrorMessage"] = "Stokda var olan kitabları silmək mümkün deyil!";
+                    return RedirectToAction("IndexKitab");
+                }
 
                 // Navigation-ları təmizləyirik ki, many-to-many əlaqələr problem yaratmasın:
                 kitab.Muellif.Clear();

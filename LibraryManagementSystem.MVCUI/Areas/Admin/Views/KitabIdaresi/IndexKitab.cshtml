@@ -52,11 +52,11 @@
         transition: opacity 0.3s;
     }
 
-        .scroll-to-top:hover {
-            background-color: #0056b3;
-            text-decoration: none;
-            color: white;
-        }
+    .scroll-to-top:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+        color: white;
+    }
 
     /* Dropdown başlıqlarını qalın və qara etmək üçün: */
     .column-dropdown {
@@ -80,31 +80,31 @@
         text-align: left;
     }
 
-        /* Başlıqların dropdown-ları: */
-        th.column-dropdown select {
-            font-weight: bold;
-            color: black;
-            background-color: #f1f1f1;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 4px 8px;
-            height: 32px; /* eyni hündürlük */
-            line-height: 24px; /* mətn mərkəzləşməsi */
-            box-sizing: border-box; /* padding-i daxil etmək üçün */
-        }
+    /* Başlıqların dropdown-ları: */
+    th.column-dropdown select {
+        font-weight: bold;
+        color: black;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 4px 8px;
+        height: 32px; /* eyni hündürlük */
+        line-height: 24px; /* mətn mərkəzləşməsi */
+        box-sizing: border-box; /* padding-i daxil etmək üçün */
+    }
 
-        /*  üçün span: */
-        th.special-dropdown span {
-            display: inline-block; /* yazının ətrafında qutu */
-            padding: 4px 8px; /* iç boşluq */
-            border: 1px solid #ccc; /* qutu çərçivəsi */
-            border-radius: 4px; /* yumru kənarlar */
-            background-color: #f1f1f1; /* qutu fonu */
-            font-weight: bold;
-            height: 32px; /* eyni hündürlük */
-            line-height: 24px; /* mətn mərkəzləşməsi */
-            box-sizing: border-box; /* padding-i daxil etmək üçün */
-        }
+    /*  üçün span: */
+    th.special-dropdown span {
+        display: inline-block; /* yazının ətrafında qutu */
+        padding: 4px 8px; /* iç boşluq */
+        border: 1px solid #ccc; /* qutu çərçivəsi */
+        border-radius: 4px; /* yumru kənarlar */
+        background-color: #f1f1f1; /* qutu fonu */
+        font-weight: bold;
+        height: 32px; /* eyni hündürlük */
+        line-height: 24px; /* mətn mərkəzləşməsi */
+        box-sizing: border-box; /* padding-i daxil etmək üçün */
+    }
 
     /* Sətirlər: */
     td {
@@ -136,19 +136,19 @@
         height: 16px; /* scroll hündürlüyü */
     }
 
-        .table-scroll-top .table-scroll-inner {
-            width: 1000px; /* table genişliyinə uyğun */
-            height: 1px; /* fake div hündürlüyü */
-        }
+    .table-scroll-top .table-scroll-inner {
+        width: 1000px; /* table genişliyinə uyğun */
+        height: 1px; /* fake div hündürlüyü */
+    }
 
     .table-scroll-bottom {
         overflow-x: auto;
     }
 
-        /* table tam genişliyini saxla: */
-        .table-scroll-bottom table {
-            min-width: 1200px; /* table genişliyinə uyğunlaşdır */
-        }
+    /* table tam genişliyini saxla: */
+    .table-scroll-bottom table {
+        min-width: 1200px; /* table genişliyinə uyğunlaşdır */
+    }
 
     /* Haqqında sütunu üçün: */
     .haqqinda-column {
@@ -162,7 +162,6 @@
         width: 300px !important;
         min-width: 300px;
         max-width: 300px;
-
         max-height: 200px; /* maksimum hündürlük (istəyə görə dəyişə bilər) */
         overflow-y: auto; /* şaquli scroll aktiv olsun */
         overflow-x: hidden; /* üfiqi scroll olmasın */
@@ -248,22 +247,22 @@
                         }
                     </th>
 
-                    <th class="special-dropdown haqqinda-column">
+                    <th class="special-dropdown"> @*class="special-dropdown haqqinda-column" idi, modala qeder*@
                         <span>@Html.DisplayNameFor(model => model.Haqqinda)</span>
                     </th>
 
                     @*<th class="column-dropdown">
-                        @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
-                        {
-                            <select name="icareSort" onchange="this.form.submit()" class="column-dropdown">
-                                <option value="">İcarə Qiyməti</option>
-                                <option value="UcuzdanBahaya" @(ViewBag.IcareQiymetiSort == "UcuzdanBahaya" ? "selected" : "")>Ucuzdan-bahaya</option>
-                                <option value="BahadanUcuz" @(ViewBag.IcareQiymetiSort == "BahadanUcuz" ? "selected" : "")>Bahadan-ucuza</option>
-                                <option value="Odenissiz" @(ViewBag.IcareQiymetiSort == "Odenissiz" ? "selected" : "")>Ödənişsiz icarə</option>
-                                <option value="Hamisi" @(ViewBag.IcareQiymetiSort == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
-                            </select>
-                        }
-                    </th>*@
+                            @using (Html.BeginForm("IndexKitab", "KitabIdaresi", FormMethod.Get))
+                            {
+                                <select name="icareSort" onchange="this.form.submit()" class="column-dropdown">
+                                    <option value="">İcarə Qiyməti</option>
+                                    <option value="UcuzdanBahaya" @(ViewBag.IcareQiymetiSort == "UcuzdanBahaya" ? "selected" : "")>Ucuzdan-bahaya</option>
+                                    <option value="BahadanUcuz" @(ViewBag.IcareQiymetiSort == "BahadanUcuz" ? "selected" : "")>Bahadan-ucuza</option>
+                                    <option value="Odenissiz" @(ViewBag.IcareQiymetiSort == "Odenissiz" ? "selected" : "")>Ödənişsiz icarə</option>
+                                    <option value="Hamisi" @(ViewBag.IcareQiymetiSort == "İcarə Qiyməti" ? "selected" : "")>Hamısı</option>
+                                </select>
+                            }
+                        </th>*@
 
                     <th class="column-dropdown">
                         <!-- StokdaVarmi üçün dropdown (filter): -->
@@ -305,27 +304,34 @@
                                 : "<span class='text-muted'>Məlumat yoxdur</span>")
                         </td>
 
-                        <td class="description-cell haqqinda-column">
-                            @if (!string.IsNullOrWhiteSpace(item.Haqqinda))
-                            {
-                                @Html.DisplayFor(modelItem => item.Haqqinda)
-                            }
-                            else
-                            {
-                                <span class="text-muted">Məlumat yoxdur</span>
-                            }
+                        <td>
+                            <button type="button" class="btn btn-sm btn-info btn-haqqinda"
+                                    data-haqqinda="@Html.Raw(HttpUtility.HtmlAttributeEncode(item.Haqqinda))">
+                                Detallara bax
+                            </button>
                         </td>
 
+                        @*<td class="description-cell haqqinda-column">
+                                @if (!string.IsNullOrWhiteSpace(item.Haqqinda))
+                                {
+                                    @Html.DisplayFor(modelItem => item.Haqqinda)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Məlumat yoxdur</span>
+                                }
+                            </td>*@
+
                         @*<td class="description-cell">
-                            @if (item.IcareQiymeti.HasValue && item.IcareQiymeti.Value > 0)
-                            {
-                                @Html.DisplayFor(modelItem => item.IcareQiymeti)
-                            }
-                            else
-                            {
-                                <span class="text-muted">Yoxdur</span>
-                            }
-                        </td>*@
+                                @if (item.IcareQiymeti.HasValue && item.IcareQiymeti.Value > 0)
+                                {
+                                    @Html.DisplayFor(modelItem => item.IcareQiymeti)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Yoxdur</span>
+                                }
+                            </td>*@
 
                         <td>
                             @Html.DisplayFor(modelItem => item.StokdaVarmi)
@@ -339,6 +345,32 @@
                 }
             </tbody>
         </table>
+
+        <div class="d-flex justify-content-center mt-3">
+            <ul class="pagination">
+                @{
+                    int totalPages = (int)Math.Ceiling((double)ViewBag.TotalItems / ViewBag.PageSize);
+                    int currentPage = ViewBag.CurrentPage;
+
+                    for (int i = 1; i <= totalPages; i++)
+                    {
+                        if (i == currentPage)
+                        {
+                            <li class="page-item active">
+                                <span class="page-link">@i</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="@Url.Action("IndexKitab", new { page = i, searchText = Request.QueryString["searchText"], muellifId = Request.QueryString["MuellifID"], kateqoriyaId = Request.QueryString["KateqoriyaID"], sortColumn = ViewBag.CurrentSortColumn, sortOrder = ViewBag.CurrentSortOrder, filterValue = ViewBag.SelectedStokdaVarmi, icareSort = ViewBag.IcareQiymetiSort })">@i</a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -363,7 +395,24 @@
     </div>
 }
 
-<!-- Foto Modal -->
+<!-- Haqqında Modal: -->
+<div id="haqqindaModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">Haqqında</h5>
+            </div>
+            <div class="modal-body" id="haqqindaModalBody">
+                <!-- JS ilə mətn buraya gələcək -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bağla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Foto Modal: -->
 <div id="fotoModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="background: transparent; border: none;">
@@ -409,6 +458,18 @@
                 var src = $(this).attr('src');
                 $('#modalImage').attr('src', src);
                 $('#fotoModal').modal('show');
+            });
+        });
+
+        $(document).ready(function () {
+            // 'Detallara bax' düyməsi klikləndikdə:
+            $('.btn-haqqinda').on('click', function () {
+                var haqqindaText = $(this).data('haqqinda');
+                if (!haqqindaText) {
+                    haqqindaText = "<span class='text-muted'>Məlumat yoxdur</span>";
+                }
+                $('#haqqindaModalBody').html(haqqindaText);
+                $('#haqqindaModal').modal('show');
             });
         });
     </script>
