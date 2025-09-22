@@ -33,10 +33,17 @@
             transition: all 0.3s ease;
         }
 
-            .user-greeting:hover {
-                color: #0d6efd; /* hover zamanı göy rəng */
-                text-decoration: underline; /* alt xətt əlavə olunur */
-            }
+        .user-greeting:hover {
+            color: #0d6efd; /* hover zamanı göy rəng */
+            text-decoration: underline; /* alt xətt əlavə olunur */
+        }
+
+        .category-menu { /* Kateqoriya menyusu (PartialMenu) üçün: */
+            position: sticky;
+            top: 56px; /* Navbarın hündürlüyü qədər */
+            z-index: 1020; /* Navbar-dan aşağı, main-dən yuxarı */
+            background-color: #f8f9fa; 
+        }
 
         html, body {
             height: 100%;
@@ -68,7 +75,7 @@
 
             <div class="container-fluid">
 
-                @*<a class="navbar-brand" href="#">Library Management System</a>*@
+                <a class="navbar-brand" href="#">Library Management System</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -85,8 +92,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Home/About">Haqqımızda</a>
                         </li>
-
-                        @Html.Action("_PartialMenu", "Home")
 
                         <li class="nav-item">
                             <a class="nav-link" href="/Home/Contact">Əlaqə</a>
@@ -127,6 +132,15 @@
         </nav>
 
     </header>
+
+    <!-- Kateqoriya menyusu (PartialMenu): -->
+    <div class="bg-light border-bottom category-menu">
+        <div class="container">
+            <nav class="nav nav-pills">
+                @Html.Action("_PartialMenu", "Home")
+            </nav>
+        </div>
+    </div>
 
     <main style="padding-top: 70px;">
 
