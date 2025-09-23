@@ -168,8 +168,8 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         // GET: Admin/IcareIdaresi/CreateIcare
         public ActionResult CreateIcare()
         {
-            ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi");
-            ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi");
+            ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll().Where(i => i.Aktivdirmi == true), "IstifadechiID", "AdSoyadi");
+            ViewBag.KitabID = new SelectList(kitabManager.GetAll().Where(k => k.StokdaVarmi == true), "KitabID", "KitabAdi");
 
             ViewBag.StatusList = new SelectList(new List<string> { "Aktiv", "Gecikir", "Qaytarılıb" });
 
@@ -187,6 +187,20 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // İstifadəçi aktivdirmi yoxla
+                    var istifadechi = istifadechiManager.FindById(icare.IstifadechiID);
+                    if (istifadechi == null || !istifadechi.Aktivdirmi)
+                    {
+                        ModelState.AddModelError("IstifadechiID", "Yalnız aktiv istifadəçilərə icarə əlavə etmək mümkündür!");
+                        return View(icare);
+                    }
+                    var kitab = kitabManager.FindById(icare.KitabID);
+                    if (kitab == null || !kitab.StokdaVarmi)
+                    {
+                        ModelState.AddModelError("KitabID", "Yalnız stokda var olan kitabları icarəyə vermək mümkündür!");
+                        return View(icare);
+                    }
+
                     // Mövcud icarələri yoxla (eyni istifadəçi və kitab üzrə):
                     var movcudIcare = icareManager.GetAll()
                         .FirstOrDefault(i => i.IstifadechiID == icare.IstifadechiID
@@ -224,8 +238,8 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             }
 
             // Əgər xəta olarsa, yenidən lazımi ViewBag-ləri doldur:
-            ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi", icare.IstifadechiID);
-            ViewBag.KitabID = new SelectList(kitabManager.GetAll(), "KitabID", "KitabAdi", icare.KitabID);
+            ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll().Where(i => i.Aktivdirmi == true), "IstifadechiID", "AdSoyadi", icare.IstifadechiID);
+            ViewBag.KitabID = new SelectList(kitabManager.GetAll().Where(k => k.StokdaVarmi == true), "KitabID", "KitabAdi", icare.KitabID);
             ViewBag.StatusList = new SelectList(new List<string> { "Aktiv", "Gecikir", "Qaytarılıb" }, icare.Statusu);
 
             return View(icare);

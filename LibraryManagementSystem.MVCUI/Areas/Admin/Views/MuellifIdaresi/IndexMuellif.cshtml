@@ -64,6 +64,16 @@
         color: black;
     }
 
+    /*th.column-dropdown, 
+    td.column-dropdown { 
+        width: 250px;
+        min-width: 200px;
+        max-width: 300px;
+        white-space: nowrap;*/ /* mətnin sətirə bölünməməsi üçün */
+        /*overflow: hidden;*/ /* çox uzun mətni gizlətmək üçün */
+        /*text-overflow: ellipsis;*/ /* sonuna ... əlavə etmək üçün */
+    /*}*/ /* sütunun genişliyini azaltmaq üçün */
+
     /* Ümumi table stil: */
     table {
         width: 100%;
@@ -91,6 +101,7 @@
         height: 32px; /* eyni hündürlük */
         line-height: 24px; /* mətn mərkəzləşməsi */
         box-sizing: border-box; /* padding-i daxil etmək üçün */
+
         /* aşağı ox üçün */
         appearance: none; /* default brauzer oxunu gizlətmək üçün */
         -webkit-appearance: none;
@@ -189,21 +200,31 @@
     <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
             <tr>
+
                 <th class="column-dropdown">
-                    <select name="sortAdiOrder" id="sortAdi" class="form-control column-dropdown">
-                        <option value="">Müəllifin Adı</option>
+                    <select name="sortMuellifOrder" id="sortMuellif" class="form-control column-dropdown">
+                        <option value="">Müəllif</option>
                         <option value="asc">A-Z</option>
                         <option value="desc">Z-A</option>
                     </select>
                 </th>
 
-                <th class="column-dropdown">
-                    <select name="sortSoyadiOrder" id="sortSoyadi" class="form-control column-dropdown">
-                        <option value="">Müəllifin Soyadı</option>
-                        <option value="asc">A-Z</option>
-                        <option value="desc">Z-A</option>
-                    </select>
-                </th>
+                @*<th class="column-dropdown">
+                        <select name="sortAdiOrder" id="sortAdi" class="form-control column-dropdown">
+                            <option value="">Müəllifin Adı</option>
+                            <option value="asc">A-Z</option>
+                            <option value="desc">Z-A</option>
+                        </select>
+                    </th>
+
+                    <th class="column-dropdown">
+                        <select name="sortSoyadiOrder" id="sortSoyadi" class="form-control column-dropdown">
+                            <option value="">Müəllifin Soyadı</option>
+                            <option value="asc">A-Z</option>
+                            <option value="desc">Z-A</option>
+                        </select>
+                    </th>*@
+
             </tr>
         </thead>
 
@@ -253,16 +274,23 @@
     });
 
     // Ad sort:
-    $("#sortAdi").on("change", function () {
-        var sortOrder = $(this).val();
-        var sortColumn = (sortOrder === "") ? "" : "MuellifAdi"; // boşdursa column da boş getsin
-        loadMuellifler($("input[name='searchText']").val(), sortColumn, sortOrder);
-    });
+    //$("#sortAdi").on("change", function () {
+    //    var sortOrder = $(this).val();
+    //    var sortColumn = (sortOrder === "") ? "" : "MuellifAdi"; // boşdursa column da boş getsin
+    //    loadMuellifler($("input[name='searchText']").val(), sortColumn, sortOrder);
+    //});
 
     // Soyad sort:
-    $("#sortSoyadi").on("change", function () {
+    //$("#sortSoyadi").on("change", function () {
+    //    var sortOrder = $(this).val();
+    //    var sortColumn = (sortOrder === "") ? "" : "MuellifSoyadi";
+    //    loadMuellifler($("input[name='searchText']").val(), sortColumn, sortOrder);
+    //});
+
+    // Müəllif birləşmiş sort:
+    $("#sortMuellif").on("change", function () {
         var sortOrder = $(this).val();
-        var sortColumn = (sortOrder === "") ? "" : "MuellifSoyadi";
+        var sortColumn = (sortOrder === "") ? "" : "MuellifAdSoyadi"; // Modeldəki property
         loadMuellifler($("input[name='searchText']").val(), sortColumn, sortOrder);
     });
 
@@ -274,13 +302,17 @@
         var sortOrder = "";
 
         // Əgər hazırda seçim olunmuş sort varsa, onu da götürək:
-        if ($("#sortAdi").val() !== "") {
-            sortColumn = "MuellifAdi";
-            sortOrder = $("#sortAdi").val();
-        } else if ($("#sortSoyadi").val() !== "") {
-            sortColumn = "MuellifSoyadi";
-            sortOrder = $("#sortSoyadi").val();
-        }
+        //if ($("#sortAdi").val() !== "") {
+        //    sortColumn = "MuellifAdi";
+        //    sortOrder = $("#sortAdi").val();
+        //} else if ($("#sortSoyadi").val() !== "") {
+        //    sortColumn = "MuellifSoyadi";
+        //    sortOrder = $("#sortSoyadi").val();
+        //}
+
+        var sortOrder = $("#sortMuellif").val();
+        var sortColumn = (sortOrder === "") ? "" : "MuellifAdSoyadi";
+
         loadMuellifler(searchText, sortColumn, sortOrder);
     });
 

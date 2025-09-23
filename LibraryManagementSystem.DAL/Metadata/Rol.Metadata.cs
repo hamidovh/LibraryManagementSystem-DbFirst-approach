@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.DAL
         [Key]
         public int RolID { get; set; }
 
-        [Display(Name = "Rol Adı")]
+        [Display(Name = "Rolu")]
         [Required(ErrorMessage = "Rol adı boş buraxıla bilməz!")]
         [StringLength(50, ErrorMessage = "Rol adı maksimum 50 simvol ola bilər!")]
         public string RolAdi { get; set; }

@@ -168,7 +168,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         {
             try
             {
-                // Təkrar istifadəçi Adı yoxlanışı:
+                // Təkrar İstifadəçi Adı yoxlanışı:
                 if (istifadechiManager.GetAll().Any(i => i.IstifadechiAdi == istifadechi.IstifadechiAdi))
                 {
                     ModelState.AddModelError("IstifadechiAdi", "Bu istifadəçi adı artıq mövcuddur!");
@@ -244,6 +244,43 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                         return View(istifadechi);
                     }
 
+                    // İstifadəçi adı unikal olmalıdır:
+                    if (istifadechiManager.GetAll().Any(i => i.IstifadechiAdi == istifadechi.IstifadechiAdi &&
+                                                             i.IstifadechiID != istifadechi.IstifadechiID))
+                    {
+                        ModelState.AddModelError("IstifadechiAdi", "Bu istifadəçi adı artıq mövcuddur!");
+                    }
+
+                    // FİN kod unikal olmalıdır:
+                    if (istifadechiManager.GetAll().Any(i => i.FinKod == istifadechi.FinKod &&
+                                                             i.IstifadechiID != istifadechi.IstifadechiID))
+                    {
+                        ModelState.AddModelError("FinKod", "Bu FİN artıq istifadə olunub!");
+                    }
+
+                    // Tam eyni istifadəçi mövcuddursa (başqa ID ilə):
+                    bool eyniIstifadechiVar = istifadechiManager.GetAll().Any(i =>
+                        i.Adi == istifadechi.Adi &&
+                        i.Soyadi == istifadechi.Soyadi &&
+                        i.DoghumTarixi == istifadechi.DoghumTarixi &&
+                        i.Cins == istifadechi.Cins &&
+                        i.FinKod == istifadechi.FinKod &&
+                        i.Email == istifadechi.Email &&
+                        i.TelefonNo == istifadechi.TelefonNo &&
+                        i.IstifadechiID != istifadechi.IstifadechiID
+                    );
+
+                    if (eyniIstifadechiVar)
+                    {
+                        ModelState.AddModelError("", "Bu məlumatlarla istifadəçi artıq mövcuddur!");
+                    }
+
+                    if (!ModelState.IsValid)
+                    {
+                        ViewBag.RolID = new SelectList(rolManager.GetAll(), "RolID", "RolAdi", istifadechi?.RolID);
+                        return View(istifadechi);
+                    }
+
                     // Əgər heç bir dəyişiklik edilməyibsə:
                     if (original.Adi == istifadechi.Adi &&
                         original.Soyadi == istifadechi.Soyadi &&
@@ -303,11 +340,29 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         {
             try
             {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                }
+
                 Istifadechi istifadechi = istifadechiManager.FindById(id.Value);
 
-                if (istifadechi != null)
-                    istifadechiManager.Delete(istifadechi.IstifadechiID);
+                if (istifadechi == null)
+                {
+                    return HttpNotFound();
+                }
 
+                // Əgər istifadəçi aktivdirsə silmək olmaz:
+                if (istifadechi.Aktivdirmi)
+                {
+                    TempData["ErrorMessage"] = "Aktiv istifadəçini silmək mümkün deyil!";
+                    return RedirectToAction("IndexIstifadechi");
+                }
+
+                // Həmçinin əgər istifadəçinin adına İcarə və ya Cərimə varsa o istifadəçini silmək olmur.
+
+                // Əgər deaktivdirsə sil:
+                istifadechiManager.Delete(istifadechi.IstifadechiID);
                 TempData["SuccessMessage"] = "İstifadəçi uğurla silindi!";
             }
             catch (Exception)

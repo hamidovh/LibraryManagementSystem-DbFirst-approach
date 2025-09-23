@@ -3,8 +3,9 @@
 @foreach (var item in Model)
 {
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.MuellifAdi)</td>
-        <td>@Html.DisplayFor(modelItem => item.MuellifSoyadi)</td>
+        <td>@item.MuellifAdSoyadi</td>
+        @*<td>@Html.DisplayFor(modelItem => item.MuellifAdi)</td>
+        <td>@Html.DisplayFor(modelItem => item.MuellifSoyadi)</td>*@
         <td>
             @Html.ActionLink("Redaktə Et", "EditMuellif", new { id = item.MuellifID }, new { @class = "btn btn-sm btn-primary" })
             @Html.ActionLink("Sil", "DeleteMuellif", new { id = item.MuellifID }, new { @class = "btn btn-sm btn-danger" })

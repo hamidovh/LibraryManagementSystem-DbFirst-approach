@@ -53,6 +53,11 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                             ? muellif.OrderBy(m => m.MuellifSoyadi).ToList()
                             : muellif.OrderByDescending(m => m.MuellifSoyadi).ToList();
                         break;
+                    case "MuellifAdSoyadi":
+                        muellif = (sortOrder == "asc")
+                            ? muellif.OrderBy(m => m.MuellifAdSoyadi).ToList()
+                            : muellif.OrderByDescending(m => m.MuellifAdSoyadi).ToList();
+                        break;
                     default:
                         break;
                 }
@@ -218,6 +223,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
         }
     }
 }
+
 /*
 Problem: ModelState.AddModelError işləməyəcək.
 ModelState.AddModelError istifadə olunur, amma sonunda RedirectToAction edilir. ModelState məlumatları redirect zamanı itir, yəni istifadəçi heç bir xəta mesajı görməyəcək. Bunun əvəzinə, xətaları TempData və ya ViewBag vasitəsilə ötürmək lazımdır ki, redirect sonrası da mesajlar göstərilsin.

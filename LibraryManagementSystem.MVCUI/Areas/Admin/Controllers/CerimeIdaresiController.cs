@@ -176,7 +176,9 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
             // ViewBag-ə göndəririk:
             ViewBag.IcareList = allIcare;
 
-            ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi");
+            ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll().Where(i => i.Aktivdirmi == true), "IstifadechiID", "AdSoyadi");
+            //ViewBag.IstifadechiID = new SelectList(istifadechiManager.GetAll(), "IstifadechiID", "AdSoyadi");
+
             ViewBag.StatusList = new SelectList(new List<string> { "Gecikir", "İtirilib" });
 
             return View(new Cerime());

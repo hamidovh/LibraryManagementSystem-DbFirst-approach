@@ -45,6 +45,7 @@ namespace LibraryManagementSystem.DAL
         [Required(ErrorMessage = "FİN mütləqdir!")]
         [MinLength(7, ErrorMessage = "FİN kod minimum 7 simvoldan ibarət ola bilər!")]
         [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvoldan ibarət ola bilər!")]
+        [RegularExpression(@"^[A-Z0-9]{7}$", ErrorMessage = "FİN yalnız 7 simvoldan ibarət olmalıdır! Bu 7 simvol rəqəmlər və yalnız böyük hərflərdən ibarət ola bilər!")]
         public string FinKod { get; set; }
 
         [EmailAddress]
@@ -88,6 +89,7 @@ namespace LibraryManagementSystem.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Icare> Icare { get; set; }
 
+        [Display(Name = "Rol")]
         public virtual Rol Rol { get; set; }
     }
 }
