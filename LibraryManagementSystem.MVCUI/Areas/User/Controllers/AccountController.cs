@@ -76,7 +76,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
                 TempData["Message"] = "Email və ya şifrə boş buraxılmamalıdır!";
                 return View(); // Login səhifəsində qalır
             }
-            
+
             var istifadechi = istifadechiManager.GetAll().FirstOrDefault(i => i.Email == email && i.Shifre == shifre && i.Aktivdirmi == true && i.RolID == 2); // RolID = 2 (İstifadəçi)
 
             if (istifadechi != null)
@@ -89,12 +89,12 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.Controllers
 
                 // Əgər ReturnUrl varsa ora yönlənsin:
                 if (Request.QueryString["ReturnUrl"] != null)
-                        return Redirect(Request.QueryString["ReturnUrl"]);
+                    return Redirect(Request.QueryString["ReturnUrl"]);
 
                 // Əks halda əsas (root area) Home/Index-ə yönləndir:
                 else
                     return RedirectToAction("Index", "Home", new { area = "" }); // root area
-                    //return RedirectToAction("Index", "Home", new { area = "User" }); // User Areasının əsas səhifəsi
+                                                                                 //return RedirectToAction("Index", "Home", new { area = "User" }); // User Areasının əsas səhifəsi
             }
             else
             {

@@ -28,6 +28,7 @@ namespace LibraryManagementSystem.MVCUI.Areas.User.ViewModels
         [Required(ErrorMessage = "FİN mütləqdir!")]
         [MinLength(7, ErrorMessage = "FİN kod minimum 7 simvoldan ibarət ola bilər!")]
         [StringLength(7, ErrorMessage = "FİN kod maksimum 7 simvoldan ibarət ola bilər!")]
+        [RegularExpression(@"^[A-Z0-9]{7}$", ErrorMessage = "FİN yalnız 7 simvoldan ibarət olmalıdır! Bu 7 simvol rəqəmlər və yalnız böyük hərflərdən ibarət ola bilər!")]
         public string FinKod { get; set; }
 
         [EmailAddress]
