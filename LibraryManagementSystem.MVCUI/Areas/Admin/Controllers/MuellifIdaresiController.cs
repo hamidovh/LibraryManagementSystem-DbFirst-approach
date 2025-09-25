@@ -211,12 +211,15 @@ namespace LibraryManagementSystem.MVCUI.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Müəllif silinərkən xəta baş verdi!");
+                    //ModelState.AddModelError("", "Müəllif silinərkən xəta baş verdi!");
+                    TempData["ErrorMessage"] = "Müəllif silinərkən xəta baş verdi!";
+                    return RedirectToAction("IndexMuellif");
                 }
             }
             catch (System.Exception)
             {
-                ModelState.AddModelError("", "Xəta baş verdi! Müəllif silimədi!");
+                //ModelState.AddModelError("", "Xəta baş verdi! Müəllif silimədi!");
+                TempData["ErrorMessage"] = "Xəta baş verdi! Müəllif silimədi!";
             }
 
             return RedirectToAction("IndexMuellif", new { id = id });

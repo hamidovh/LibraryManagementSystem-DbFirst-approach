@@ -6,6 +6,15 @@
     ViewBag.Title = "Əsas səhifə";
 }
 
+<style>
+    .uniform-img {
+        width: 100%; /* sütunun eninə uyğun */
+        height: 300px; /* sabit hündürlük */
+        object-fit: cover; /* şəkli kəssin, amma deformasiya etməsin */
+        border-radius: 8px; /* küncləri yumrulasın (optional) */
+    }
+</style>
+
 <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
 
     <div class="carousel-indicators">
@@ -112,7 +121,7 @@
                 <p class="lead">@item.Haqqinda</p>
             </div>
             <div class="col-md-5">
-                <img src="~/Images/@item.Foto" alt="" class="clickable-photo img-fluid" style="cursor:pointer;" />
+                <img src="~/Images/@item.Foto" alt="" class="clickable-photo img-fluid" style="cursor:pointer;" /> <!-- class="clickable-photo img-fluid uniform-img" -->
             </div>
         </div>
 
